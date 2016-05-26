@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="./templates/mainTemplate.xhtml">
+
+        <ui:define name="title">
+            <title>Register</title>
+        </ui:define>
+
+        <ui:define name="content">
+            <div class="row">
+                <div class="col-lg-6 col-lg-offset-3 display-box">
+                    <h2 class="gold-text">Register For Account</h2>
+                    <h:form>
+                        
+                        <p:messages id="msgs" autoUpdate="true"/>
+
+                        <p:inputText id="firstName" value="#{registration.firstName}" styleClass="form-control form-margin" required="true" label="FirstName" pt:placeholder="First Name" validatorMessage="Must contain only letters">
+                        <f:validateRegex pattern="^[a-zA-Z]+$" />  
+                        <p:ajax update="msgs" event="keyup" />
+                        </p:inputText>
+                        
+                        
+                        <p:inputText id="lastName" value="#{registration.lastName}" styleClass="form-control form-margin" required="true" label="LastName" pt:placeholder="Last Name" validatorMessage="Must contain only letters">
+                        <f:validateRegex pattern="^[a-zA-Z]+$" />  
+                        <p:ajax update="msgs" event="keyup" />  
+                        </p:inputText> 
+                        
+                        <p:inputText id="email" value="#{registration.email}" styleClass="form-control form-margin" required="true" label="Email" pt:placeholder="Email Address" validatorMessage="Must be a valid email of the following format: xxx@uco.edu">
+                        <f:validateRegex pattern="^[a-zA-Z0-9_.+-]+@uco+\.edu+$" />  
+                        <p:ajax update="msgs" event="keyup" />
+                        </p:inputText>
+                         
+                        <p:password id="newPassword" value="#{registration.password}" feedback="true" label="New Password" pt:placeholder="New Password" required="true" styleClass="form-control form-margin" inline="true" />
+                        <p:message for="newPassword" id="msgNewPassword" />
+                           
+                        <p:password id="repeatPassword" value="#{registration.repeatPassword}" feedback="false" label="Repeat Password" pt:placeholder="Repeat Password" required="true" styleClass="form-control form-margin" inline="true" />
+                        <p:message for="repeatPassword" id="msgRepeatPassword"/>
+
+                        <p:commandButton id="btn" value="Register" styleClass="btn btn-default btn-block cs-button form-margin" actionListener="#{registration.addStudent}"/>
+
+                    </h:form>
+                </div>
+            </div>
+        </ui:define>
+
+    </ui:composition>
+</html>

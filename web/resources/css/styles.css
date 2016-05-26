@@ -1,0 +1,35 @@
+.error { 
+    font-style: italic;
+    color: red;
+    font-size: large
+}
+
+.error2 { 
+    font-style: bold;
+    color: red;
+    font-size: large
+}
+
+.bookTable{   
+   border-collapse:collapse;
+   border:1px solid #000000;
+}
+
+.bookTableHeader{
+   text-align:center;
+   background:none repeat scroll 0 0 #B5B5B5;
+   border-bottom:1px solid #000000;  
+   padding:2px;
+}
+
+.bookTableOddRow{
+   text-align:center;
+   background:none repeat scroll 0 0 #FFFFFF;
+   background-color: #36bbf1
+}
+
+.bookTableEvenRow{
+   text-align:center;
+   background:none repeat scroll 0 0 #D3D3D3;
+   background-color: #fdd406
+}

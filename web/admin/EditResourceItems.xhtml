@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition template="../templates/mainTemplate.xhtml" >
+        <ui:define name="title">
+            <title>CS News</title>
+        </ui:define>
+        <ui:define name="content">
+            <div class="container-fluid"  >
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>
+                            Editing Items for #{resourceController.resourceTemp.title}
+                        </h2>
+                        <br/>
+
+                        <h:form>
+                            <div class="col-md-4">
+                                Title:
+                                <p:inputText value="#{resourceItemBean.title}" required="true"/>
+                            </div>
+                            <div class="col-md-2">
+                                <h:commandButton action="#{resourceItemController.add()}" value="Create Item" 
+                                                 class="btn cs-button">
+                                </h:commandButton>  
+                            </div>
+                            <div class="col-md-6"></div>
+
+                            <br/>
+                            <br/>
+                            Content:
+                            <p:editor value="#{resourceItemBean.contents}" required="true" />
+                        </h:form>
+                        <br/>
+                        <h:form id="rt" onkeypress="if (event.keyCode === 13) {
+                                    return false;
+                                }">
+                            <p:growl id="msgs" showDetail="true"/>
+
+                            <!--editable table-->
+                            <p:dataTable id="DegreeTable" var="resourceItem" value="#{resourceController.resourceTemp.resourceitemCollection}" editable="true"
+                                         paginator="true" rows="5"  
+                                         rowIndexVar="current"    
+                                         class="table table-striped"
+                                         paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                                         rowsPerPageTemplate="5,10,50" 
+                                         >
+                                <p:ajax event="rowEdit" listener="#{resourceItemController.onEdit}" update=":rt:msgs" />  
+                                <p:ajax event="rowEditCancel" listener="#{resourceItemController.onCancel}" update=":rt:msgs" />
+
+                                <p:column sortBy="#{resourceItem.title}">
+                                    <f:facet name="header">Title</f:facet>
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{resourceItem.title}" >
+                                            </h:outputText>
+                                        </f:facet>
+                                        <f:facet name="input"><p:inputText value="#{resourceItem.title}" style="width:96%"/></f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header" >Content</f:facet>
+
+                                    <h:commandButton action="#{resourceItemController.goEdit(resourceItem.resourceid, resourceItem.contents, resourceItem.title, resourceItem.itemid)}" value="Edit Content" 
+                                                     class="btn cs-button" style="width:96%">
+                                    </h:commandButton>                                          
+                                </p:column>
+                                <p:column style="width:6%">
+                                    <p:rowEditor />
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">  
+                                        <h:outputText value="Remove" />  
+                                    </f:facet>  
+                                    <h:commandButton value="Delete" onclick="if (!confirm('Really want to delete #{resourceItem.title}?'))
+                                                return false"
+                                                     action="#{resourceItemController.delete(resourceItem)}" image="../resources/images/delete.png">
+                                        <f:ajax execute=":rt" render=":rt"/>
+                                    </h:commandButton>
+                                </p:column>
+                            </p:dataTable>
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+        </ui:define>
+    </ui:composition>
+</html>

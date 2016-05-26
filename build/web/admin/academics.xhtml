@@ -1,0 +1,194 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition template="../templates/mainTemplate.xhtml" >
+        <ui:define name="title">
+            <title>Academics</title>
+        </ui:define>
+        <ui:define name="content">
+            <div class="container-fluid"  >
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1 class="h1">
+                            Academics
+                        </h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <h4 class="h4">
+                        <a class="btn" data-toggle="collapse" href="#addDT" aria-expanded="false" aria-controls="addDT">
+                            <span class="glyphicon glyphicon-plus"></span> New
+                        </a>
+                    </h4>
+                    <!-- add new -->
+                    <div class="collapse" id="addDT">
+                        <div class="well">
+                            <h:form id="addNew">
+                                <ul>
+                                    <li>
+                                        Degree
+                                        <p:inputText value="#{degreeBean.degreeName}" required="true"/>
+                                    </li>
+                                    <li>
+                                        Code
+                                        <p:inputText value="#{degreeBean.degreeCode}" required="true"/>
+                                    </li>
+                                    <li>
+                                        Description
+                                        <p:inputText value="#{degreeBean.degreeDesc}" required="true"/>
+                                    </li>
+                                    <li>
+                                        <h:commandButton action="#{degreesController.add()}" value="Add" 
+                                                         class="btn cs-button">
+                                        </h:commandButton>  
+                                    </li>
+                                </ul>
+                            </h:form>
+                        </div>
+                    </div>
+                    <h3 class="h3">Degrees
+                    </h3>
+                    <h:form id="dt" onkeypress="if (event.keyCode === 13) {
+                                return false;
+                            }">
+                        <p:growl id="msgs" showDetail="true"/>
+
+                        <!--editable table-->
+                        <p:dataTable id="DegreeTable" var="degree" value="#{degreesController.degrees}" editable="true"
+                                     paginator="true" rows="5"  
+                                     rowIndexVar="current"    
+                                     class="table table-striped"
+                                     paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                                     rowsPerPageTemplate="5,10,50" 
+                                     >
+                            <p:ajax event="rowEdit" listener="#{degreesController.onEdit}" update=":dt:msgs" />  
+                            <p:ajax event="rowEditCancel" listener="#{degreesController.onCancel}" update=":dt:msgs" />
+
+                            <p:column sortBy="#{degree.degreeName}">
+                                <f:facet name="header">Degree</f:facet>
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{degree.degreeName}" >
+                                        </h:outputText>
+                                    </f:facet>
+                                    <f:facet name="input"><p:inputText value="#{degree.degreeName}" style="width:96%"/></f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column sortBy="#{degree.degreeCode}">
+                                <f:facet name="header">Code</f:facet>
+                                <p:cellEditor>
+                                    <f:facet name="output"><h:outputText value="#{degree.degreeCode}" /></f:facet>
+                                    <f:facet name="input"><p:inputText value="#{degree.degreeCode}" style="width:96%"/></f:facet>
+                                </p:cellEditor>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">Description</f:facet>         
+                                <h:commandButton action="#{degreesController.goEdit(degree.degreeId, degree.degreeDesc, degree.degreeName, degree.degreeCode)}" value="Edit Content" 
+                                                     class="btn cs-button" style="width:96%">
+                                    </h:commandButton> 
+                            </p:column>
+                            <p:column style="width:6%">
+                                <p:rowEditor />
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">  
+                                    <h:outputText value="Remove" />  
+                                </f:facet>  
+                                <h:commandButton value="Delete" onclick="if (!confirm('Really want to delete #{degree.degreeName}?'))
+                                            return false"
+                                                 action="#{degreesController.delete(degree)}" image="../resources/images/delete.png">
+                                    <f:ajax execute=":dt" render=":dt"/>
+
+                                </h:commandButton>
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
+
+                    <h4 class="h4">
+                        <a class="btn" data-toggle="collapse" href="#addFT" aria-expanded="false" aria-controls="addFT">
+                            <span class="glyphicon glyphicon-plus"></span> New
+                        </a>
+                    </h4>
+                    <!-- add new -->
+                    <div class="collapse" id="addFT">
+                        <div class="well">
+                            <h:form id="addNewFT">
+                                <ul>
+                                    <li>
+                                        Title
+                                        <p:inputText value="#{facultyadvisementBean.title}" required="true"/>
+                                    </li>
+                                    <li>
+                                        Content
+                                        <p:inputText value="#{facultyadvisementBean.content}" required="true"/>
+                                    </li>
+                                    <li>
+                                        <h:commandButton action="#{facultyadvisementController.add()}" value="Add" 
+                                                         class="btn cs-button">
+                                        </h:commandButton>  
+                                    </li>
+                                </ul>
+                            </h:form>
+                        </div>
+                    </div>
+                    <h3>Faculty Advisement</h3> 
+                    <h:form id="ft" onkeypress="if (event.keyCode === 13) {
+                                return false;
+                            }">
+                        <p:growl id="msgs" showDetail="true" />
+
+                        <!--editable table-->
+                        <p:dataTable id="FacultyAdvisementTable" var="facultyadvisement" value="#{facultyadvisementController.facultyadvisement}" editable="true"
+                                     paginator="true" rows="5"  
+                                     rowIndexVar="current"    
+                                     class="table table-striped"
+                                     paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                                     rowsPerPageTemplate="5,10,50" 
+                                     >
+                            <p:ajax event="rowEdit" listener="#{facultyadvisementController.onEdit}" update=":ft:msgs" />  
+                            <p:ajax event="rowEditCancel" listener="#{facultyadvisementController.onCancel}" update=":ft:msgs" />
+
+                            <p:column sortBy="#{facultyadvisement.title}">
+                                <f:facet name="header">Title</f:facet>
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{facultyadvisement.title}" >
+                                        </h:outputText>
+                                    </f:facet>
+                                    <f:facet name="input"><p:inputText value="#{facultyadvisement.title}" style="width:96%"/></f:facet>
+                                </p:cellEditor>
+                            </p:column>
+
+                            <p:column>
+                                <f:facet name="header">Content</f:facet>
+                                    <h:commandButton action="#{facultyadvisementController.goEdit(facultyadvisement.id, facultyadvisement.content, facultyadvisement.title)}" value="Edit Content" 
+                                                     class="btn cs-button" style="width:96%">
+                                    </h:commandButton> 
+                            </p:column>
+                            <p:column style="width:6%">
+                                <p:rowEditor />
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">  
+                                    <h:outputText value="Remove" />  
+                                </f:facet>  
+                                <h:commandButton value="Delete" onclick="if (!confirm('Really want to delete #{facultyadvisement.title}?'))
+                                            return false"
+                                                 action="#{facultyadvisementController.delete(facultyadvisement)}" image="../resources/images/delete.png">
+                                    <f:ajax execute=":ft" render=":ft"/>
+
+                                </h:commandButton>
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
+                </div>
+            </div>
+        </ui:define>
+    </ui:composition>
+</html>
+

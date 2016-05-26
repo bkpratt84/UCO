@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition template="./templates/mainTemplate.xhtml" >
+        <ui:define name="title">
+            <title>Academics</title>
+        </ui:define>
+        <ui:define name="content">
+            <div class="container-fluid"  >
+                <h3 class="h3">
+                    Academics
+                </h3>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4>Degrees</h4>
+                    </div>
+                    <ui:repeat value="#{degreesController.getAll()}" var="degree"  class="table table-striped">
+                        <div class="col-md-12">
+                            <a class="btn" data-toggle="collapse" href="##{degree.degreeId}" aria-expanded="false" aria-controls="#{degree.degreeId}">
+                                #{degree.degreeName}
+                            </a><br />
+                            <div class="collapse" id="#{degree.degreeId}">
+                                <ul>
+                                    <h:outputText value="#{degree.degreeDesc}"  escape="false"/>
+                                    <li>Major code: #{degree.degreeCode}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </ui:repeat>
+
+                    Refer to
+                    <a href="http://www.uco.edu/academic-affairs/forms-links/catalog.asp">
+                        the University Catalog
+                    </a>
+                    for the requirements of each degree plan.
+
+                    <h4>Faculty Advisement For Computer Science Students</h4> 
+                    <em>Faculty Advisor: Dr. Hong Sung (<a class="HoverLink" href="mailto:hsung@uco.edu">hsung@uco.edu</a>)</em>
+                    <ui:repeat value="#{facultyadvisementController.getAll()}" var="facadv"  class="table table-striped">
+                        <div class="col-md-12">    
+                            <a class="btn" data-toggle="collapse" href="##{facadv.id}2" aria-expanded="false" aria-controls="#{facadv.id}2">
+                                #{facadv.title}
+                            </a><br />
+                            <div class="col-md-12">
+                                <div class="collapse" id="#{facadv.id}2">
+                                    <h:outputText escape="false" value="#{facadv.content}"/>
+                                </div>
+                            </div>
+                        </div>
+                    </ui:repeat>
+                </div>
+            </div>
+        </ui:define>
+    </ui:composition>
+</html>
+

@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition template="../templates/mainTemplate.xhtml" >
+        <ui:define name="title">
+            <title>CS Courses</title>
+        </ui:define>
+        <ui:define name="content">
+            <div class="container-fluid"  >
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1 class="h1">
+                            List of Computer Science Courses
+                        </h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4 class="h4">
+                            <a class="btn" data-toggle="collapse" href="#addCT" aria-expanded="false" aria-controls="addCT">
+                                <span class="glyphicon glyphicon-plus"></span> New
+                            </a>
+                        </h4>
+                        <!-- add new -->
+                        <div class="collapse" id="addCT">
+                            <div class="well">
+                                <h:form id="addNew">
+                                    <ul>
+                                        <li>
+                                            Name
+                                            <p:inputText value="#{courseBean.courseName}" required="true"/>
+                                        </li>
+                                        <li>
+                                            CRN
+                                            <p:inputText value="#{courseBean.courseCrn}" required="true"/>
+                                        </li>
+                                        <li>
+                                            Prerequisites
+                                            <p:inputText value="#{courseBean.coursePrereq}" required="false"/>
+                                        </li>
+                                        <li>
+                                            Description
+                                            <p:inputText value="#{courseBean.courseDesc}" required="true"/>
+                                        </li>
+                                        <li>
+                                            <h:commandButton action="#{coursesController.add()}" value="Add" 
+                                                             class="btn cs-button">
+                                            </h:commandButton>  
+                                        </li>
+                                    </ul>
+                                </h:form>
+                            </div>
+                        </div>
+                        <h3 class="h3">Courses
+                        </h3>
+                        <h:form id="ct" onkeypress="if (event.keyCode === 13) {
+                                    return false;
+                                }">
+                            <p:growl id="msgs" showDetail="true"/>
+
+                            <!--editable table-->
+                            <p:dataTable id="DegreeTable" var="course" value="#{coursesController.courses}" editable="true"
+                                         paginator="true" rows="5"  
+                                         rowIndexVar="current"    
+                                         class="table table-striped"
+                                         paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                                         rowsPerPageTemplate="5,10,50" 
+                                         >
+                                <p:ajax event="rowEdit" listener="#{coursesController.onEdit}" update=":ct:msgs" />  
+                                <p:ajax event="rowEditCancel" listener="#{coursesController.onCancel}" update=":ct:msgs" />
+
+                                <p:column sortBy="#{course.courseName}">
+                                    <f:facet name="header">Name</f:facet>
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{course.courseName}" >
+                                            </h:outputText>
+                                        </f:facet>
+                                        <f:facet name="input"><p:inputText value="#{course.courseName}" style="width:96%"/></f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+
+                                <p:column sortBy="#{course.courseCrn}">
+                                    <f:facet name="header">CRN</f:facet>
+                                    <p:cellEditor>
+                                        <f:facet name="output"><h:outputText value="#{course.courseCrn}" /></f:facet>
+                                        <f:facet name="input"><p:inputText value="#{course.courseCrn}" style="width:96%"/></f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                <p:column sortBy="#{course.coursePrereq}">
+                                    <f:facet name="header">Prerequisites</f:facet>
+                                    <p:cellEditor>
+                                        <f:facet name="output"><h:outputText value="#{course.coursePrereq}" /></f:facet>
+                                        <f:facet name="input"><p:inputText value="#{course.coursePrereq}" style="width:96%"/></f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                <p:column sortBy="#{course.courseDesc}">
+                                    <f:facet name="header">Description</f:facet>         
+                                    <p:cellEditor>
+                                        <f:facet name="output"><h:outputText value="#{course.courseDesc}" /></f:facet>
+                                        <f:facet name="input"><p:inputTextarea rows="6" cols="33" value="#{course.courseDesc}" /></f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                <p:column style="width:6%">
+                                    <p:rowEditor />
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">  
+                                        <h:outputText value="Remove" />  
+                                    </f:facet>  
+                                    <h:commandButton value="Delete" onclick="if (!confirm('Really want to delete #{course.courseName}?'))
+                                                return false"
+                                                     action="#{coursesController.delete(course)}" image="../resources/images/delete.png">
+                                        <f:ajax execute=":ct" render=":ct"/>
+                                    </h:commandButton>
+                                </p:column>
+                            </p:dataTable>
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+        </ui:define>
+    </ui:composition>
+</html>

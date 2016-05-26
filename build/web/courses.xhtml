@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <ui:composition template="./templates/mainTemplate.xhtml" >
+        <ui:define name="title">
+            <title>CS Courses</title>
+        </ui:define>
+        <ui:define name="content">
+            <div class="container-fluid"  >
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3 class="h3">
+                            List of Computer Science Courses
+                        </h3>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <ui:repeat value="#{coursesController.getAll()}" var="course"  class="table table-striped">
+                            <a class="btn" data-toggle="collapse" href="##{course.courseId}" aria-expanded="false" aria-controls="#{course.courseId}">
+                                #{course.courseCrn} #{course.courseName}
+                            </a>
+                            <div class="col-md-12">
+                                <div class="collapse" id="#{course.courseId}">
+                                    #{course.courseDesc} <br />
+                                    <b>Prerequisites:</b> #{course.coursePrereq}
+                                </div>
+                            </div>
+                            <br />
+                        </ui:repeat>
+                    </div>
+                </div>
+            </div>
+        </ui:define>
+    </ui:composition>
+</html>
+
+
+

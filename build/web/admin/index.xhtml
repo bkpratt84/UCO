@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition template="../templates/adminTemplate.xhtml" >
+        <ui:define name="javaScriptIncludes">
+            <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+            <link rel="stylesheet" href="//code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css"/>
+            <script src="//code.jquery.com/ui/1.11.3/jquery-ui.js"></script>
+            <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.6.0/jquery.timepicker.min.css"/>
+            <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-timepicker/1.6.0/jquery.timepicker.min.js"></script>
+        </ui:define>
+        <ui:define name="title">
+            <title>Student Page</title>
+        </ui:define>
+        <ui:define name="content"> 
+
+            <h:form> 
+                <div>
+                    <p:panel id="panel1" header="Student List" style="margin-bottom:20px" styleClass="colorPanel">
+                        <p:dataTable var="s" value="#{adminEnrollBean.students}">
+                            <p:column headerText="ID" width="20%">
+                                <h:outputText value="#{s.id}" />
+                            </p:column>
+                            <p:column headerText="Name">
+                                <h:outputText value="#{s.username}" />
+                            </p:column>
+                            <p:column headerText="First name">
+                                <h:outputText value="#{s.firstname}" />
+                            </p:column>
+                            <p:column headerText="Last Name">
+                                <h:outputText value="#{s.lastname}" />
+                            </p:column>
+                            <p:column headerText="Active">
+                                <h:outputText value="#{s.active}"/>
+                            </p:column>
+                            <p:column headerText="Enable" width="7%">
+                                <h:commandButton value="Enable" onclick="refresh()" action="#{adminEnrollBean.enableEnroll(s.id)}" />
+                            </p:column>
+                            <p:column headerText="Disable" width="7%">
+                                <h:commandButton value="Disable" onclick="refresh()" action="#{adminEnrollBean.disableEnroll(s.id)}" />
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel>
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+    <script>
+    function refresh() {
+        location.reload();
+    }
+    </script>
+</html>

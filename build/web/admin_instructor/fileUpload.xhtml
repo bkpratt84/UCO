@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="../templates/instructorTemplate.xhtml">
+
+        <ui:define name="title">
+            <title>File Upload</title>
+        </ui:define>
+
+        <ui:define name="content">
+            <div class="row">
+                <div class="col-lg-6 col-lg-offset-3 display-box">
+                    <h2 class="gold-text">File Upload</h2>
+                    <p:messages id="msgs" autoUpdate="true"/>
+                    <h:form id="fileUpload" enctype="multipart/form-data">
+                        <p:fileUpload  id="file" value="#{fileUpload.file}" mode="advanced" 
+                                       fileUploadListener="#{fileUpload.uploadFile}"/>
+                    </h:form>
+                </div>
+            </div>
+        </ui:define>
+
+    </ui:composition>
+</html>
+
+
+
+
+

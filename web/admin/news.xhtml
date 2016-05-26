@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition template="../templates/mainTemplate.xhtml" >
+        <ui:define name="title">
+            <title>CS News</title>
+        </ui:define>
+        <ui:define name="content">
+            <div class="container-fluid"  >
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1 class="h1">
+                            News
+                        </h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h:form>
+                            <div class="col-md-4">
+                                Title:
+                                <p:inputText value="#{newsitemBean.title}" required="true"/>
+                            </div>
+                            <div class="col-md-2">
+                                <h:commandButton action="#{newsitemController.add()}" value="Publish" 
+                                                 class="btn cs-button">
+                                </h:commandButton>  
+                            </div>
+                            <div class="col-md-6"></div>
+
+                            <br/>
+                            <br/>
+                            Content:
+                            <p:editor value="#{newsitemBean.content}" required="true" />
+                        </h:form>
+                        <h3>News Items</h3> 
+                        <h:form id="nt" onkeypress="if (event.keyCode === 13) {
+                                    return false;
+                                }">
+                            <p:growl id="msgs" showDetail="true"/>
+
+                            <!--editable table-->
+                            <p:dataTable id="NewsItemTable" var="newsitem" value="#{newsitemController.newsitem}" editable="true"
+                                         paginator="true" rows="5"  
+                                         rowIndexVar="current"    
+                                         class="table table-striped"
+                                         paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                                         rowsPerPageTemplate="5,10,50" 
+                                         >
+                                <p:ajax event="rowEdit" listener="#{newsitemController.onEdit}" update=":nt:msgs" />  
+                                <p:ajax event="rowEditCancel" listener="#{newsitemController.onCancel}" update=":nt:msgs" />
+
+                                <p:column sortBy="#{newsitem.title}">
+                                    <f:facet name="header">Title</f:facet>
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{newsitem.title}" >
+                                            </h:outputText>
+                                        </f:facet>
+                                        <f:facet name="input"><p:inputText value="#{newsitem.title}" style="width:96%"/></f:facet>
+                                    </p:cellEditor>
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header" >Content</f:facet>
+
+                                    <h:commandButton action="#{newsitemController.goEdit(newsitem.id, newsitem.content, newsitem.title, newsitem.datepublished)}" value="Edit Content" 
+                                                     class="btn cs-button" style="width:96%">
+                                    </h:commandButton>                                          
+                                </p:column>
+                                <p:column sortBy="#{newsitem.datepublished}">
+                                    <f:facet name="header" >Date</f:facet>   
+                                    <h:outputText value="#{newsitem.datepublished}">
+                                        <f:convertDateTime pattern="MM-dd-yyyy (HH:mm)" />
+                                    </h:outputText>
+                                </p:column>
+                                <p:column style="width:6%">
+                                    <p:rowEditor />
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">  
+                                        <h:outputText value="Remove" />  
+                                    </f:facet>  
+                                    <h:commandButton value="Delete" onclick="if (!confirm('Really want to delete #{newsitem.title}?'))
+                                                return false"
+                                                     action="#{newsitemController.delete(newsitem)}" image="../resources/images/delete.png">
+                                        <f:ajax execute=":nt" render=":nt"/>
+                                    </h:commandButton>
+                                </p:column>
+                            </p:dataTable>
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+        </ui:define>
+    </ui:composition>
+</html>
+

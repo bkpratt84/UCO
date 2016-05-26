@@ -1,0 +1,211 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <h:outputScript     name="./javascript/bootstrap.min.js"/>
+
+        <h:outputScript library="primefaces" name="jquery/jquery.js"
+                        target="head" />
+        <h:outputScript target="head">
+            $ = jQuery;
+        </h:outputScript>
+        <h:outputStylesheet name="./css/bootstrap.min.css"/>
+        <h:outputStylesheet name="./css/main.css"/>
+        <h:outputStylesheet name="./css/navbar.css"/>
+        <h:outputStylesheet name="./css/styles.css"/>
+        <h:outputStylesheet name="./css/primef.css"/>
+        <title>Department of Computer Science</title>
+        <ui:insert name="javaScriptIncludes"></ui:insert>
+    </h:head>
+    <h:body>
+        <div class="container">
+            <h:form>
+                <nav class="navbar navbar-fixed-top navbar-default">
+                    <div class="container-fluid">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle collapsed " data-toggle="collapse" data-target="#cs_navigation"  aria-expanded="false" aria-controls="navbar">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <h:link class="navbar-brand" outcome="/index"><img style="max-height:40px; margin-top: -9px" src="resources/images/uco-logo-wide-white.png" alt=""/></h:link>
+                        </div>
+                        <!-- Collect the nav links, forms, and other content for toggling -->
+                        <div class="collapse navbar-collapse" id="cs_navigation" >
+                            <ul class="nav navbar-nav">
+
+                                <!--Home Link-->
+                                <li><h:link value="Home" outcome="/index" /></li>
+
+                                <!--Dept Info Links (Admin)-->
+                                <h:panelGroup rendered="#{facesContext.externalContext.isUserInRole('admin')}">
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Department Info<span class="caret"></span></a>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li><h:link value="Academics" outcome="/admin/academics" /></li>
+                                            <li><h:link value="Courses" outcome="/admin/courses" /></li>
+                                            <li><h:link value="People" outcome="/admin/people" /></li>
+                                            <li><h:link value="Resources" outcome="/admin/resources" /></li>
+                                            <li><h:link value="News" outcome="/admin/news" /></li>
+                                        </ul>
+                                    </li>
+                                </h:panelGroup>
+
+                                <!-- Dept Info Links (Non-Admin) -->
+                                <h:panelGroup rendered="#{not facesContext.externalContext.isUserInRole('admin')}">
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Department Info<span class="caret"></span></a>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li><h:link value="Academics" outcome="/academics" /></li>
+                                            <li><h:link value="Courses" outcome="/courses" /></li>
+                                            <li><h:link value="People" outcome="/people" /></li>
+                                            <li><h:link value="Resources" outcome="/resources" /></li>
+                                            <li><h:link value="News" outcome="/news" /></li>
+                                        </ul>
+                                    </li>
+                                </h:panelGroup>
+
+                                <!--UCO Link-->
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">UCO Links<span class="caret"></span></a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="http://cms.uco.edu/">College</a></li>
+                                        <li><a href="http://www.uco.edu/">UCO</a></li>
+                                        <li><a href="http://www.uco.edu/em/become-a-broncho/index.asp">Admissions</a></li>
+                                        <li><a href="http://www.uco.edu/student-affairs/oga/index.asp">International Students</a></li>
+                                        <li><a href="http://www.uco.edu/graduate/">Graduate School</a></li>
+                                        <li class="divider"></li>
+                                        <li><a href="http://www2.uco.edu/registrar/sched/">Class Schedule</a></li>
+                                        <li><a href="http://www.uco.edu/em/registrar/finalexam.asp">Final Exam Schedule</a></li>
+                                    </ul>
+                                </li>
+
+                                <!--Books Link-->
+                                <h:panelGroup rendered="#{facesContext.externalContext.isUserInRole('instructor') or
+                                                          facesContext.externalContext.isUserInRole('student') or
+                                                          facesContext.externalContext.isUserInRole('admin')}">
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Books<span class="caret"></span></a>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li><h:link value="View Textbooks" outcome="/textbooks" /></li>
+                                            <li><h:link value="Edit Textbooks" outcome="/instructors/editbooks" rendered="#{facesContext.externalContext.isUserInRole('instructor')}"/></li>
+                                        </ul>
+                                    </li>
+                                </h:panelGroup>
+
+                                <!--Instructor Events Link-->
+                                <h:panelGroup rendered="#{facesContext.externalContext.isUserInRole('instructor')}">
+
+                                    <li><h:link value="Calendar" outcome="/instructors/eventCalendar" /></li>
+
+                                </h:panelGroup>
+                                <!--Student Events Link-->
+                                <h:panelGroup rendered="#{facesContext.externalContext.isUserInRole('student')}">
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" >Events<span class="caret" ></span></a>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li><h:link value="View Events" outcome="/students/InstructorWithEvents" /></li>
+                                            <li><h:link value="Calendar" outcome="/students/StudentCalendar" /></li>
+                                        </ul>
+                                    </li>
+                                </h:panelGroup>
+
+                                <!--File Upload-->
+                                <h:panelGroup rendered="#{facesContext.externalContext.isUserInRole('admin') || facesContext.externalContext.isUserInRole('student') || facesContext.externalContext.isUserInRole('instructor')}">
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" >File Manager<span class="caret" ></span></a>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li><h:link value="File Upload" outcome="/admin_instructor/fileUpload" rendered="#{facesContext.externalContext.isUserInRole('admin')}"/></li>
+                                            <li><h:link value="File Upload" outcome="/admin_instructor/fileUpload" rendered="#{facesContext.externalContext.isUserInRole('instructor')}"/></li>
+                                            <li><h:link value="File List" outcome="/students/fileList" rendered="#{facesContext.externalContext.isUserInRole('student')}"/></li>
+                                            <li><h:link value="Manage File List" outcome="/admin/manageFileList" rendered="#{facesContext.externalContext.isUserInRole('admin')}"/></li>
+                                            <li><h:link value="Manage File List" outcome="/instructors/manageFileList" rendered="#{facesContext.externalContext.isUserInRole('instructor')}"/></li>
+                                        </ul>
+                                    </li>
+                                </h:panelGroup>
+
+                                <!--Putty Interface Link-->
+                                <h:panelGroup rendered="#{facesContext.externalContext.isUserInRole('instructor') or 
+                                                          facesContext.externalContext.isUserInRole('student')}">
+
+                                    <li><a href="https://104.131.99.4/" target="_blank">Putty</a></li>
+
+                                    <!-- <li><h:link value="Putty" outcome="/student_instructor/sshClient"/></li> -->
+
+                                    <!--
+                                </ul>
+                            </li> 
+                                    -->
+                                </h:panelGroup>
+
+                            </ul>
+                            <ul class="nav navbar-nav navbar-right">
+
+                                <!--Administrator Link-->
+                                <h:panelGroup rendered="#{facesContext.externalContext.isUserInRole('admin')}">
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" >Admin<span class="caret" ></span></a>
+                                        <ul class="dropdown-menu" role="menu" >
+                                            <li><h:link value="Create Professor" outcome="/admin/createProf" /></li>
+                                            <li><h:link value="View Users" outcome="/admin/userList" /></li>
+                                        </ul>
+                                    </li>
+                                </h:panelGroup>
+
+                                <!--Chat Link-->
+                                <h:panelGroup rendered="#{facesContext.externalContext.isUserInRole('instructor') or
+                                                          facesContext.externalContext.isUserInRole('student')}">
+                                    <li><h:link value="Chat" outcome="/student_instructor/chat" /></li>
+                                </h:panelGroup>
+
+                                <!--Profile Link-->
+                                <h:panelGroup rendered="#{facesContext.externalContext.isUserInRole('instructor') or
+                                                          facesContext.externalContext.isUserInRole('student')}">
+                                    <li class="dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" >Profile<span class="caret" ></span></a>
+                                        <ul class="dropdown-menu" role="menu" >
+                                            <li><h:commandLink value="Edit Profile" action="#{profileEditing.userInfo()}" /></li>
+                                        </ul>
+                                    </li>
+                                </h:panelGroup>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </h:form>
+            <script>
+                /*active link highlight menu handler*/
+                $(function () {
+                    function stripTrailingSlash(str) {
+                        if (str.substr(-1) === '/') {
+                            return str.substr(0, str.length - 1);
+                        }
+                        return str;
+                    }
+                    var url = window.location.pathname;
+                    var activePage = stripTrailingSlash(url);
+                    $('.nav li a').each(function () {
+                        var currentPage = stripTrailingSlash($(this).attr('href'));
+                        if (activePage === currentPage) {
+                            $(this).parent().addClass('active');
+                        }
+                    });
+                });
+            </script>
+
+        </div>
+        <div class="container width-c">
+
+            <div id="content" class="center_content full-heigth">
+                <ui:insert name="content">Content</ui:insert>
+            </div>
+
+        </div>
+    </h:body>
+</html>

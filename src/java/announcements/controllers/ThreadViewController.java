@@ -34,6 +34,7 @@ public class ThreadViewController implements Serializable {
     }
 
     public void refresh() {
+        System.out.println("DDF");
        if (threads == null) {
            threads = new ArrayList<>();
            

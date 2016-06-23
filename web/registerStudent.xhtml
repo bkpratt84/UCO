@@ -1,0 +1,88 @@
+<ui:composition template="/templates/mainTemplate.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="title">
+        <title>Register Student</title>
+    </ui:define>
+
+    <ui:define name="content">
+        <div class="container-fluid pad-top">
+            <div class="page-header">
+                <h1>Register Student</h1>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3">
+                    <div class="panel panel-body bg-uco-blue">
+                        <h:form id="frmRegister" styleClass="form-horizontal">
+                            <div class="col-md-10 col-md-offset-1">
+                                <div class="form-group">
+                                    <p:graphicImage url="resources/images/uco-logo-wide-white.png" height="80"/>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="sr-only" for="inputFirstName">First Name</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><i class="fa fa-user"></i></div>
+                                        <p:inputText id="inputFirstName" class="form-control" placeholder="First Name">
+                                            
+                                        </p:inputText>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="sr-only" for="inputLastName">Last Name</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><i class="fa fa-user"></i></div>
+                                        <p:inputText id="inputLastName" class="form-control" placeholder="Last Name">
+                                            
+                                        </p:inputText>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="sr-only" for="inputEmail">Email Address</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><i class="fa fa-envelope-o"></i></div>
+                                        <p:inputText id="inputEmail" class="form-control" placeholder="Email Address">
+                                            
+                                        </p:inputText>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="sr-only" for="inputPassword">Password</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><i class="fa fa-key"></i></div>
+                                        <p:password id="inputPassword" class="form-control" placeholder="Password">
+                                            
+                                        </p:password>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="sr-only" for="inputPasswordRepeat">Confirm Password</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><i class="fa fa-key"></i></div>
+                                        <p:password id="inputPasswordRepeat" class="form-control" placeholder="Confirm Password">
+                                            
+                                        </p:password>
+                                    </div>
+                                </div>
+           
+                                <div class="form-group">
+                                    <h:commandLink id="btnRegister" action="register" styleClass="btn btn-primary btn-block cs-button">
+                                    <i class="fa fa-check pad-right"></i>Register
+                                    </h:commandLink>
+                                </div>
+                            </div>
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>

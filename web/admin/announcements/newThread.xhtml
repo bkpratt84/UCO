@@ -1,0 +1,37 @@
+<ui:composition template="/templates/mainTemplate.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="title">
+        <title>New Announcement</title>
+    </ui:define>
+
+    <ui:define name="content">
+        <div class="container-fluid pad-top">
+            <div class="page-header">
+                <h1>New Announcement</h1>
+            </div>
+            
+            <div class="col-md-10 col-md-offset-1">
+                <h:form id="frmAdd">
+                    <p:editor id="editor" widgetVar="editorWidget" value="#{threadAddController.msg}" />
+                    
+                    <div class="row pad-top">
+                        <div class="col-md-10">
+                            <h:commandLink id="btnSave" action="save" styleClass="btn btn-primary pad-right">
+                            <i class="fa fa-floppy-o pad-right"></i>Save
+                            </h:commandLink>
+                            
+                            <p:commandLink id="btnClear" onclick="PF('editorWidget').clear();" styleClass="btn btn-info">
+                            <i class="fa fa-eraser pad-right"></i>Clear
+                            </p:commandLink>
+                        </div>
+                    </div>
+                </h:form>
+            </div>
+
+        </div>
+    </ui:define>
+</ui:composition>

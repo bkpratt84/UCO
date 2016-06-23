@@ -2,6 +2,15 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/Users/foxra/OneDrive/git/uco/src/java/announcements/controllers/ThreadViewController.java</file>
+            <file>file:/C:/Users/foxra/OneDrive/git/uco/web/registerStudent.xhtml</file>
+            <file>file:/C:/Users/foxra/OneDrive/git/uco/web/resources/css/styles.css</file>
+            <file>file:/C:/Users/foxra/OneDrive/git/uco/web/WEB-INF/web.xml</file>
+            <file>file:/C:/Users/foxra/OneDrive/git/uco/src/java/announcements/controllers/ThreadAddController.java</file>
+            <file>file:/C:/Users/foxra/OneDrive/git/uco/web/studentRegister.xhtml</file>
+            <file>file:/C:/Users/foxra/OneDrive/git/uco/web/announcements.xhtml</file>
+            <file>file:/C:/Users/foxra/OneDrive/git/uco/web/admin/announcements/newThread.xhtml</file>
+        </group>
     </open-files>
 </project-private>

@@ -68,3 +68,11 @@
     border: #B5B5B5 1px solid;
     height: 100%;
 }
+
+.bg-uco-blue {
+    background-color: #195481;
+}
+
+.page-header {
+    border-color: #B7C0C4;
+}

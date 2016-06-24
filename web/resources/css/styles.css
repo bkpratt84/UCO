@@ -33,3 +33,46 @@
    background:none repeat scroll 0 0 #D3D3D3;
    background-color: #fdd406
 }
+
+.pad-top {
+    margin-top: 10px;
+}
+
+.pad-bottom {
+    margin-bottom: 10px;
+}
+
+.pad-right {
+    margin-right: 5px;
+}
+
+.pad-left {
+    margin-left: 5px;
+}
+
+.thread-title {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.thread-author {
+    font-size: 12px;
+    color: #999;
+    margin-left: 20px;
+}
+.lb-sm {
+  font-size: 12px;
+}
+
+.test-border {
+    border: #B5B5B5 1px solid;
+    height: 100%;
+}
+
+.bg-uco-blue {
+    background-color: #195481;
+}
+
+.page-header {
+    border-color: #B7C0C4;
+}

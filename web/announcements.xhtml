@@ -1,0 +1,103 @@
+<ui:composition template="/templates/mainTemplate.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="title">
+        <title>Announcements</title>
+    </ui:define>
+
+    <ui:define name="content">
+        <div class="container-fluid pad-top">
+            <div class="page-header">
+                <h1>Announcements</h1>
+            </div>
+            
+            <div class="col-md-10 col-md-offset-1">
+                <h:form id="frmAdd" styleClass="pad-bottom">
+                    <h:panelGroup rendered="#{facesContext.externalContext.isUserInRole('admin')}" styleClass="pad-right">
+                        <h:commandLink id="btnNew" action="/admin/announcements/newThread.xhtml" styleClass="btn btn-primary">
+                        <i class="fa fa-plus pad-right"></i>New Thread
+                        </h:commandLink>
+                    </h:panelGroup>
+                    
+                    <h:panelGroup rendered="#{empty request.remoteUser}" styleClass="pad-right">
+                        <h:commandLink id="btnLogin" action="login.xhtml" styleClass="btn btn-primary">
+                        <i class="fa fa-plus pad-right"></i>Login
+                        </h:commandLink>
+                    </h:panelGroup>
+                    
+                    <h:panelGroup rendered="#{empty request.remoteUser}">
+                        <h:commandLink id="btnRegister" action="registerStudent.xhtml" styleClass="btn btn-primary">
+                        <i class="fa fa-user-plus pad-right"></i>Register
+                        </h:commandLink>
+                    </h:panelGroup>
+
+                </h:form>
+            </div>
+            
+            <div class="col-md-10 col-md-offset-1">
+                <ul class="list-group">
+                    <ui:repeat value="#{threadViewController.threads}" var="thread" >
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h5 class="pull-left thread-title">#{thread.title} <span class="label label-default pad-left lb-sm">#{thread.category}</span></h5>
+                                    <h5 class="pull-right"><i class="fa fa-calendar pad-right fa-lg"></i> #{thread.saved}</h5>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <span class="thread-author">Brandon Pratt</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <hr/>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <span class="content">#{thread.message}</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <hr/>
+                                    
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <ul class="list-inline pull-left">
+                                                <li><i class="fa fa-comments-o pad-right fa-lg"></i>1</li>
+                                                <!--<li><i class="fa fa-eye pad-right fa-lg"></i>1</li>-->
+                                            </ul>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h:form id="frmThread">
+                                                <ul class="list-inline pull-right">
+                                                    <li>
+                                                        <h:commandLink id="btnReply" action="replyThread.xhtml" styleClass="text-info">
+                                                            <i class="fa fa-reply pad-right fa-lg"></i>
+                                                        </h:commandLink>
+                                                    </li>
+                                                    <li>
+                                                        <h:commandLink id="btnEdit" action="editThread.xhtml" styleClass="text-primary">
+                                                            <i class="fa fa-pencil pad-right fa-lg"></i>
+                                                        </h:commandLink>
+                                                    </li>
+                                                    <li>
+                                                        <h:commandLink id="btnDelete" action="deleteThread.xhtml" styleClass="text-danger">
+                                                            <i class="fa fa-trash pad-right fa-lg"></i>
+                                                        </h:commandLink>
+                                                    </li>
+                                                </ul>
+                                            </h:form>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </li>
+                    </ui:repeat>
+                </ul>
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>

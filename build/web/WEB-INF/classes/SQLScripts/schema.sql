@@ -1,3 +1,5 @@
+use cs_db;
+
 
 create table user_info (
     id integer not null auto_increment,
@@ -114,6 +116,21 @@ CREATE TABLE FACULTY(
     # FOREIGN KEY(FACULTY_ID) REFERENCES USER_INFO(ID),
     STATUS VARCHAR(64),
     PRIMARY KEY (FACULTY_ID)
+);
+
+CREATE TABLE post (
+    postId integer  NOT NULL AUTO_INCREMENT,
+    parentId integer,
+    authorId integer NOT NULL,
+    category varchar(255),
+    title varchar(255),
+    content varchar(225) NOT NULL,
+    views integer NOT NULL,
+    active boolean NOT NULL,
+    dateCreated date NOT NULL,
+    datedModified date,
+    modifiedBy int,
+    primary key (postId)
 );
 
 CREATE TABLE RESOURCE(

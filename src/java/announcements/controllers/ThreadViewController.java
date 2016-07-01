@@ -44,7 +44,7 @@ public class ThreadViewController implements Serializable {
         threads = postFacade.GetByParentId(null);
 
         if (threads == null) {
-            threads = new ArrayList<Post>();
+            threads = new ArrayList<>();
 
 //           threads.add(new Post(1, 1, "Thread 1", "This is thread 1.", LocalDate.of(2016, 1, 1), LocalDate.of(2016, 1, 1), 2, "Course"));
 //           threads.add(new Post(2, 1, "Thread 2", "This is thread 2.", LocalDate.of(2016, 2, 1), LocalDate.of(2016, 2, 2), 2, "News"));

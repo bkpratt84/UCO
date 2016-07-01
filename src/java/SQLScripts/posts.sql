@@ -10,7 +10,10 @@ CREATE TABLE post (
     views integer NOT NULL,
     active boolean NOT NULL,
     dateCreated date NOT NULL,
-    datedModified date,
+    dateModified date,
     modifiedBy int,
     primary key (postId)
 );
+
+INSERT INTO post (parentID, authorID, category, title, content, views, active, dateCreated) VALUES
+    (NULL, 1, 'News', 'Announcement 1', 'This is my content', 1, true, '2015-01-01');

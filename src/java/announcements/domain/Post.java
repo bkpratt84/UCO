@@ -18,7 +18,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Post.findAll", query = "SELECT p FROM Post p"),
-    @NamedQuery(name = "Post.findByParentId", query = "SELECT p FROM Post p WHERE p.ParentId = :parentId")})
+    @NamedQuery(name = "Post.findByParentId", query = "SELECT p FROM Post p WHERE p.parentId = :parentId")})
 public class Post implements Serializable {
 
     @Id
@@ -28,7 +28,7 @@ public class Post implements Serializable {
     private int postID;
     
     @Column(name = "parentId")
-    private int parentID;
+    private int parentId;
     
     @Column(name = "authorId")
     private int author;
@@ -76,11 +76,11 @@ public class Post implements Serializable {
     }
     
     public int getParentID() {
-        return parentID;
+        return parentId;
     }
 
     public void setParentID(int parentID) {
-        this.parentID = parentID;
+        this.parentId = parentID;
     }
 
     public int getAuthor() {

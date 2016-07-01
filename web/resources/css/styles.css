@@ -1,13 +1,13 @@
 .error { 
-    font-style: italic;
+    font-weight: bold;
     color: red;
-    font-size: large
 }
 
-.error2 { 
-    font-style: bold;
-    color: red;
-    font-size: large
+.error-msg {
+    margin-top: 5px;
+    margin-bottom: -5px;
+    background-color: #D6413E;
+    color: #FFFFFF;
 }
 
 .bookTable{   
@@ -36,6 +36,10 @@
 
 .pad-top {
     margin-top: 10px;
+}
+
+.pad-top-5 {
+    margin-top: 5px;
 }
 
 .pad-bottom {

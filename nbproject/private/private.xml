@@ -3,14 +3,26 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/foxra/OneDrive/git/uco/src/java/announcements/controllers/ThreadViewController.java</file>
-            <file>file:/C:/Users/foxra/OneDrive/git/uco/web/registerStudent.xhtml</file>
-            <file>file:/C:/Users/foxra/OneDrive/git/uco/web/resources/css/styles.css</file>
-            <file>file:/C:/Users/foxra/OneDrive/git/uco/web/WEB-INF/web.xml</file>
-            <file>file:/C:/Users/foxra/OneDrive/git/uco/src/java/announcements/controllers/ThreadAddController.java</file>
-            <file>file:/C:/Users/foxra/OneDrive/git/uco/web/studentRegister.xhtml</file>
-            <file>file:/C:/Users/foxra/OneDrive/git/uco/web/announcements.xhtml</file>
-            <file>file:/C:/Users/foxra/OneDrive/git/uco/web/admin/announcements/newThread.xhtml</file>
+            <file>file:/C:/Working/UCO/src/java/csDept/CoursesController.java</file>
+            <file>file:/C:/Working/UCO/src/java/SQLScripts/schema.sql</file>
+            <file>file:/C:/Working/UCO/src/java/csDept/ResourceitemFacade.java</file>
+            <file>file:/C:/Working/UCO/src/java/csDept/FacultyFacade.java</file>
+            <file>file:/C:/Working/UCO/src/java/registration/User.java</file>
+            <file>file:/C:/Working/UCO/nbproject/build-impl.xml</file>
+            <file>file:/C:/Working/UCO/src/java/csDept/DegreesFacade.java</file>
+            <file>file:/C:/Working/UCO/src/java/csDept/Faculty.java</file>
+            <file>file:/C:/Working/UCO/src/java/SQLScripts/posts.sql</file>
+            <file>file:/C:/Working/UCO/src/java/csDept/Newsitem.java</file>
+            <file>file:/C:/Working/UCO/src/java/csDept/NewsitemFacade.java</file>
+            <file>file:/C:/Working/UCO/web/admin/announcements/newThread.xhtml</file>
+            <file>file:/C:/Working/UCO/src/java/announcements/domain/PostsFacade.java</file>
+            <file>file:/C:/Working/UCO/src/java/csDept/Degrees.java</file>
+            <file>file:/C:/Working/UCO/src/java/announcements/domain/Post.java</file>
+            <file>file:/C:/Working/UCO/src/java/announcements/controllers/ThreadAddController.java</file>
+            <file>file:/C:/Working/UCO/src/java/announcements/controllers/ThreadViewController.java</file>
+            <file>file:/C:/Working/UCO/src/java/csDept/Courses.java</file>
+            <file>file:/C:/Working/UCO/src/java/csDept/AbstractFacade.java</file>
+            <file>file:/C:/Working/UCO/src/java/csDept/CoursesFacade.java</file>
         </group>
     </open-files>
 </project-private>

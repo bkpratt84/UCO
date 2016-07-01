@@ -14,7 +14,6 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
-import javax.persistence.NamedQuery;
 
 @Named(value = "threadViewController")
 @ViewScoped
@@ -40,17 +39,10 @@ public class ThreadViewController implements Serializable {
     }
 
     public void refresh() {
-
-        threads = postFacade.GetByParentId(null);
+        threads = postFacade.GetByParentId(0);
 
         if (threads == null) {
             threads = new ArrayList<>();
-
-//           threads.add(new Post(1, 1, "Thread 1", "This is thread 1.", LocalDate.of(2016, 1, 1), LocalDate.of(2016, 1, 1), 2, "Course"));
-//           threads.add(new Post(2, 1, "Thread 2", "This is thread 2.", LocalDate.of(2016, 2, 1), LocalDate.of(2016, 2, 2), 2, "News"));
-//           threads.add(new Post(3, 1, "Thread 3", "This is thread 3.", LocalDate.of(2016, 3, 1), LocalDate.of(2016, 3, 2), 2, "Job Posting"));
-//           threads.add(new Post(4, 1, "Thread 4", "This is thread 4.", LocalDate.of(2016, 4, 1), LocalDate.of(2016, 4, 2), 2, "Teacher"));
-//           threads.add(new Post(5, 1, "Thread 5", "This is thread 5.", LocalDate.of(2016, 5, 1), LocalDate.of(2016, 5, 2), 2, "Club"));
         }
     }
 

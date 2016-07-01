@@ -2,6 +2,7 @@ package announcements.domain;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
@@ -45,11 +48,13 @@ public class Post implements Serializable {
     @Column(name = "views")
     private int views;
     
+    @Temporal(TemporalType.DATE)
     @Column(name = "dateCreated")
-    private LocalDate dateCreated;
+    private Date dateCreated;
     
+    @Temporal(TemporalType.DATE)
     @Column(name = "dateModified")
-    private LocalDate dateModified;
+    private Date dateModified;
     
     @Column(name = "modifiedBy")
     private int modifiedBy;
@@ -123,19 +128,19 @@ public class Post implements Serializable {
         this.active = active;
     }
     
-    public LocalDate getDateCreated() {
+    public Date getDateCreated() {
         return dateCreated;
     }
 
-    public void setDateCreated(LocalDate dateCreated) {
+    public void setDateCreated(Date dateCreated) {
         this.dateModified = dateCreated;
     }
     
-    public LocalDate getDateModified() {
+    public Date getDateModified() {
         return dateModified;
     }
 
-    public void setDateModified(LocalDate dateModified) {
+    public void setDateModified(Date dateModified) {
         this.dateModified = dateModified;
     }
 

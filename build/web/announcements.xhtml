@@ -44,11 +44,11 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <h5 class="pull-left thread-title">#{thread.title} <span class="label label-default pad-left lb-sm">#{thread.category}</span></h5>
-                                    <h5 class="pull-right"><i class="fa fa-calendar pad-right fa-lg"></i> #{thread.saved}</h5>
+                                    <h5 class="pull-right"><i class="fa fa-calendar pad-right fa-lg"></i> #{thread.dateCreated}</h5>
                                     
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <span class="thread-author">Brandon Pratt</span>
+                                            <span class="thread-author">#{UserService.getUserName(thread.author)}</span>
                                         </div>
                                     </div>
                                     
@@ -65,7 +65,7 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <ul class="list-inline pull-left">
-                                                <li><i class="fa fa-comments-o pad-right fa-lg"></i>1</li>
+                                                <li><i class="fa fa-comments-o pad-right fa-lg"></i>#{postService.commentCount(thread.parentID)}</li>
                                                 <!--<li><i class="fa fa-eye pad-right fa-lg"></i>1</li>-->
                                             </ul>
                                         </div>

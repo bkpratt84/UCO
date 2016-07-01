@@ -45,4 +45,35 @@ public class UserService {
         
         return (count != 0);
     }
+    
+    public String getUserName(int ID) throws SQLException {
+        String username = null;
+        
+        if (ds == null) {
+            throw new SQLException("ds is null; Can't get data source");
+        }
+
+        Connection conn = ds.getConnection();
+
+        if (conn == null) {
+            throw new SQLException("conn is null; Can't get db connection");
+        }
+        
+        try {
+            PreparedStatement ps = conn.prepareStatement(
+                    "SELECT username FROM user_info WHERE id = ?"
+            );
+            
+            ps.setInt(1, ID);
+            ResultSet result = ps.executeQuery();
+            
+            result.next();
+            
+            username = result.getString("username");
+        } finally {
+            conn.close();
+        }  
+        
+        return username;
+    }
 }

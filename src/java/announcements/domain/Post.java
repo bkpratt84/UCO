@@ -21,14 +21,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Post.findAll", query = "SELECT p FROM Post p"),
-    @NamedQuery(name = "Post.findByParentId", query = "SELECT p FROM Post p WHERE p.parentId = :parentId")})
+    @NamedQuery(name = "Post.findByParentId", query = "SELECT p FROM Post p WHERE p.parentId = :parentId"),
+    @NamedQuery(name = "Post.findByPostId", query = "SELECT p FROM Post p WHERE p.postId = :postId")})
 public class Post implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "postId")
-    private int postID;
+    private int postId;
     
     @Column(name = "parentId")
     private int parentId;
@@ -73,11 +74,11 @@ public class Post implements Serializable {
 //    }
 
     public int getPostID() {
-        return postID;
+        return postId;
     }
 
     public void setPostID(int postID) {
-        this.postID = postID;
+        this.postId = postID;
     }
     
     public int getParentID() {

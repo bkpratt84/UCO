@@ -15,5 +15,8 @@ CREATE TABLE post (
     primary key (postId)
 );
 
-INSERT INTO post (authorID, category, title, content, views, active, dateCreated) VALUES
-    (1, 'News', 'Announcement 1', 'This is my content', 1, true, '2015-01-01');
+INSERT INTO post (parentID, authorID, category, title, content, views, active, dateCreated) VALUES
+    (0, 1, 'News', 'Announcement 1', 'This is my content', 1, true, '2016-01-01'),
+    (1, 1, 'News', 'Comment 1', 'This is my content for comment 1', 1, true, '2016-01-02'),
+    (1, 1, 'News', 'Comment 2', 'This is my content for comment 2', 1, true, '2016-01-03'),
+    (0, 1, 'News', 'Announcement 2', 'This is my content', 1, true, '2016-01-04');

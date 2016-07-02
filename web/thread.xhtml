@@ -1,0 +1,150 @@
+<ui:composition template="/templates/mainTemplate.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="title">
+        <title>Announcements</title>
+    </ui:define>
+
+    <ui:define name="content">
+        <f:metadata>
+            <f:viewParam name="post" value="#{postCommentsController.postID}"/>
+            <f:viewAction action="#{postCommentsController.init()}" />
+        </f:metadata>
+        
+        <div class="container-fluid pad-top">
+            <div class="col-md-10 col-md-offset-1">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h5 class="pull-left thread-title pad-right">
+                                    #{postCommentsController.post.title}
+                                    <span class="label label-default pad-left lb-sm">#{postCommentsController.post.category}</span>
+                                </h5>
+                                <h5 class="pull-right pad-right">
+                                    <i class="fa fa-calendar pad-right fa-lg"></i>
+                                    
+                                    <h:outputText value="#{postCommentsController.post.dateCreated}">
+                                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                                    </h:outputText>
+                                </h5>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <span class="thread-author">#{UserService.getUserName(postCommentsController.post.author)}</span>
+                                    </div>
+                                </div>
+
+                                <hr/>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <span class="content">#{postCommentsController.post.content}</span>
+                                    </div>
+                                </div>
+
+                                <hr/>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <ul class="list-inline pull-left">
+                                            <li><i class="fa fa-comments-o pad-right fa-lg"></i>#{postService.commentCount(postCommentsController.postID)}</li>
+                                            <!--<li><i class="fa fa-eye pad-right fa-lg"></i>1</li>-->
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h:form id="frmThread">
+                                            <ul class="list-inline pull-right">
+                                                <li>
+                                                    <h:commandLink id="btnEdit" action="editThread.xhtml" styleClass="text-primary">
+                                                        <i class="fa fa-pencil pad-right fa-lg"></i>
+                                                    </h:commandLink>
+                                                </li>
+                                                <li>
+                                                    <h:commandLink id="btnDelete" action="deleteThread.xhtml" styleClass="text-danger">
+                                                        <i class="fa fa-trash pad-right fa-lg"></i>
+                                                    </h:commandLink>
+                                                </li>
+                                            </ul>
+                                        </h:form>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            
+            
+            
+            <div class="col-md-9 col-md-offset-2">
+                <ul class="list-group">
+                    <ui:repeat value="#{postCommentsController.posts}" var="post" >
+                        <li class="list-group-item">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h5 class="pull-right pad-right">
+                                        <i class="fa fa-calendar pad-right fa-lg"></i>
+                                    
+                                        <h:outputText value="#{post.dateCreated}">
+                                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                                        </h:outputText>
+                                    </h5>
+                                    <h5 class="pull-left">
+                                        <span class="comment-author">#{UserService.getUserName(post.author)}</span></h5>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <!--<span class="thread-author">#{UserService.getUserName(post.author)}</span>-->
+                                        </div>
+                                    </div>
+
+                                    <hr/>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <span class="content">#{post.content}</span>
+                                        </div>
+                                    </div>
+
+                                    <hr/>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <ul class="list-inline pull-left">
+                                            </ul>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h:form id="frmComment">
+                                                <ul class="list-inline pull-right">
+                                                    <li>
+                                                        <h:commandLink id="btnCEdit" action="editThread.xhtml" styleClass="text-primary">
+                                                            <i class="fa fa-pencil pad-right fa-lg"></i>
+                                                        </h:commandLink>
+                                                    </li>
+                                                    <li>
+                                                        <h:commandLink id="btnCDelete" action="deleteThread.xhtml" styleClass="text-danger">
+                                                            <i class="fa fa-trash pad-right fa-lg"></i>
+                                                        </h:commandLink>
+                                                    </li>
+                                                </ul>
+                                            </h:form>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </li>
+                    </ui:repeat>
+                </ul>
+            </div>
+            
+            
+            
+        </div>
+    </ui:define>
+</ui:composition>

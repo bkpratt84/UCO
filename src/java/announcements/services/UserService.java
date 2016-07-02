@@ -31,7 +31,7 @@ public class UserService {
         
         try {
             PreparedStatement ps = conn.prepareStatement(
-                    "SELECT COUNT(*) FROM user_info WHERE email = ?"
+                    "SELECT COUNT(*) FROM user_info WHERE username = ?"
             );
 
             ps.setString(1, email);

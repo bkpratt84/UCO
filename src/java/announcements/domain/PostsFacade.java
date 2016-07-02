@@ -28,4 +28,11 @@ public class PostsFacade extends AbstractFacade<Post> {
         List<Post> posts = query.getResultList();
         return posts;
     }
+    
+    public Post GetByPostId(Integer postId) {
+        Query query = em.createNamedQuery("Post.findByPostId");
+        query.setParameter("postId", postId);
+        Post post = (Post) query.getSingleResult();
+        return post;
+    }
 }

@@ -1,23 +1,77 @@
 package announcements.controllers;
 
+import announcements.domain.Post;
+import announcements.domain.PostsFacade;
+import announcements.services.UserService;
+import announcements.utility.Messages;
+import java.io.IOException;
 import java.io.Serializable;
-import javax.inject.Named;
+import java.sql.SQLException;
+import java.util.Calendar;
+import javax.ejb.EJB;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
+import javax.inject.Named;
+import javax.inject.Inject;
 
 @Named(value = "threadAddController")
 @ViewScoped
 public class ThreadAddController implements Serializable {
-    private String msg;
 
-    public String getMsg() {
-        return msg;
+    @EJB
+    PostsFacade postFacade;
+
+    @Inject
+    UserService userService;
+
+//    Post post;
+    String title;
+    String content;
+    String category;
+
+    public String getTitle() {
+        return title;
     }
 
-    public void setMsg(String msg) {
-        this.msg = msg;
+    public void setTitle(String title) {
+        this.title = title;
     }
-    
-    public String save() {
-        return null;
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public void save() throws SQLException, IOException {
+        Calendar cal = Calendar.getInstance();
+
+        String userName = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal().getName();
+
+        Post post = new Post();
+
+        post.setTitle(this.getTitle());
+        post.setContent(this.getContent());
+        post.setCategory(this.getCategory());
+        post.setDateCreated(cal.getTime());
+        post.setActive(true);
+        post.setAuthor(userService.getUserId(userName));
+
+        postFacade.create(post);
+
+        Messages.setSuccessMessage("Announcement created.");
+        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+        context.redirect(context.getRequestContextPath() + "/faces/announcements.xhtml");
     }
 }

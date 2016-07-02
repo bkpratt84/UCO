@@ -76,4 +76,35 @@ public class UserService {
         
         return username;
     }
+    
+    public int getUserId(String userName) throws SQLException {
+        int userId;
+        
+        if (ds == null) {
+            throw new SQLException("ds is null; Can't get data source");
+        }
+
+        Connection conn = ds.getConnection();
+
+        if (conn == null) {
+            throw new SQLException("conn is null; Can't get db connection");
+        }
+        
+        try {
+            PreparedStatement ps = conn.prepareStatement(
+                    "SELECT id FROM user_info WHERE username= ?"
+            );
+            
+            ps.setString(1, userName);
+            ResultSet result = ps.executeQuery();
+            
+            result.next();
+            
+            userId = result.getInt("id");
+        } finally {
+            conn.close();
+        }  
+        
+        return userId;
+    }
 }

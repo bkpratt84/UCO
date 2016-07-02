@@ -23,7 +23,11 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Post.findAll", query = "SELECT p FROM Post p"),
     @NamedQuery(name = "Post.findByParentId", query = "SELECT p FROM Post p WHERE p.parentId = :parentId")})
 public class Post implements Serializable {
-
+    
+    public Post(){
+        setViews(0);
+    }
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
@@ -61,16 +65,6 @@ public class Post implements Serializable {
     
     @Column(name = "active")
     private boolean active;
-    
-//
-//    public Post(int postID, int author, String title, String content, LocalDate dateCreated, LocalDate dateModified, int dateModifiedBy) {
-//        this.postID = postID;
-//        this.author = author;
-//        this.title = title;
-//        this.content = content;
-//        this.dateModified = this.dateModified;
-//        this.modifiedBy = modifiedBy;
-//    }
 
     public int getPostID() {
         return postID;
@@ -133,7 +127,7 @@ public class Post implements Serializable {
     }
 
     public void setDateCreated(Date dateCreated) {
-        this.dateModified = dateCreated;
+        this.dateCreated = dateCreated;
     }
     
     public Date getDateModified() {

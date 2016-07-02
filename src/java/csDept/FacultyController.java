@@ -126,7 +126,7 @@ public class FacultyController implements Serializable {
     }
 
     public void edit(Faculty f) {
-        facultyFacade.edit(f);
+        facultyFacade.update(f);
         loadAll();
     }
 

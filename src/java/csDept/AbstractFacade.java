@@ -4,6 +4,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 
 public abstract class AbstractFacade<T> {
+
     private Class<T> entityClass;
 
     public AbstractFacade(Class<T> entityClass) {
@@ -16,7 +17,21 @@ public abstract class AbstractFacade<T> {
         getEntityManager().persist(entity);
     }
 
-    public void edit(T entity) {
+    public void createOrUpdate(T entity, Integer id) {
+        if (id == null) {
+            getEntityManager().persist(entity);
+            return;
+        }
+
+        T existingEntity = this.find(id);
+        if (existingEntity == null) {
+            getEntityManager().persist(entity);
+        } else {
+            getEntityManager().merge(entity);
+        }
+    }
+
+    public void update(T entity) {
         getEntityManager().merge(entity);
     }
 
@@ -50,5 +65,5 @@ public abstract class AbstractFacade<T> {
         javax.persistence.Query q = getEntityManager().createQuery(cq);
         return ((Long) q.getSingleResult()).intValue();
     }
-    
+
 }

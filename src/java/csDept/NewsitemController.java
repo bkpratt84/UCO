@@ -91,7 +91,7 @@ public class NewsitemController implements Serializable {
     }
 
     public void edit(Newsitem c) {
-        newsitemFacade.edit(c);
+        newsitemFacade.update(c);
         load();
     }
 

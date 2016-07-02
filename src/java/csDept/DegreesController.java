@@ -78,7 +78,7 @@ public class DegreesController implements Serializable {
 
     public void edit(Degrees d) {
 
-        degreeFacade.edit(d);
+        degreeFacade.update(d);
         load();
     }
 

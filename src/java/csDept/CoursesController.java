@@ -66,7 +66,7 @@ public class CoursesController implements Serializable {
     }
 
     public void edit(Courses c) {
-        courseFacade.edit(c);
+        courseFacade.update(c);
         load();
     }
 

@@ -86,3 +86,8 @@
 .page-header {
     border-color: #B7C0C4;
 }
+
+.panel-default>.panel-heading {
+    background-color: #195481;
+    color: #feda00;
+}

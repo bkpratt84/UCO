@@ -29,7 +29,7 @@
                                     <i class="fa fa-calendar pad-right fa-lg"></i>
                                     
                                     <h:outputText value="#{postCommentsController.post.dateCreated}">
-                                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                                        <f:convertDateTime pattern="MM/dd/yyyy" />
                                     </h:outputText>
                                 </h5>
 
@@ -43,7 +43,8 @@
 
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <span class="content">#{postCommentsController.post.content}</span>
+                                        <h:outputText class="content" value="#{postCommentsController.post.content}" escape="false"/>
+                                        <!--<span class="content">#{postCommentsController.post.content}</span>-->
                                     </div>
                                 </div>
 
@@ -85,14 +86,14 @@
             <div class="col-md-9 col-md-offset-2">
                 <ul class="list-group">
                     <ui:repeat value="#{postCommentsController.posts}" var="post" >
-                        <li class="list-group-item">
+                        <li class="list-group-item pad-bottom">
                             <div class="row">
                                 <div class="col-md-12">
                                     <h5 class="pull-right pad-right">
                                         <i class="fa fa-calendar pad-right fa-lg"></i>
                                     
                                         <h:outputText value="#{post.dateCreated}">
-                                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                                            <f:convertDateTime pattern="MM/dd/yyyy" />
                                         </h:outputText>
                                     </h5>
                                     <h5 class="pull-left">
@@ -107,7 +108,7 @@
 
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <span class="content">#{post.content}</span>
+                                            <h:outputText class="content" value="#{post.content}" escape="false"/>
                                         </div>
                                     </div>
 
@@ -143,7 +144,28 @@
                 </ul>
             </div>
             
-            
+            <div class="col-md-10 col-md-offset-1">
+                <h:form id="reply">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Reply</div>
+                        <div class="panel-body">
+                            <p:editor id="editor" widgetVar="editorWidget" value="#{postCommentsController.msg}" />
+                            
+                            <div class="row pad-top">
+                                <div class="col-md-10">
+                                    <h:commandLink id="btnSave" type="submit" action="#{postCommentsController.save()}" styleClass="btn btn-primary pad-right">
+                                    <i class="fa fa-floppy-o pad-right"></i>Save
+                                    </h:commandLink>
+
+                                    <p:commandLink id="btnClear" onclick="PF('editorWidget').clear();" styleClass="btn btn-info">
+                                    <i class="fa fa-eraser pad-right"></i>Clear
+                                    </p:commandLink>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </h:form>
+            </div>
             
         </div>
     </ui:define>

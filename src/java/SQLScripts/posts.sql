@@ -1,3 +1,5 @@
+use cs_db;
+
 drop table post;
 
 CREATE TABLE post (

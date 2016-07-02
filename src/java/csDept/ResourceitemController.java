@@ -82,7 +82,7 @@ public class ResourceitemController implements Serializable {
         resource.setResourceid(resourceBean.getResourceid());
         resource.setTitle(resourceBean.getTitle());
         resource.setResourceitemCollection(list);
-        resourceFacade.edit(resource);
+        resourceFacade.update(resource);
         load();
         //return null;
     }
@@ -105,7 +105,7 @@ public class ResourceitemController implements Serializable {
         
         item.setContents(resourceItemBean.getContents());
         resourceitemFacade.create(item);
-        resourceFacade.edit(resource);
+        resourceFacade.update(resource);
         resourceItemBean.setTitle(null);
         resourceItemBean.setContents(null);
         
@@ -114,7 +114,7 @@ public class ResourceitemController implements Serializable {
     }
     
     public void edit(Resourceitem c) {
-        resourceitemFacade.edit(c);
+        resourceitemFacade.update(c);
         load();
     }
     

@@ -82,7 +82,7 @@ public class ResourceController implements Serializable {
     }
 
     public void edit(Resource c) {
-        resourceFacade.edit(c);
+        resourceFacade.update(c);
         load();
     }
 

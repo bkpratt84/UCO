@@ -4,12 +4,12 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Working/UCO/web/announcements.xhtml</file>
-            <file>file:/C:/Working/UCO/src/java/csDept/CoursesController.java</file>
             <file>file:/C:/Working/UCO/src/java/announcements/domain/PostsFacade.java</file>
             <file>file:/C:/Working/UCO/web/admin/announcements/newThread.xhtml</file>
-            <file>file:/C:/Working/UCO/src/java/announcements/services/PostService.java</file>
             <file>file:/C:/Working/UCO/src/java/announcements/domain/Post.java</file>
             <file>file:/C:/Working/UCO/src/java/announcements/controllers/ThreadAddController.java</file>
+            <file>file:/C:/Working/UCO/src/java/announcements/controllers/ThreadViewController.java</file>
+            <file>file:/C:/Working/UCO/src/java/csDept/AbstractFacade.java</file>
         </group>
     </open-files>
 </project-private>

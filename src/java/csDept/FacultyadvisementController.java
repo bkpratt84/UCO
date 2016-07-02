@@ -77,7 +77,7 @@ public class FacultyadvisementController implements Serializable {
     }
 
     public void edit(Facultyadvisement c) {
-        facultyadvisementFacade.edit(c);
+        facultyadvisementFacade.update(c);
         load();
     }
 

@@ -52,8 +52,13 @@ public class ThreadViewController implements Serializable {
 
     public void delete(int postId) {
         Post post = postFacade.GetByPostId(postId);
+        List<Post> posts = postFacade.GetByParentId(postId);
+        
+        for (Post p : posts) {
+            postFacade.remove(p);
+        }
+        
         postFacade.remove(post);
         refresh();
     }
-    
 }

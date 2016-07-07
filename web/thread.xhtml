@@ -17,6 +17,16 @@
         
         <div class="container-fluid pad-top">
             <div class="col-md-10 col-md-offset-1">
+                <h:form id="frmButtons" styleClass="pad-bottom">
+                    <h:panelGroup styleClass="pad-right">
+                        <h:commandLink id="btnNew" action="/announcements.xhtml?faces-redirect=true" styleClass="btn btn-primary">
+                        <i class="fa fa-chevron-left pad-right"></i>Back
+                        </h:commandLink>
+                    </h:panelGroup>
+                </h:form>
+            </div>
+            
+            <div class="col-md-10 col-md-offset-1">
                 <ul class="list-group">
                     <li class="list-group-item">
                         <div class="row">
@@ -44,7 +54,6 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <h:outputText class="content" value="#{postCommentsController.post.content}" escape="false"/>
-                                        <!--<span class="content">#{postCommentsController.post.content}</span>-->
                                     </div>
                                 </div>
 
@@ -53,20 +62,23 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <ul class="list-inline pull-left">
-                                            <li><i class="fa fa-comments-o pad-right fa-lg"></i>#{postService.commentCount(postCommentsController.postID)}</li>
-                                            <!--<li><i class="fa fa-eye pad-right fa-lg"></i>1</li>-->
+                                            <li>
+                                                <i class="fa fa-comments-o pad-right fa-lg"></i>
+                                                <span class="badge">#{postService.commentCount(postCommentsController.postID)}</span>
+                                            </li>
                                         </ul>
                                     </div>
                                     <div class="col-md-6">
                                         <h:form id="frmThread">
                                             <ul class="list-inline pull-right">
                                                 <li>
-                                                    <h:commandLink id="btnEdit" action="editThread.xhtml" styleClass="text-primary">
+                                                    <p:link id="btnEdit" outcome="/admin/announcements/newThread.xhtml?faces-redirect=true" styleClass="text-primary btn-edit">
                                                         <i class="fa fa-pencil pad-right fa-lg"></i>
-                                                    </h:commandLink>
+                                                        <f:param name="postId" value="#{postCommentsController.postID}" />
+                                                    </p:link>
                                                 </li>
                                                 <li>
-                                                    <h:commandLink id="btnDelete" action="deleteThread.xhtml" styleClass="text-danger">
+                                                    <h:commandLink id="btnDelete" action="#{postCommentsController.delete(postCommentsController.postID, true)}" styleClass="text-danger">
                                                         <i class="fa fa-trash pad-right fa-lg"></i>
                                                     </h:commandLink>
                                                 </li>
@@ -85,8 +97,14 @@
             
             <div class="col-md-9 col-md-offset-2">
                 <ul class="list-group">
-                    <ui:repeat value="#{postCommentsController.posts}" var="post" >
-                        <li class="list-group-item pad-bottom">
+                    <p:dataScroller rendered="#{not empty postCommentsController.posts}"
+                                    value="#{postCommentsController.posts}" var="post" chunkSize="10">
+                        <f:facet name="loader">
+                            <p:commandButton rendered="#{postCommentsController.posts.size() > 10}"
+                                             type="button" value="More" icon="ui-icon-circle-triangle-s" class="pad-top"/>
+                        </f:facet>
+                        
+                        <li class="list-group-item pad-bottom pad-top">
                             <div class="row">
                                 <div class="col-md-12">
                                     <h5 class="pull-right pad-right">
@@ -123,12 +141,12 @@
                                             <h:form id="frmComment">
                                                 <ul class="list-inline pull-right">
                                                     <li>
-                                                        <h:commandLink id="btnCEdit" action="editThread.xhtml" styleClass="text-primary">
+                                                        <h:commandLink id="btnCEdit" action="editThread.xhtml" styleClass="text-primary btn-edit">
                                                             <i class="fa fa-pencil pad-right fa-lg"></i>
                                                         </h:commandLink>
                                                     </li>
                                                     <li>
-                                                        <h:commandLink id="btnCDelete" action="deleteThread.xhtml" styleClass="text-danger">
+                                                        <h:commandLink id="btnCDelete" action="#{postCommentsController.delete(post.postID, false)}" styleClass="text-danger btn-delete">
                                                             <i class="fa fa-trash pad-right fa-lg"></i>
                                                         </h:commandLink>
                                                     </li>
@@ -140,7 +158,7 @@
                                 </div>
                             </div>
                         </li>
-                    </ui:repeat>
+                    </p:dataScroller>
                 </ul>
             </div>
             

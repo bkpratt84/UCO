@@ -34,6 +34,7 @@ public class postCommentsController implements Serializable {
     private String msg;
 
     public void init() {
+        msg = null;
         posts = postFacade.GetByParentId(postID);
         post = postFacade.GetByPostId(postID);
         
@@ -86,5 +87,26 @@ public class postCommentsController implements Serializable {
         
         init();
         RequestContext.getCurrentInstance().execute("PF('editorWidget').clear();");
+    }
+    
+    public void delete(int postId, boolean parent) throws IOException {
+        Post item = postFacade.GetByPostId(postId);
+        
+        if (parent) {
+            List<Post> items = postFacade.GetByParentId(postId);
+        
+            for (Post p : items) {
+                postFacade.remove(p);
+            }    
+        }
+        
+        postFacade.remove(item);
+        
+        if (parent) {
+            ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+            context.redirect(context.getRequestContextPath() + "/faces/announcements.xhtml");
+        } else {
+            init();
+        }
     }
 }

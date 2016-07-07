@@ -15,3 +15,15 @@
 .ui-datatable-frozenlayout-right {
     width:80%;
 }
+
+.ui-widget-content a.btn-delete {
+    color: #a94442;
+}
+
+.ui-widget-content a.btn-edit {
+    color: #337ab7;
+}
+
+.ui-widget-content a.btn-comment {
+    color: #337ab7;
+}

@@ -91,3 +91,7 @@
     background-color: #195481;
     color: #feda00;
 }
+
+a.no-underline {
+    text-decoration: none;
+}

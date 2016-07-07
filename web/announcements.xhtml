@@ -11,9 +11,9 @@
 
     <ui:define name="content">
         <div class="container-fluid pad-top">
-            <div class="page-header">
+<!--            <div class="page-header">
                 <h1>Announcements</h1>
-            </div>
+            </div>-->
             
             <div class="col-md-10 col-md-offset-1">
                 <h:form id="frmAdd" styleClass="pad-bottom">
@@ -40,8 +40,20 @@
             
             <div class="col-md-10 col-md-offset-1">
                 <ul class="list-group">
-                    <ui:repeat value="#{threadViewController.threads}" var="thread" >
-                        <li class="list-group-item pad-bottom">
+                    <h:panelGroup rendered="#{empty threadViewController.threads}">
+                        <div class="alert alert-info" role="alert">
+                            There are no announcements at this time!
+                        </div>
+                    </h:panelGroup>
+                    
+                    <p:dataScroller rendered="#{not empty threadViewController.threads}" 
+                                    value="#{threadViewController.threads}" var="thread" chunkSize="10">
+                        <f:facet name="loader">
+                            <p:commandButton rendered="#{threadViewController.threads.size() > 10}"
+                                             type="button" value="More" icon="ui-icon-circle-triangle-s" class="pad-top"/>
+                        </f:facet>
+                        
+                        <li class="list-group-item pad-bottom pad-top">
                             <div class="row">
                                 <div class="col-md-12">
                                     <h5 class="pull-left thread-title pad-right">
@@ -75,32 +87,26 @@
                                         <div class="col-md-6">
                                             <ul class="list-inline pull-left">
                                                 <li>
-                                                    <p:link outcome="thread.xhtml?faces-redirect=true" includeViewParams="true" >
-                                                        <i class="fa fa-comments-o pad-right fa-lg"></i>#{postService.commentCount(thread.postID)}
+                                                    <p:link outcome="thread.xhtml?faces-redirect=true" includeViewParams="true" styleClass="btn-comment no-underline" >
+                                                        <i class="fa fa-comments-o pad-right fa-lg"></i>
+                                                        <span class="badge">#{postService.commentCount(thread.postID)}</span>
                                                         
                                                         <f:param name="post" value="#{thread.postID}"/>
                                                     </p:link> 
-                                                    
-<!--                                                    <p:commandLink action="thread.xhtml?faces-redirect=true" >
-                                                        <i class="fa fa-comments-o pad-right fa-lg"></i>#{postService.commentCount(thread.postID)}
-                                                        
-                                                        <f:param name="post" value="#{thread.postID}"/>
-                                                    </p:commandLink> -->
                                                 </li>
-                                                <!--<li><i class="fa fa-eye pad-right fa-lg"></i>1</li>-->
                                             </ul>
                                         </div>
                                         <div class="col-md-6">
                                             <h:form id="frmThread">
                                                 <ul class="list-inline pull-right">
                                                     <li>
-                                                        <p:link id="btnEdit" outcome="/admin/announcements/newThread.xhtml?faces-redirect=true" styleClass="text-primary">
+                                                        <p:link id="btnEdit" outcome="/admin/announcements/newThread.xhtml?faces-redirect=true" styleClass="text-primary btn-edit">
                                                             <i class="fa fa-pencil pad-right fa-lg"></i>
                                                             <f:param name="postId" value="#{thread.postID}" />
                                                         </p:link>
                                                     </li>
                                                     <li>
-                                                        <h:commandLink id="btnDelete" action="#{threadViewController.delete(thread.postID)}" styleClass="text-danger">
+                                                        <h:commandLink id="btnDelete" action="#{threadViewController.delete(thread.postID)}" styleClass="text-danger btn-delete">
                                                             <i class="fa fa-trash pad-right fa-lg"></i>
                                                         </h:commandLink>
                                                     </li>
@@ -112,7 +118,7 @@
                                 </div>
                             </div>
                         </li>
-                    </ui:repeat>
+                    </p:dataScroller>
                 </ul>
             </div>
         </div>

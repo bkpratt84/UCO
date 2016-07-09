@@ -3,26 +3,25 @@ package announcements.controllers;
 import announcements.domain.Post;
 import announcements.domain.PostsFacade;
 import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
+import org.primefaces.context.RequestContext;
 
 @Named(value = "threadViewController")
 @ViewScoped
 public class ThreadViewController implements Serializable {
+
     @EJB
     PostsFacade postFacade;
 
     List<Post> threads;
-    
+
     @PostConstruct
     public void init() {
         refresh();
@@ -53,12 +52,17 @@ public class ThreadViewController implements Serializable {
     public void delete(int postId) {
         Post post = postFacade.GetByPostId(postId);
         List<Post> posts = postFacade.GetByParentId(postId);
-        
+
         for (Post p : posts) {
             postFacade.remove(p);
         }
-        
+
         postFacade.remove(post);
+
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage("Success", "Announcement deleted."));
+
         refresh();
+        RequestContext.getCurrentInstance().update("frmAdd");
     }
 }

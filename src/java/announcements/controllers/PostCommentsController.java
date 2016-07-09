@@ -18,9 +18,9 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import org.primefaces.context.RequestContext;
 
-@Named(value = "postCommentsController")
+@Named(value = "PostCommentsController")
 @ViewScoped
-public class postCommentsController implements Serializable {
+public class PostCommentsController implements Serializable {
     
     @EJB
     PostsFacade postFacade;
@@ -41,6 +41,9 @@ public class postCommentsController implements Serializable {
         if (posts == null) {
             posts = new ArrayList<>();
         }
+        
+        post.incrementViews();
+        postFacade.update(post);
     }
 
     public int getPostID() {

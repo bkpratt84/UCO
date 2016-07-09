@@ -6,27 +6,40 @@
                 xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:define name="title">
-        <title>New Announcement</title>
+        <title>Add/Edit Announcement</title>
     </ui:define>
 
     <ui:define name="content">
         <div class="container-fluid pad-top">
-            <div class="page-header">
-                <h1>New Announcement</h1>
+            <div class="col-md-10 col-md-offset-1">
+                <h:form id="frmButtons" styleClass="pad-bottom">
+                    <h:panelGroup styleClass="pad-right">
+                        <h:commandLink id="btnNew" action="/announcements.xhtml?faces-redirect=true" styleClass="btn btn-primary">
+                        <i class="fa fa-chevron-left pad-right"></i>Back
+                        </h:commandLink>
+                    </h:panelGroup>
+                </h:form>
             </div>
 
             <div class="col-md-10 col-md-offset-1">
-                <h:form id="frmAdd">
+                <h:form id="frmThreadAdd">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="sr-only" for="title">Title</label>
                                 <div class="input-group">
                                     <div class="input-group-addon"><i class="fa fa-twitch"></i></div>
+<<<<<<< HEAD
                                     <p:inputText id="title" class="form-control" placeholder="Title" value="#{threadAddController.title}" />
+=======
+                                    
+                                    <p:inputText id="title" class="form-control" placeholder="Title"
+                                                 value="#{threadAddController.title}">
+                                    </p:inputText>
+>>>>>>> dev
                                 </div>
 
-                                <p:message styleClass="error-msg" for="title" display="text"/>
+                                <p:message styleClass="error-msg" style="margin-top: 5px;" for="title" display="text"/>
                             </div>
                         </div>
 
@@ -35,15 +48,25 @@
                                 <label class="sr-only" for="category">Category</label>
                                 <div class="input-group">
                                     <div class="input-group-addon"><i class="fa fa-folder-o"></i></div>
+<<<<<<< HEAD
                                     <p:inputText id="category" class="form-control" placeholder="Category" value="#{threadAddController.category}" />
+=======
+                                    
+                                    <h:selectOneMenu id="category" class="form-control" hideNoSelectionOption="true"
+                                                     required="true" requiredMessage="Please select a Category">
+                                        <f:selectItem itemValue="" itemLabel="Select a Category" noSelectionOption="true"/>
+                                        <f:selectItem itemValue="News" itemLabel="News"/>
+                                    </h:selectOneMenu>
+>>>>>>> dev
                                 </div>
 
-                                <p:message styleClass="error-msg" for="category" display="text"/>
+                                <p:message styleClass="error-msg" style="margin-top: 5px;" for="category" display="text"/>
                             </div>
                         </div>
                     </div>
 
                     <p:editor id="editor" widgetVar="editorWidget" value="#{threadAddController.content}" />
+<<<<<<< HEAD
 
                     <div class="row pad-top">
                         <div class="col-md-10">
@@ -51,11 +74,90 @@
                                 <i class="fa fa-floppy-o pad-right"></i>Save
                             </h:commandLink>
 
+=======
+                    
+                    <p:message styleClass="error-msg" style="margin-top: 5px;" for="editor" display="text"/>
+                    
+                    <div class="row pad-top">
+                        <div class="col-md-10">
+                            <p:commandLink id="btnSave" process="@form" update="@form" type="submit" action="#{threadAddController.save}" styleClass="btn btn-primary pad-right">
+                            <i class="fa fa-floppy-o pad-right"></i>Save
+                            </p:commandLink>
+                            
+>>>>>>> dev
                             <p:commandLink id="btnClear" onclick="PF('editorWidget').clear();" styleClass="btn btn-info">
                                 <i class="fa fa-eraser pad-right"></i>Clear
                             </p:commandLink>
                         </div>
                     </div>
+                    
+                </h:form>
+                <h:form id="editor" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p:fileUpload fileUploadListener="#{threadAddController.fileUpload}" mode="advanced" dragDropSupport="false"
+                                          multiple="true" auto="false" sizeLimit="100000" update=":frmBody"
+                                allowTypes="/(\.|\/)(gif|jpe?g|png|pdf|zip)$/" style="margin-top: 10px;"/>
+                        </div>
+                    </div>
+                </h:form>
+                <h:form id="frmBody">
+                    <h:panelGroup class="row pad-top" rendered="#{threadAddController.postId == null}" layout="block">
+                        <!--<div class="row pad-top">-->
+                            <div class="col-md-12">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">Pending File Attachments</div>
+                                    <div class="panel-body">
+                                        <h:panelGroup id="pending" rendered="#{threadAddController.filesPending.size() > 0}">
+                                            <ul class="horizontal-list">
+                                                <ui:repeat value="#{threadAddController.filesPending}" var="item">
+                                                    <li>
+                                                        <p:commandLink id="btnRemove" action="#{threadAddController.removeFile(item)}"
+                                                                       styleClass="text-primary btn-edit" update="@form">
+                                                            <i class="fa fa-times pad-right fa-lg"></i>
+                                                        </p:commandLink>
+                                                        #{item.fileName}
+                                                    </li>
+                                                </ui:repeat>
+                                            </ul>
+                                        </h:panelGroup>
+                                        
+                                        <h:panelGroup id="alert" rendered="#{threadAddController.filesPending.size() == 0}">
+                                            <div class="alert alert-info" style="margin-bottom: -1px;" role="alert">No Pending File Attachments </div>
+                                        </h:panelGroup>
+                                    </div>
+                                </div>
+                            </div>
+                        <!--</div>-->
+                    </h:panelGroup>
+                    
+                    <h:panelGroup class="row pad-top" rendered="#{threadAddController.postId != null}" layout="block">
+                            <div class="col-md-12">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">File Attachments</div>
+                                    <div class="panel-body">
+                                        <h:panelGroup id="files" rendered="#{threadAddController.filesPending.size() > 0}">
+                                            <ul class="horizontal-list">
+                                                <ui:repeat value="#{threadAddController.filesPending}" var="item">
+                                                    <li>
+                                                        <p:commandLink id="btnRemoveFile" action="#{threadAddController.removeFile(item)}"
+                                                                       styleClass="text-primary btn-edit" update="@form">
+                                                            <i class="fa fa-times pad-right fa-lg"></i>
+                                                        </p:commandLink>
+                                                        #{item.fileName}
+                                                    </li>
+                                                </ui:repeat>
+                                            </ul>
+                                        </h:panelGroup>
+                                        
+                                        <h:panelGroup id="alertFile" rendered="#{threadAddController.filesPending.size() == 0}">
+                                            <div class="alert alert-info" style="margin-bottom: -1px;" role="alert">No File Attachments </div>
+                                        </h:panelGroup>
+                                    </div>
+                                </div>
+                            </div>
+                    </h:panelGroup>
+                   
                 </h:form>
             </div>
 

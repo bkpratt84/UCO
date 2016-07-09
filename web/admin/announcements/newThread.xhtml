@@ -29,14 +29,7 @@
                                 <label class="sr-only" for="title">Title</label>
                                 <div class="input-group">
                                     <div class="input-group-addon"><i class="fa fa-twitch"></i></div>
-<<<<<<< HEAD
                                     <p:inputText id="title" class="form-control" placeholder="Title" value="#{threadAddController.title}" />
-=======
-                                    
-                                    <p:inputText id="title" class="form-control" placeholder="Title"
-                                                 value="#{threadAddController.title}">
-                                    </p:inputText>
->>>>>>> dev
                                 </div>
 
                                 <p:message styleClass="error-msg" style="margin-top: 5px;" for="title" display="text"/>
@@ -48,16 +41,12 @@
                                 <label class="sr-only" for="category">Category</label>
                                 <div class="input-group">
                                     <div class="input-group-addon"><i class="fa fa-folder-o"></i></div>
-<<<<<<< HEAD
-                                    <p:inputText id="category" class="form-control" placeholder="Category" value="#{threadAddController.category}" />
-=======
                                     
                                     <h:selectOneMenu id="category" class="form-control" hideNoSelectionOption="true"
                                                      required="true" requiredMessage="Please select a Category">
                                         <f:selectItem itemValue="" itemLabel="Select a Category" noSelectionOption="true"/>
                                         <f:selectItem itemValue="News" itemLabel="News"/>
                                     </h:selectOneMenu>
->>>>>>> dev
                                 </div>
 
                                 <p:message styleClass="error-msg" style="margin-top: 5px;" for="category" display="text"/>
@@ -66,15 +55,6 @@
                     </div>
 
                     <p:editor id="editor" widgetVar="editorWidget" value="#{threadAddController.content}" />
-<<<<<<< HEAD
-
-                    <div class="row pad-top">
-                        <div class="col-md-10">
-                            <h:commandLink id="btnSave" type="submit" action="#{threadAddController.save}" styleClass="btn btn-primary pad-right">
-                                <i class="fa fa-floppy-o pad-right"></i>Save
-                            </h:commandLink>
-
-=======
                     
                     <p:message styleClass="error-msg" style="margin-top: 5px;" for="editor" display="text"/>
                     
@@ -84,7 +64,6 @@
                             <i class="fa fa-floppy-o pad-right"></i>Save
                             </p:commandLink>
                             
->>>>>>> dev
                             <p:commandLink id="btnClear" onclick="PF('editorWidget').clear();" styleClass="btn btn-info">
                                 <i class="fa fa-eraser pad-right"></i>Clear
                             </p:commandLink>

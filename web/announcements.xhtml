@@ -1,9 +1,9 @@
 <ui:composition template="/templates/mainTemplate.xhtml"
-    xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:h="http://xmlns.jcp.org/jsf/html"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:p="http://primefaces.org/ui"
-    xmlns:f="http://xmlns.jcp.org/jsf/core">
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:define name="title">
         <title>Announcements</title>
@@ -11,33 +11,38 @@
 
     <ui:define name="content">
         <div class="container-fluid pad-top">
-<!--            <div class="page-header">
-                <h1>Announcements</h1>
-            </div>-->
-            
+            <!--            <div class="page-header">
+                            <h1>Announcements</h1>
+                        </div>-->
+
             <div class="col-md-10 col-md-offset-1">
                 <h:form id="frmAdd" styleClass="pad-bottom">
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no pull-right" icon="ui-icon-close" />
+                        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes pull-right" icon="ui-icon-check" />
+                    </p:confirmDialog>
+                    <p:growl id="growl" showDetail="true" sticky="false" />
                     <h:panelGroup rendered="#{facesContext.externalContext.isUserInRole('admin')}" styleClass="pad-right">
                         <h:commandLink id="btnNew" action="/admin/announcements/newThread.xhtml" styleClass="btn btn-primary">
-                        <i class="fa fa-plus pad-right"></i>New Thread
+                            <i class="fa fa-plus pad-right"></i>New Thread
                         </h:commandLink>
                     </h:panelGroup>
-                    
+
                     <h:panelGroup rendered="#{empty request.remoteUser}" styleClass="pad-right">
                         <h:commandLink id="btnLogin" action="login.xhtml" styleClass="btn btn-primary">
-                        <i class="fa fa-plus pad-right"></i>Login
+                            <i class="fa fa-plus pad-right"></i>Login
                         </h:commandLink>
                     </h:panelGroup>
-                    
+
                     <h:panelGroup rendered="#{empty request.remoteUser}">
                         <h:commandLink id="btnRegister" action="registerStudent.xhtml" styleClass="btn btn-primary">
-                        <i class="fa fa-user-plus pad-right"></i>Register
+                            <i class="fa fa-user-plus pad-right"></i>Register
                         </h:commandLink>
                     </h:panelGroup>
 
                 </h:form>
             </div>
-            
+
             <div class="col-md-10 col-md-offset-1">
                 <ul class="list-group">
                     <h:panelGroup rendered="#{empty threadViewController.threads}">
@@ -45,14 +50,14 @@
                             There are no announcements at this time!
                         </div>
                     </h:panelGroup>
-                    
-                    <p:dataScroller rendered="#{not empty threadViewController.threads}" 
+
+                    <p:dataScroller id="threads" rendered="#{not empty threadViewController.threads}" 
                                     value="#{threadViewController.threads}" var="thread" chunkSize="10">
                         <f:facet name="loader">
                             <p:commandButton rendered="#{threadViewController.threads.size() > 10}"
                                              type="button" value="More" icon="ui-icon-circle-triangle-s" class="pad-top"/>
                         </f:facet>
-                        
+
                         <li class="list-group-item pad-bottom pad-top">
                             <div class="row">
                                 <div class="col-md-12">
@@ -66,23 +71,23 @@
                                             <f:convertDateTime pattern="dd/MM/yyyy" />
                                         </h:outputText>
                                     </h5>
-                                    
+
                                     <div class="row">
                                         <div class="col-md-12">
                                             <span class="thread-author">#{UserService.getUserName(thread.author)}</span>
                                         </div>
                                     </div>
-                                    
+
                                     <hr/>
-                                    
+
                                     <div class="row">
                                         <div class="col-md-12">
                                             <h:outputText class="content" escape="false" value="#{thread.content}"/>
                                         </div>
                                     </div>
-                                    
+
                                     <hr/>
-                                    
+
                                     <div class="row">
                                         <div class="col-md-6">
                                             <ul class="list-inline pull-left">
@@ -90,9 +95,15 @@
                                                     <p:link outcome="thread.xhtml?faces-redirect=true" includeViewParams="true" styleClass="btn-comment no-underline" >
                                                         <i class="fa fa-comments-o pad-right fa-lg"></i>
                                                         <span class="badge">#{postService.commentCount(thread.postID)}</span>
-                                                        
                                                         <f:param name="post" value="#{thread.postID}"/>
                                                     </p:link> 
+                                                </li>
+                                                <li>
+                                                    <p:link outcome="thread.xhtml?faces-redirect=true" includeViewParams="true" styleClass="btn-comment no-underline" >
+                                                        <i class="fa fa-eye pad-right fa-lg"></i>
+                                                        <span class="badge">#{thread.views}</span>
+                                                        <f:param name="post" value="#{thread.postID}"/>
+                                                    </p:link>
                                                 </li>
                                             </ul>
                                         </div>
@@ -100,21 +111,22 @@
                                             <h:form id="frmThread">
                                                 <ul class="list-inline pull-right">
                                                     <li>
-                                                        <p:link id="btnEdit" outcome="/admin/announcements/newThread.xhtml?faces-redirect=true" styleClass="text-primary btn-edit">
+                                                        <p:link id="btnEdit" outcome="/admin/announcements/newThread.xhtml?faces-redirect=true" styleClass="text-primary btn-edit" rendered="#{facesContext.externalContext.isUserInRole('admin')}">
                                                             <i class="fa fa-pencil pad-right fa-lg"></i>
                                                             <f:param name="postId" value="#{thread.postID}" />
                                                         </p:link>
                                                     </li>
                                                     <li>
-                                                        <h:commandLink id="btnDelete" action="#{threadViewController.delete(thread.postID)}" styleClass="text-danger btn-delete">
-                                                            <i class="fa fa-trash pad-right fa-lg"></i>
-                                                        </h:commandLink>
+                                                        <p:commandLink actionListener="#{threadViewController.delete(thread.postID)}" update="@" styleClass="text-danger btn-delete" rendered="#{facesContext.externalContext.isUserInRole('admin')}">
+                                                            <i class="fa fa-trash pad-right fa-lg"></i> 
+                                                            <p:confirm header="Confirm" message="Delete this announcement?" icon="ui-icon-alert" />
+                                                        </p:commandLink>
                                                     </li>
                                                 </ul>
                                             </h:form>
                                         </div>
                                     </div>
-                                    
+
                                 </div>
                             </div>
                         </li>

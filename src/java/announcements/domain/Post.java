@@ -115,6 +115,10 @@ public class Post implements Serializable {
         this.views = views;
     }
     
+    public void incrementViews() {
+        this.views++;
+    }
+    
     public boolean getActive() {
         return active;
     }

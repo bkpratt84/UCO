@@ -22,21 +22,23 @@ public class ThreadViewController implements Serializable {
 
     List<Post> threads;
 
+    String searchText;
+    
     @PostConstruct
     public void init() {
         refresh();
-
-//        String pw = "password";
-//        try {
-//            MessageDigest md = MessageDigest.getInstance("SHA-256");
-//            md.update(pw.getBytes("UTF-8")); // Change this to "UTF-16" if needed
-//            byte[] digest = md.digest();
-//            BigInteger bigInt = new BigInteger(1, digest);
-//            System.out.println(bigInt.toString(16));
-//        } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
-//        }
     }
 
+    public String getSearchText() {
+        return searchText;
+    }
+
+    public void setSearchText(String searchText) {
+        this.searchText = searchText;
+    }
+
+    
+    
     public void refresh() {
         threads = postFacade.GetByParentId(0);
 
@@ -49,6 +51,10 @@ public class ThreadViewController implements Serializable {
         return threads;
     }
 
+    public void search(String searchText) {
+        threads = postFacade.Search(searchText);
+    }
+    
     public void delete(int postId) {
         Post post = postFacade.GetByPostId(postId);
         List<Post> posts = postFacade.GetByParentId(postId);

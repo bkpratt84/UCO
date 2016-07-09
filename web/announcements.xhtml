@@ -11,10 +11,6 @@
 
     <ui:define name="content">
         <div class="container-fluid pad-top">
-            <!--            <div class="page-header">
-                            <h1>Announcements</h1>
-                        </div>-->
-
             <div class="col-md-10 col-md-offset-1">
                 <h:form id="frmAdd" styleClass="pad-bottom">
                     <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
@@ -22,6 +18,7 @@
                         <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes pull-right" icon="ui-icon-check" />
                     </p:confirmDialog>
                     <p:growl id="growl" showDetail="true" sticky="false" />
+
                     <h:panelGroup rendered="#{facesContext.externalContext.isUserInRole('admin')}" styleClass="pad-right">
                         <h:commandLink id="btnNew" action="/admin/announcements/newThread.xhtml" styleClass="btn btn-primary">
                             <i class="fa fa-plus pad-right"></i>New Thread
@@ -43,7 +40,21 @@
                 </h:form>
             </div>
 
-            <div class="col-md-10 col-md-offset-1">
+            <div class="container-fluid pad-top">
+                <h:form id="searchForm">
+                    <div class="col-md-9 col-md-offset-1">
+                        <p:inputText id="searchText" class="form-control" placeholder="Search Announcements" value="#{threadViewController.searchText}"/>
+                    </div>
+                    <div class="col-md-1">
+                        <p:commandLink id="search" actionListener="#{threadViewController.search(threadViewController.searchText)}" update="@all" styleClass="text-primary btn-edit">
+                            <i class="fa fa-search pad-right fa-lg"></i> 
+                        </p:commandLink>
+                    </div>
+                    <p:defaultCommand target="search"/>
+                </h:form>
+            </div>
+
+            <div class="col-md-10 col-md-offset-1 pad-top">
                 <ul class="list-group">
                     <h:panelGroup rendered="#{empty threadViewController.threads}">
                         <div class="alert alert-info" role="alert">
@@ -68,7 +79,7 @@
                                     <h5 class="pull-right pad-right">
                                         <i class="fa fa-calendar pad-right fa-lg"></i>
                                         <h:outputText value="#{thread.dateCreated}">
-                                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                                            <f:convertDateTime pattern="MM/dd/yyyy" />
                                         </h:outputText>
                                     </h5>
 

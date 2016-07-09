@@ -1,7 +1,6 @@
 package announcements.domain;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -22,7 +21,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Post.findAll", query = "SELECT p FROM Post p"),
     @NamedQuery(name = "Post.findByParentId", query = "SELECT p FROM Post p WHERE p.parentId = :parentId"),
-    @NamedQuery(name = "Post.findByPostId", query = "SELECT p FROM Post p WHERE p.postId = :postId")})
+    @NamedQuery(name = "Post.findByPostId", query = "SELECT p FROM Post p WHERE p.postId = :postId"),
+    @NamedQuery(name = "Post.search", query = "SELECT p FROM Post p WHERE (p.content LIKE :searchText OR p.title LIKE :searchText) AND p.parentId = 0 ORDER BY p.dateCreated desc")})
 public class Post implements Serializable {
     
     public Post(){

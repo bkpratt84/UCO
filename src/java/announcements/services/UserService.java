@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.sql.DataSource;
+import registration.User;
 
 @Named(value = "UserService")
 @RequestScoped
@@ -77,8 +78,12 @@ public class UserService {
         return username;
     }
     
+    private Integer userId;
+    
     public int getUserId(String userName) throws SQLException {
-        int userId;
+        if(userId != null){
+            return userId;
+        }
         
         if (ds == null) {
             throw new SQLException("ds is null; Can't get data source");

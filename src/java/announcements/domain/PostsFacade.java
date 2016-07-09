@@ -21,7 +21,7 @@ public class PostsFacade extends AbstractFacade<Post> {
     protected EntityManager getEntityManager() {
         return em;
     }
-
+    
     public List<Post> GetByParentId(Integer parentId) {
         Query query = em.createNamedQuery("Post.findByParentId");
         query.setParameter("parentId", parentId);
@@ -34,5 +34,12 @@ public class PostsFacade extends AbstractFacade<Post> {
         query.setParameter("postId", postId);
         Post post = (Post) query.getSingleResult();
         return post;
+    }
+    
+    public List<Post> Search(String searchText) {
+        Query query = em.createNamedQuery("Post.search");
+        query.setParameter("searchText", "%" + searchText + "%");
+        List<Post> posts = query.getResultList();
+        return posts;
     }
 }

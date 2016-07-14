@@ -20,10 +20,10 @@ public abstract class AbstractFacade<T> {
         return entity;
     }
 
-    public void createOrUpdate(T entity, Integer id) {
+    public T createOrUpdate(T entity, Integer id) {
         if (id == null) {
             getEntityManager().persist(entity);
-            return;
+            return entity;
         }
 
         T existingEntity = this.find(id);
@@ -32,6 +32,8 @@ public abstract class AbstractFacade<T> {
         } else {
             getEntityManager().merge(entity);
         }
+        
+        return entity;
     }
 
     public void update(T entity) {

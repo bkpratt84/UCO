@@ -43,7 +43,7 @@
                                     <div class="input-group-addon"><i class="fa fa-folder-o"></i></div>
                                     
                                     <h:selectOneMenu id="category" class="form-control" hideNoSelectionOption="true"
-                                                     required="true" requiredMessage="Please select a Category">
+                                                     required="true" requiredMessage="Please select a Category" value="#{threadAddController.category}">
                                         <f:selectItem itemValue="" itemLabel="Select a Category" noSelectionOption="true"/>
                                         <f:selectItem itemValue="News" itemLabel="News"/>
                                     </h:selectOneMenu>
@@ -81,7 +81,7 @@
                     </div>
                 </h:form>
                 <h:form id="frmBody">
-                    <h:panelGroup class="row pad-top" rendered="#{threadAddController.postId == null}" layout="block">
+                    <h:panelGroup class="row pad-top" rendered="true" layout="block">
                         <!--<div class="row pad-top">-->
                             <div class="col-md-12">
                                 <div class="panel panel-default">
@@ -95,7 +95,7 @@
                                                                        styleClass="text-primary btn-edit" update="@form">
                                                             <i class="fa fa-times pad-right fa-lg"></i>
                                                         </p:commandLink>
-                                                        #{item.fileName}
+                                                        #{item.fileName} (#{item.displayFileSize()})
                                                     </li>
                                                 </ui:repeat>
                                             </ul>
@@ -115,21 +115,21 @@
                                 <div class="panel panel-default">
                                     <div class="panel-heading">File Attachments</div>
                                     <div class="panel-body">
-                                        <h:panelGroup id="files" rendered="#{threadAddController.filesPending.size() > 0}">
+                                        <h:panelGroup id="files" rendered="#{threadAddController.filesAttached.size() > 0}">
                                             <ul class="horizontal-list">
-                                                <ui:repeat value="#{threadAddController.filesPending}" var="item">
+                                                <ui:repeat value="#{threadAddController.filesAttached}" var="item">
                                                     <li>
                                                         <p:commandLink id="btnRemoveFile" action="#{threadAddController.removeFile(item)}"
                                                                        styleClass="text-primary btn-edit" update="@form">
                                                             <i class="fa fa-times pad-right fa-lg"></i>
                                                         </p:commandLink>
-                                                        #{item.fileName}
+                                                        #{item.fileName} (#{item.displayFileSize()})
                                                     </li>
                                                 </ui:repeat>
                                             </ul>
                                         </h:panelGroup>
                                         
-                                        <h:panelGroup id="alertFile" rendered="#{threadAddController.filesPending.size() == 0}">
+                                        <h:panelGroup id="alertFile" rendered="#{threadAddController.filesAttached.size() == 0}">
                                             <div class="alert alert-info" style="margin-bottom: -1px;" role="alert">No File Attachments </div>
                                         </h:panelGroup>
                                     </div>

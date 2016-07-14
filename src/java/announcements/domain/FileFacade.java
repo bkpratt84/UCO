@@ -27,10 +27,18 @@ public class FileFacade extends AbstractFacade<File> {
     }
 
     public List<File> GetByPostId(Integer postID) {
-        Query query = em.createNamedQuery("File.findByPostId");
+        Query query = em.createNamedQuery("File.findByPostID");
         query.setParameter("postID", postID);
         List<File> files = query.getResultList();
         
         return files;
+    }
+    
+    public File GetByFileID(Integer fileID) {
+        Query query = em.createNamedQuery("File.findByFileID");
+        query.setParameter("fileID", fileID);
+        File file = (File) query.getSingleResult();
+        
+        return file;
     }
 }

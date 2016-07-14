@@ -1,5 +1,7 @@
 package announcements.controllers;
 
+import announcements.domain.File;
+import announcements.domain.FileFacade;
 import announcements.domain.Post;
 import announcements.domain.PostsFacade;
 import announcements.services.UserService;
@@ -16,14 +18,18 @@ import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import org.omnifaces.util.Faces;
 import org.primefaces.context.RequestContext;
 
-@Named(value = "PostCommentsController")
+@Named(value = "postCommentsController")
 @ViewScoped
 public class PostCommentsController implements Serializable {
     
     @EJB
     PostsFacade postFacade;
+    
+    @EJB
+    FileFacade fileFacade;
     
     @Inject
     UserService userService;
@@ -32,11 +38,19 @@ public class PostCommentsController implements Serializable {
     private List<Post> posts;
     private Post post;
     private String msg;
+    
+    List<File> filesAttached;
 
     public void init() {
         msg = null;
-        posts = postFacade.GetByParentId(postID);
+        posts = postFacade.GetByParentId(postID, false);
         post = postFacade.GetByPostId(postID);
+        
+        if (filesAttached == null) {
+            filesAttached = new ArrayList<>();
+        }
+        
+        filesAttached = fileFacade.GetByPostId(postID);
         
         if (posts == null) {
             posts = new ArrayList<>();
@@ -69,6 +83,10 @@ public class PostCommentsController implements Serializable {
     public void setMsg(String msg) {
         this.msg = msg;
     }
+
+    public List<File> getFilesAttached() {
+        return filesAttached;
+    }
     
     public void save() throws SQLException, IOException {
         Calendar cal = Calendar.getInstance();
@@ -96,7 +114,7 @@ public class PostCommentsController implements Serializable {
         Post item = postFacade.GetByPostId(postId);
         
         if (parent) {
-            List<Post> items = postFacade.GetByParentId(postId);
+            List<Post> items = postFacade.GetByParentId(postId, false);
         
             for (Post p : items) {
                 postFacade.remove(p);
@@ -111,5 +129,9 @@ public class PostCommentsController implements Serializable {
         } else {
             init();
         }
+    }
+    
+    public void download(File file) throws IOException {
+        Faces.sendFile(file.getFileContent(), file.getFileName(), true);
     }
 }

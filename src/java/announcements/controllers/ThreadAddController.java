@@ -1,6 +1,7 @@
 package announcements.controllers;
 
 import announcements.domain.File;
+import announcements.domain.FileFacade;
 import announcements.domain.Post;
 import announcements.domain.PostsFacade;
 import announcements.services.UserService;
@@ -29,6 +30,9 @@ public class ThreadAddController implements Serializable {
 
     @EJB
     PostsFacade postFacade;
+    
+    @EJB
+    FileFacade fileFacade;
 
     @Inject
     UserService userService;
@@ -43,12 +47,21 @@ public class ThreadAddController implements Serializable {
     String category;
     
     List<File> filesAttached;
+    List<File> filesToDelete;
     List<File> filesPending;
 
     @PostConstruct
     public void ThreadAddController() {
         if (filesPending == null) {
             filesPending = new ArrayList<>();
+        }
+        
+        if (filesAttached == null) {
+            filesAttached = new ArrayList<>();
+        }
+        
+        if (filesToDelete == null) {
+            filesToDelete = new ArrayList<>();
         }
         
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
@@ -63,6 +76,8 @@ public class ThreadAddController implements Serializable {
         setTitle(post.getTitle());
         setContent(post.getContent());
         setCategory(post.getCategory());
+        
+        filesAttached = fileFacade.GetByPostId(postId);
     }
 
     public String getTitle() {
@@ -116,6 +131,10 @@ public class ThreadAddController implements Serializable {
             post = postFacade.GetByPostId(postId);
             post.setDateModified(cal.getTime());
             post.setModifiedBy(userId);
+            
+            for (File f : filesToDelete) {
+                fileFacade.remove(f);
+            }
         } else {
             post.setDateCreated(cal.getTime());
             post.setAuthor(userId);
@@ -126,15 +145,24 @@ public class ThreadAddController implements Serializable {
         post.setCategory(this.getCategory());
         post.setActive(true);
         
-        System.out.println(String.valueOf(this.getContent().length()));
-        postFacade.createOrUpdate(post, postId);
-        //Post p = postFacade.createOrUpdate(post, postId);
+        Post p = postFacade.createOrUpdate(post, postId);
         
-        //System.out.println(String.valueOf(p.getPostID()));
+        persistFiles(filesPending, p.getPostID(), userId);
+        
+        p.setFileCount(postFacade.GetFileCount(p.getPostID()));
+        postFacade.createOrUpdate(p, p.getPostID());
         
         Messages.setSuccessMessage("Announcement created.");
         ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
         context.redirect(context.getRequestContextPath() + "/faces/announcements.xhtml");
+    }
+    
+    private void persistFiles(List<File> files, Integer postID, int ownerID) {
+        for (File f : files) {
+            f.setPostID(postID);
+            f.setOwnerID(ownerID);
+            fileFacade.createOrUpdate(f, postID);
+        }
     }
     
     public void fileUpload(FileUploadEvent event) {
@@ -150,6 +178,11 @@ public class ThreadAddController implements Serializable {
     }
     
     public void removeFile(File file) {
-        filesPending.remove(file);
+        if (postId != null) {
+            filesToDelete.add(file);
+            filesAttached.remove(file);
+        } else {
+            filesPending.remove(file);
+        }
     }
 }

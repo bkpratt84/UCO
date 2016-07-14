@@ -11,15 +11,15 @@
 
     <ui:define name="content">
         <f:metadata>
-            <f:viewParam name="post" value="#{PostCommentsController.postID}"/>
-            <f:viewAction action="#{PostCommentsController.init()}" />
+            <f:viewParam name="post" value="#{postCommentsController.postID}"/>
+            <f:viewAction action="#{postCommentsController.init()}" />
         </f:metadata>
 
         <div class="container-fluid pad-top">
             <div class="col-md-10 col-md-offset-1">
                 <h:form id="frmButtons" styleClass="pad-bottom">
                     <h:panelGroup styleClass="pad-right">
-                        <h:commandLink id="btnNew" action="/announcements.xhtml?faces-redirect=true" styleClass="btn btn-primary">
+                        <h:commandLink id="btnBack" action="/announcements.xhtml?faces-redirect=true" styleClass="btn btn-primary">
                             <i class="fa fa-chevron-left pad-right"></i>Back
                         </h:commandLink>
                     </h:panelGroup>
@@ -32,20 +32,20 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <h5 class="pull-left thread-title pad-right">
-                                    #{PostCommentsController.post.title}
-                                    <span class="label label-default pad-left lb-sm">#{PostCommentsController.post.category}</span>
+                                    #{postCommentsController.post.title}
+                                    <span class="label label-default pad-left lb-sm">#{postCommentsController.post.category}</span>
                                 </h5>
                                 <h5 class="pull-right pad-right">
                                     <i class="fa fa-calendar pad-right fa-lg"></i>
 
-                                    <h:outputText value="#{PostCommentsController.post.dateCreated}">
+                                    <h:outputText value="#{postCommentsController.post.dateCreated}">
                                         <f:convertDateTime pattern="MM/dd/yyyy" />
                                     </h:outputText>
                                 </h5>
 
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <span class="thread-author">#{UserService.getUserName(PostCommentsController.post.author)}</span>
+                                        <span class="thread-author">#{UserService.getUserName(postCommentsController.post.author)}</span>
                                     </div>
                                 </div>
 
@@ -53,9 +53,30 @@
 
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <h:outputText class="content" value="#{PostCommentsController.post.content}" escape="false"/>
+                                        <h:outputText class="content" value="#{postCommentsController.post.content}" escape="false"/>
                                     </div>
                                 </div>
+                                
+                                <h:form id="frmDownload">
+                                <h:panelGroup class="row pad-top" style="margin-bottom: -20px;" layout="block" rendered="#{not empty postCommentsController.filesAttached}">
+                                     <div class="col-md-12">
+                                         <div class="well well-sm">
+                                            <i class="fa fa-paperclip pad-right fa-lg icon-color"></i>Attached Files
+                                            <div class="row">
+                                                <ul class="horizontal-list">
+                                                    <ui:repeat value="#{postCommentsController.filesAttached}" var="item">
+                                                        <li>
+                                                            <p:commandLink id="download" action="#{postCommentsController.download(item)}"
+                                                                           value="#{item.fileName}" ajax="false" styleClass="pad-right"/>
+                                                            (#{item.displayFileSize()})
+                                                        </li>
+                                                    </ui:repeat>
+                                                </ul>
+                                            </div>
+                                         </div>
+                                     </div>
+                                </h:panelGroup>
+                                </h:form>
 
                                 <hr/>
 
@@ -63,12 +84,16 @@
                                     <div class="col-md-6">
                                         <ul class="list-inline pull-left">
                                             <li>
-                                                <i class="fa fa-comments-o pad-right fa-lg"></i>
-                                                <span class="badge">#{postService.commentCount(PostCommentsController.postID)}</span>
+                                                <i class="fa fa-comments-o pad-right fa-lg icon-color"></i>
+                                                <span class="badge">#{postService.commentCount(postCommentsController.postID)}</span>
                                             </li>
                                             <li>
-                                                <i class="fa fa-eye pad-right fa-lg"></i>
-                                                <span class="badge">#{PostCommentsController.post.views}</span>
+                                                <i class="fa fa-eye pad-right fa-lg icon-color"></i>
+                                                <span class="badge">#{postCommentsController.post.views}</span>
+                                            </li>
+                                            <li>
+                                                <i class="fa fa-paperclip pad-right fa-lg icon-color"></i>
+                                                <span class="badge">#{postCommentsController.post.fileCount}</span>
                                             </li>
                                         </ul>
                                     </div>
@@ -82,11 +107,11 @@
                                                 <li>
                                                     <p:link id="btnEdit" outcome="/admin/announcements/newThread.xhtml?faces-redirect=true" styleClass="text-primary btn-edit" rendered="#{facesContext.externalContext.isUserInRole('admin')}">
                                                         <i class="fa fa-pencil pad-right fa-lg"></i>
-                                                        <f:param name="postId" value="#{PostCommentsController.postID}" />
+                                                        <f:param name="postId" value="#{postCommentsController.postID}" />
                                                     </p:link>
                                                 </li>
                                                 <li>
-                                                    <p:commandLink id="btnDelete" actionListener="#{PostCommentsController.delete(PostCommentsController.postID, true)}" styleClass="text-danger btn-delete" rendered="#{facesContext.externalContext.isUserInRole('admin')}">
+                                                    <p:commandLink id="btnDelete" update="@all" actionListener="#{postCommentsController.delete(postCommentsController.postID, true)}" styleClass="text-danger btn-delete" rendered="#{facesContext.externalContext.isUserInRole('admin')}">
                                                         <i class="fa fa-trash pad-right fa-lg"></i> 
                                                         <p:confirm header="Confirm" message="Delete this announcement?" icon="ui-icon-alert" />
                                                     </p:commandLink>
@@ -106,10 +131,10 @@
 
             <div class="col-md-9 col-md-offset-2">
                 <ul class="list-group">
-                    <p:dataScroller rendered="#{not empty PostCommentsController.posts}"
-                                    value="#{PostCommentsController.posts}" var="post" chunkSize="10">
+                    <p:dataScroller rendered="#{not empty postCommentsController.posts}"
+                                    value="#{postCommentsController.posts}" var="post" chunkSize="10">
                         <f:facet name="loader">
-                            <p:commandButton rendered="#{PostCommentsController.posts.size() > 10}"
+                            <p:commandButton rendered="#{postCommentsController.posts.size() > 10}"
                                              type="button" value="More" icon="ui-icon-circle-triangle-s" class="pad-top"/>
                         </f:facet>
 
@@ -124,12 +149,9 @@
                                         </h:outputText>
                                     </h5>
                                     <h5 class="pull-left">
-                                        <span class="comment-author">#{UserService.getUserName(post.author)}</span></h5>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <!--<span class="thread-author">#{UserService.getUserName(post.author)}</span>-->
-                                        </div>
-                                    </div>
+                                        <span class="comment-author">#{UserService.getUserName(post.author)}</span>
+                                    </h5>
+                                    <div class="row"></div>
 
                                     <hr/>
 
@@ -155,7 +177,7 @@
                                                         </h:commandLink>
                                                     </li>
                                                     <li>
-                                                        <p:commandLink id="btnDelete" actionListener="#{PostCommentsController.delete(post.postID, false)}" update="@all" styleClass="text-danger btn-delete" rendered="#{facesContext.externalContext.isUserInRole('admin') || (request.remoteUser != null and UserService.getUserId(facesContext.externalContext.userPrincipal.name) == post.author)}">
+                                                        <p:commandLink id="btnDelete" actionListener="#{postCommentsController.delete(post.postID, false)}" update="@all" styleClass="text-danger btn-delete" rendered="#{facesContext.externalContext.isUserInRole('admin') || (request.remoteUser != null and UserService.getUserId(facesContext.externalContext.userPrincipal.name) == post.author)}">
                                                             <i class="fa fa-trash pad-right fa-lg"></i> 
                                                             <p:confirm header="Confirm" message="Delete this post?" icon="ui-icon-alert" />
                                                         </p:commandLink>
@@ -172,28 +194,30 @@
                 </ul>
             </div>
 
-            <div class="col-md-10 col-md-offset-1">
-                <h:form id="reply">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">Reply</div>
-                        <div class="panel-body">
-                            <p:editor id="editor" widgetVar="editorWidget" value="#{PostCommentsController.msg}" />
+            <h:panelGroup rendered="#{not empty request.remoteUser}">
+                <div class="col-md-10 col-md-offset-1">
+                    <h:form id="reply">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">Reply</div>
+                            <div class="panel-body">
+                                <p:editor id="editor" widgetVar="editorWidget" value="#{postCommentsController.msg}" />
 
-                            <div class="row pad-top">
-                                <div class="col-md-10">
-                                    <h:commandLink id="btnSave" type="submit" action="#{PostCommentsController.save()}" styleClass="btn btn-primary pad-right">
-                                        <i class="fa fa-floppy-o pad-right"></i>Save
-                                    </h:commandLink>
+                                <div class="row pad-top">
+                                    <div class="col-md-10">
+                                        <h:commandLink id="btnSave" type="submit" action="#{postCommentsController.save()}" styleClass="btn btn-primary pad-right">
+                                            <i class="fa fa-floppy-o pad-right"></i>Save
+                                        </h:commandLink>
 
-                                    <p:commandLink id="btnClear" onclick="PF('editorWidget').clear();" styleClass="btn btn-info">
-                                        <i class="fa fa-eraser pad-right"></i>Clear
-                                    </p:commandLink>
+                                        <p:commandLink id="btnClear" onclick="PF('editorWidget').clear();" styleClass="btn btn-info">
+                                            <i class="fa fa-eraser pad-right"></i>Clear
+                                        </p:commandLink>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </h:form>
-            </div>
+                    </h:form>
+                </div>
+            </h:panelGroup>
 
         </div>
     </ui:define>

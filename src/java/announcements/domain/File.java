@@ -1,5 +1,6 @@
 package announcements.domain;
 
+import announcements.utility.Utility;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -7,9 +8,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -22,7 +26,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "File.findAll", query = "SELECT f FROM File f"),
-    @NamedQuery(name = "File.findByPostID", query = "SELECT f FROM File f WHERE f.postID = :postID")})
+    @NamedQuery(name = "File.findByPostID", query = "SELECT f FROM File f WHERE f.postID = :postID"),
+    @NamedQuery(name = "File.findByFileID", query = "SELECT f FROM File f WHERE f.id = :fileID")})
 public class File implements Serializable {
         
     @Id
@@ -33,6 +38,9 @@ public class File implements Serializable {
     
     @Column(name = "postID")
     private int postID;
+    
+    @Column(name = "OWNER_ID")
+    private int ownerID;
     
     @Column(name = "FILE_NAME")
     private String fileName;
@@ -46,6 +54,10 @@ public class File implements Serializable {
     @Lob
     @Column(name = "FILE_CONTENTS")
     private byte[] fileContent;
+    
+    @ManyToOne
+    @PrimaryKeyJoinColumn(name = "postId")
+    private Post post;
 
     public File() {
         
@@ -104,5 +116,25 @@ public class File implements Serializable {
 
     public void setFileContent(byte[] fileContent) {
         this.fileContent = fileContent;
+    }
+
+    public int getOwnerID() {
+        return ownerID;
+    }
+
+    public void setOwnerID(int ownerID) {
+        this.ownerID = ownerID;
+    }
+    
+    public String displayFileSize() {
+        return Utility.convertBytes(fileSize, true);
+    }
+
+    public Post getPost() {
+        return post;
+    }
+
+    public void setPost(Post post) {
+        this.post = post;
     }
 }

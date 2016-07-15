@@ -23,6 +23,7 @@ public abstract class AbstractFacade<T> {
     public T createOrUpdate(T entity, Integer id) {
         if (id == null) {
             getEntityManager().persist(entity);
+            getEntityManager().flush();
             return entity;
         }
 
@@ -32,6 +33,8 @@ public abstract class AbstractFacade<T> {
         } else {
             getEntityManager().merge(entity);
         }
+        
+        getEntityManager().flush();
         
         return entity;
     }

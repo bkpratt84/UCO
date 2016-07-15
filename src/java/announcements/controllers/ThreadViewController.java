@@ -18,11 +18,11 @@ import org.primefaces.context.RequestContext;
 public class ThreadViewController implements Serializable {
 
     @EJB
-    PostsFacade postFacade;
+    private PostsFacade postFacade;
 
-    List<Post> threads;
+    private List<Post> threads;
 
-    String searchText;
+    private String searchText;
     
     @PostConstruct
     public void init() {

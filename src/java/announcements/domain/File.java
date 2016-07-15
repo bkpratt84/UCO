@@ -19,7 +19,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author foxra
+ * @author
  */
 @Entity
 @Table(name = "FILES")
@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "File.findByPostID", query = "SELECT f FROM File f WHERE f.postID = :postID"),
     @NamedQuery(name = "File.findByFileID", query = "SELECT f FROM File f WHERE f.id = :fileID")})
 public class File implements Serializable {
-        
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
@@ -58,7 +58,7 @@ public class File implements Serializable {
     @ManyToOne
     @PrimaryKeyJoinColumn(name = "postId")
     private Post post;
-
+   
     public File() {
         
     }

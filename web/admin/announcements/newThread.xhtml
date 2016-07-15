@@ -42,12 +42,13 @@
                                 <div class="input-group">
                                     <div class="input-group-addon"><i class="fa fa-folder-o"></i></div>
                                     
-                                    <h:selectOneMenu id="category" class="form-control" hideNoSelectionOption="true"
+                                    <h:selectOneMenu id="category" class="form-control" hideNoSelectionOption="true" converter="omnifaces.SelectItemsConverter"
                                                      required="true" requiredMessage="Please select a Category" value="#{threadAddController.category}">
                                         <f:selectItem itemValue="" itemLabel="Select a Category" noSelectionOption="true"/>
-                                        <f:selectItem itemValue="News" itemLabel="News"/>
+                                        <f:selectItems value="#{threadAddController.categories}" var="item"
+                                                       itemLabel="#{item.category}" itemValue="#{item}"/>
                                     </h:selectOneMenu>
-                                </div>
+                                </div>            
 
                                 <p:message styleClass="error-msg" style="margin-top: 5px;" for="category" display="text"/>
                             </div>

@@ -1,5 +1,7 @@
 package announcements.controllers;
 
+import announcements.domain.Category;
+import announcements.domain.CategoryFacade;
 import announcements.domain.File;
 import announcements.domain.FileFacade;
 import announcements.domain.Post;
@@ -29,26 +31,30 @@ import org.primefaces.model.UploadedFile;
 public class ThreadAddController implements Serializable {
 
     @EJB
-    PostsFacade postFacade;
+    private PostsFacade postFacade;
     
     @EJB
-    FileFacade fileFacade;
+    private FileFacade fileFacade;
+    
+    @EJB
+    private CategoryFacade categoryFacade;
 
     @Inject
-    UserService userService;
+    private UserService userService;
 
-    Integer postId;
+    private Integer postId;
     
     @Size(min = 5, max = 255, message = "Enter a title between 5 and 255 characters.")
-    String title;
+    private String title;
     
     @Size(min = 1, message = "Please enter a message.")
-    String content;
-    String category;
+    private String content;
+    private Category category;
     
-    List<File> filesAttached;
-    List<File> filesToDelete;
-    List<File> filesPending;
+    private List<File> filesAttached;
+    private List<File> filesToDelete;
+    private List<File> filesPending;
+    private List<Category> categories;
 
     @PostConstruct
     public void ThreadAddController() {
@@ -64,6 +70,10 @@ public class ThreadAddController implements Serializable {
             filesToDelete = new ArrayList<>();
         }
         
+        if (categories == null) {
+            categories = categoryFacade.findAll();
+        }
+        
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         String id = request.getParameter("postId");
         if (id == null) {
@@ -73,9 +83,11 @@ public class ThreadAddController implements Serializable {
         postId = Integer.parseInt(id);
 
         Post post = postFacade.GetByPostId(postId);
+        Category cat = categoryFacade.GetByCategoryID(post.getCategoryId());
+        
         setTitle(post.getTitle());
         setContent(post.getContent());
-        setCategory(post.getCategory());
+        setCategory(cat);
         
         filesAttached = fileFacade.GetByPostId(postId);
     }
@@ -96,11 +108,11 @@ public class ThreadAddController implements Serializable {
         this.content = content;
     }
 
-    public String getCategory() {
+    public Category getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(Category category) {
         this.category = category;
     }
 
@@ -110,6 +122,10 @@ public class ThreadAddController implements Serializable {
 
     public List<File> getFilesPending() {
         return filesPending;
+    }
+
+    public List<Category> getCategories() {
+        return categories;
     }
 
     public Integer getPostId() {
@@ -142,7 +158,8 @@ public class ThreadAddController implements Serializable {
 
         post.setTitle(this.getTitle());
         post.setContent(this.getContent());
-        post.setCategory(this.getCategory());
+        post.setCategoryId(this.category.getCategoryID());
+        post.setCategory(category);
         post.setActive(true);
         
         Post p = postFacade.createOrUpdate(post, postId);

@@ -76,7 +76,9 @@
                                 <div class="col-md-12">
                                     <h5 class="pull-left thread-title pad-right">
                                         #{thread.title}
-                                        <span class="label label-default pad-left lb-sm">#{thread.category}</span>
+                                        <span class="label label-default pad-left lb-sm" style="background-color: ##{thread.category.colorCode};">
+                                            #{thread.category.category}
+                                        </span>
                                     </h5>
                                     <h5 class="pull-right pad-right">
                                         <i class="fa fa-calendar pad-right fa-lg"></i>

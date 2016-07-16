@@ -1,7 +1,7 @@
 package announcements.controllers;
 
 import announcements.domain.Post;
-import announcements.domain.PostsFacade;
+import announcements.domain.PostRepository;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +18,7 @@ import org.primefaces.context.RequestContext;
 public class ThreadViewController implements Serializable {
 
     @EJB
-    private PostsFacade postFacade;
+    private PostRepository postFacade;
 
     private List<Post> threads;
 
@@ -38,7 +38,7 @@ public class ThreadViewController implements Serializable {
     }
 
     public void refresh() {
-        threads = postFacade.GetByParentId(0, true);
+        threads = postFacade.getByParentId(0, true);
 
         if (threads == null) {
             threads = new ArrayList<>();
@@ -50,18 +50,18 @@ public class ThreadViewController implements Serializable {
     }
 
     public void search(String searchText) {
-        threads = postFacade.Search(searchText);
+        threads = postFacade.search(searchText);
     }
     
     public void delete(int postId) {
-        Post post = postFacade.GetByPostId(postId);
-        List<Post> posts = postFacade.GetByParentId(postId, true);
+        Post post = postFacade.getByPostId(postId);
+        List<Post> posts = postFacade.getByParentId(postId, true);
 
         for (Post p : posts) {
-            postFacade.remove(p);
+            postFacade.softDelete(p);
         }
 
-        postFacade.remove(post);
+        postFacade.softDelete(post);
 
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage("Success", "Announcement deleted."));

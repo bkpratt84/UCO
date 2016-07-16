@@ -7,7 +7,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 @Stateless
-public class FacultyFacade extends AbstractFacade<Faculty> {
+public class FacultyFacade extends AbstractRepository<Faculty> {
 
     @PersistenceContext(unitName = "CSWebsitePU")
     private EntityManager em;

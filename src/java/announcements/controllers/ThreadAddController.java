@@ -1,11 +1,11 @@
 package announcements.controllers;
 
 import announcements.domain.Category;
-import announcements.domain.CategoryFacade;
+import announcements.domain.CategoryRepository;
 import announcements.domain.File;
-import announcements.domain.FileFacade;
+import announcements.domain.FileRepository;
 import announcements.domain.Post;
-import announcements.domain.PostsFacade;
+import announcements.domain.PostRepository;
 import announcements.services.UserService;
 import announcements.utility.Messages;
 import java.io.IOException;
@@ -31,13 +31,13 @@ import org.primefaces.model.UploadedFile;
 public class ThreadAddController implements Serializable {
 
     @EJB
-    private PostsFacade postFacade;
+    private PostRepository postFacade;
     
     @EJB
-    private FileFacade fileFacade;
+    private FileRepository fileFacade;
     
     @EJB
-    private CategoryFacade categoryFacade;
+    private CategoryRepository categoryFacade;
 
     @Inject
     private UserService userService;
@@ -82,7 +82,7 @@ public class ThreadAddController implements Serializable {
 
         postId = Integer.parseInt(id);
 
-        Post post = postFacade.GetByPostId(postId);
+        Post post = postFacade.getByPostId(postId);
         Category cat = categoryFacade.GetByCategoryID(post.getCategoryId());
         
         setTitle(post.getTitle());
@@ -144,7 +144,7 @@ public class ThreadAddController implements Serializable {
         int userId = userService.getUserId(userName);    
         
         if (postId != null) {
-            post = postFacade.GetByPostId(postId);
+            post = postFacade.getByPostId(postId);
             post.setDateModified(cal.getTime());
             post.setModifiedBy(userId);
             
@@ -166,7 +166,7 @@ public class ThreadAddController implements Serializable {
         
         persistFiles(filesPending, p.getPostID(), userId);
         
-        p.setFileCount(postFacade.GetFileCount(p.getPostID()));
+        p.setFileCount(postFacade.getFileCount(p.getPostID()));
         postFacade.createOrUpdate(p, p.getPostID());
         
         Messages.setSuccessMessage("Announcement created.");

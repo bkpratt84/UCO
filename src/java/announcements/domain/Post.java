@@ -14,7 +14,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -24,11 +23,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "POST")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Post.findAll", query = "SELECT p FROM Post p"),
-    @NamedQuery(name = "Post.findByParentIdDesc", query = "SELECT p FROM Post p WHERE p.parentId = :parentId ORDER BY p.postId DESC"),
-    @NamedQuery(name = "Post.findByParentIdAsc", query = "SELECT p FROM Post p WHERE p.parentId = :parentId ORDER BY p.postId ASC"),
+    @NamedQuery(name = "Post.findAll", query = "SELECT p FROM Post p WHERE p.active = true"),
+    @NamedQuery(name = "Post.findByParentIdDesc", query = "SELECT p FROM Post p WHERE p.parentId = :parentId AND p.active = true ORDER BY p.dateCreated DESC"),
+    @NamedQuery(name = "Post.findByParentIdAsc", query = "SELECT p FROM Post p WHERE p.parentId = :parentId AND p.active = true ORDER BY p.dateCreated ASC"),
     @NamedQuery(name = "Post.findByPostId", query = "SELECT p FROM Post p WHERE p.postId = :postId"),
-    @NamedQuery(name = "Post.search", query = "SELECT p FROM Post p WHERE (p.content LIKE :searchText OR p.title LIKE :searchText) AND p.parentId = 0 ORDER BY p.dateCreated desc"),
+    @NamedQuery(name = "Post.search", query = "SELECT p FROM Post p WHERE (p.content LIKE :searchText OR p.title LIKE :searchText) AND p.parentId = 0 AND p.active = true ORDER BY p.dateCreated desc"),
     @NamedQuery(name = "Post.getFileCount", query = "SELECT COUNT(f) as ttl FROM Post p LEFT JOIN p.files as f WHERE p.postId = :postId GROUP BY p.postId"),
 })
 public class Post implements Serializable {
@@ -62,11 +61,11 @@ public class Post implements Serializable {
     @Column(name = "views")
     private int views;
     
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "dateCreated")
     private Date dateCreated;
     
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "dateModified")
     private Date dateModified;
     

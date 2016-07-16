@@ -1,9 +1,9 @@
 package announcements.controllers;
 
 import announcements.domain.File;
-import announcements.domain.FileFacade;
+import announcements.domain.FileRepository;
 import announcements.domain.Post;
-import announcements.domain.PostsFacade;
+import announcements.domain.PostRepository;
 import announcements.services.UserService;
 import announcements.utility.Messages;
 import java.io.IOException;
@@ -26,10 +26,10 @@ import org.primefaces.context.RequestContext;
 public class PostCommentsController implements Serializable {
     
     @EJB
-    PostsFacade postFacade;
+    PostRepository postFacade;
     
     @EJB
-    FileFacade fileFacade;
+    FileRepository fileFacade;
     
     @Inject
     UserService userService;
@@ -43,8 +43,8 @@ public class PostCommentsController implements Serializable {
 
     public void init() {
         msg = null;
-        posts = postFacade.GetByParentId(postID, false);
-        post = postFacade.GetByPostId(postID);
+        posts = postFacade.getByParentId(postID, false);
+        post = postFacade.getByPostId(postID);
         
         if (filesAttached == null) {
             filesAttached = new ArrayList<>();
@@ -111,17 +111,17 @@ public class PostCommentsController implements Serializable {
     }
     
     public void delete(int postId, boolean parent) throws IOException {
-        Post item = postFacade.GetByPostId(postId);
+        Post item = postFacade.getByPostId(postId);
         
         if (parent) {
-            List<Post> items = postFacade.GetByParentId(postId, false);
+            List<Post> items = postFacade.getByParentId(postId, false);
         
             for (Post p : items) {
-                postFacade.remove(p);
+                postFacade.softDelete(p);
             }    
         }
         
-        postFacade.remove(item);
+        postFacade.softDelete(item);
         
         if (parent) {
             ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();

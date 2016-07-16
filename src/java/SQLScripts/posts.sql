@@ -11,8 +11,8 @@ CREATE TABLE post (
     content text NOT NULL,
     views integer NOT NULL,
     active boolean NOT NULL,
-    dateCreated date NOT NULL,
-    dateModified date,
+    dateCreated datetime NOT NULL,
+    dateModified datetime,
     modifiedBy int,
     fileCount long NOT NULL,
     primary key (postId)

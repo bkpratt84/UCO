@@ -9,7 +9,7 @@ import javax.persistence.Query;
 
 
 @Stateless
-public class ResourceFacade extends AbstractFacade<Resource> {
+public class ResourceFacade extends AbstractRepository<Resource> {
 
     @PersistenceContext(unitName = "CSWebsitePU")
     private EntityManager em;

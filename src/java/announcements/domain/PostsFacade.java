@@ -22,8 +22,14 @@ public class PostsFacade extends AbstractFacade<Post> {
         return em;
     }
     
-    public List<Post> GetByParentId(Integer parentId) {
-        Query query = em.createNamedQuery("Post.findByParentId");
+    public List<Post> GetByParentId(Integer parentId, boolean desc) {
+        Query query;
+        
+        if (desc) {
+            query = em.createNamedQuery("Post.findByParentIdDesc");
+        } else {
+            query = em.createNamedQuery("Post.findByParentIdAsc");
+        }
         query.setParameter("parentId", parentId);
         List<Post> posts = query.getResultList();
         return posts;
@@ -41,5 +47,12 @@ public class PostsFacade extends AbstractFacade<Post> {
         query.setParameter("searchText", "%" + searchText + "%");
         List<Post> posts = query.getResultList();
         return posts;
+    }
+    
+    public long GetFileCount(Integer postId) {
+        Query query = em.createNamedQuery("Post.getFileCount");
+        query.setParameter("postId", postId);
+        
+        return (long) query.getSingleResult();
     }
 }

@@ -42,6 +42,10 @@
     margin-top: 5px;
 }
 
+.pad-top-20 {
+    margin-top: 20px;
+}
+
 .pad-bottom {
     margin-bottom: 10px;
 }
@@ -94,4 +98,20 @@
 
 a.no-underline {
     text-decoration: none;
+}
+
+.horizontal-list ul {
+    margin: 0; 
+    padding: 0; 
+}
+
+.horizontal-list li {
+    list-style-type: none; 
+    float: left;
+    margin: 4px 4px;
+    padding: 0px 15px;
+}
+
+.icon-color {
+    color: #337ab7;
 }

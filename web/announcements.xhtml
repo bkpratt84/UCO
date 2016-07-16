@@ -12,13 +12,15 @@
     <ui:define name="content">
         <div class="container-fluid pad-top">
             <div class="col-md-10 col-md-offset-1">
+                
                 <h:form id="frmAdd" styleClass="pad-bottom">
                     <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
                         <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no pull-right" icon="ui-icon-close" />
                         <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes pull-right" icon="ui-icon-check" />
                     </p:confirmDialog>
+                    
                     <p:growl id="growl" showDetail="true" sticky="false" />
-
+                    
                     <h:panelGroup rendered="#{facesContext.externalContext.isUserInRole('admin')}" styleClass="pad-right">
                         <h:commandLink id="btnNew" action="/admin/announcements/newThread.xhtml" styleClass="btn btn-primary">
                             <i class="fa fa-plus pad-right"></i>New Thread
@@ -40,19 +42,19 @@
                 </h:form>
             </div>
 
-            <div class="container-fluid pad-top">
-                <h:form id="searchForm">
-                    <div class="col-md-9 col-md-offset-1">
+            <h:form id="searchForm">
+                <div class="col-md-10 col-md-offset-1">
+                    <div class="input-group">
                         <p:inputText id="searchText" class="form-control" placeholder="Search Announcements" value="#{threadViewController.searchText}"/>
-                    </div>
-                    <div class="col-md-1">
-                        <p:commandLink id="search" actionListener="#{threadViewController.search(threadViewController.searchText)}" update="@all" styleClass="text-primary btn-edit">
-                            <i class="fa fa-search pad-right fa-lg"></i> 
-                        </p:commandLink>
+                        <span class="input-group-btn">
+                            <p:commandLink id="search" actionListener="#{threadViewController.search(threadViewController.searchText)}" update="@all" styleClass="btn btn-default icon-color">
+                                <i class="fa fa-search pad-right fa-lg"></i> 
+                            </p:commandLink>
+                        </span>
                     </div>
                     <p:defaultCommand target="search"/>
-                </h:form>
-            </div>
+                </div>
+            </h:form>
 
             <div class="col-md-10 col-md-offset-1 pad-top">
                 <ul class="list-group">
@@ -74,7 +76,9 @@
                                 <div class="col-md-12">
                                     <h5 class="pull-left thread-title pad-right">
                                         #{thread.title}
-                                        <span class="label label-default pad-left lb-sm">#{thread.category}</span>
+                                        <span class="label label-default pad-left lb-sm" style="background-color: ##{thread.category.colorCode};">
+                                            #{thread.category.category}
+                                        </span>
                                     </h5>
                                     <h5 class="pull-right pad-right">
                                         <i class="fa fa-calendar pad-right fa-lg"></i>
@@ -116,6 +120,13 @@
                                                         <f:param name="post" value="#{thread.postID}"/>
                                                     </p:link>
                                                 </li>
+                                                <li>
+                                                    <p:link outcome="thread.xhtml?faces-redirect=true" includeViewParams="true" styleClass="btn-comment no-underline" >
+                                                        <i class="fa fa-paperclip pad-right fa-lg"></i>
+                                                        <span class="badge">#{thread.fileCount}</span>
+                                                        <f:param name="post" value="#{thread.postID}"/>
+                                                    </p:link>
+                                                </li>
                                             </ul>
                                         </div>
                                         <div class="col-md-6">
@@ -128,7 +139,7 @@
                                                         </p:link>
                                                     </li>
                                                     <li>
-                                                        <p:commandLink actionListener="#{threadViewController.delete(thread.postID)}" update="@" styleClass="text-danger btn-delete" rendered="#{facesContext.externalContext.isUserInRole('admin')}">
+                                                        <p:commandLink actionListener="#{threadViewController.delete(thread.postID)}" update="@all" styleClass="text-danger btn-delete" rendered="#{facesContext.externalContext.isUserInRole('admin')}">
                                                             <i class="fa fa-trash pad-right fa-lg"></i> 
                                                             <p:confirm header="Confirm" message="Delete this announcement?" icon="ui-icon-alert" />
                                                         </p:commandLink>

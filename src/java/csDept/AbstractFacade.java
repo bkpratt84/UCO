@@ -13,14 +13,18 @@ public abstract class AbstractFacade<T> {
 
     protected abstract EntityManager getEntityManager();
 
-    public void create(T entity) {
+    public T create(T entity) {
         getEntityManager().persist(entity);
+        getEntityManager().flush();
+        
+        return entity;
     }
 
-    public void createOrUpdate(T entity, Integer id) {
+    public T createOrUpdate(T entity, Integer id) {
         if (id == null) {
             getEntityManager().persist(entity);
-            return;
+            getEntityManager().flush();
+            return entity;
         }
 
         T existingEntity = this.find(id);
@@ -29,6 +33,10 @@ public abstract class AbstractFacade<T> {
         } else {
             getEntityManager().merge(entity);
         }
+        
+        getEntityManager().flush();
+        
+        return entity;
     }
 
     public void update(T entity) {

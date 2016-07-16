@@ -3,17 +3,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
-        <h:outputScript     name="/javascript/bootstrap.min.js"/>
-
-        <h:outputScript library="primefaces" name="jquery/jquery.js"
-                        target="head" />
-        <h:outputScript target="head">
-            $ = jQuery;
-        </h:outputScript>
+        <h:outputScript name="/javascript/bootstrap.min.js"/>
+        <h:outputScript library="primefaces" name="jquery/jquery.js" target="head" />
+        <h:outputScript target="head">$ = jQuery;</h:outputScript>
         <h:outputStylesheet name="/css/bootstrap.min.css"/>
         <h:outputStylesheet library="font-awesome" name="css/font-awesome.css" />
         <h:outputStylesheet name="/css/main.css"/>
@@ -35,7 +32,9 @@
                                 <span class="icon-bar"></span>
                                 <span class="icon-bar"></span>
                             </button>
-                            <h:link class="navbar-brand" outcome="/index"><img style="max-height:40px; margin-top: -9px" src="resources/images/uco-logo-wide-white.png" alt=""/></h:link>
+                            <h:link class="navbar-brand" outcome="/index">
+                                <h:graphicImage library="images" name="uco-logo-wide-white.png" alt="UCO CS" style="max-height:40px; margin-top: -9px;" />
+                            </h:link>
                         </div>
                         <!-- Collect the nav links, forms, and other content for toggling -->
                         <div class="collapse navbar-collapse" id="cs_navigation" >
@@ -106,6 +105,7 @@
                                 <h:panelGroup rendered="#{facesContext.externalContext.isUserInRole('instructor')}">
 
                                     <li><h:link value="Calendar" outcome="/instructors/eventCalendar" /></li>
+                                    <li><p:commandLink value="Sign Out" action="#{userController.logout()}" style="font-size: 14px;"/></li>
 
                                 </h:panelGroup>
                                 <!--Student Events Link-->
@@ -115,6 +115,7 @@
                                         <ul class="dropdown-menu" role="menu">
                                             <li><h:link value="View Events" outcome="/students/InstructorWithEvents" /></li>
                                             <li><h:link value="Calendar" outcome="/students/StudentCalendar" /></li>
+                                            <li><p:commandLink value="Sign Out" action="#{userController.logout()}" style="font-size: 14px;"/></li>
                                         </ul>
                                     </li>
                                 </h:panelGroup>
@@ -157,6 +158,7 @@
                                         <ul class="dropdown-menu" role="menu" >
                                             <li><h:link value="Create Professor" outcome="/admin/createProf" /></li>
                                             <li><h:link value="View Users" outcome="/admin/userList" /></li>
+                                            <li><p:commandLink value="Sign Out" action="#{userController.logout()}" style="font-size: 14px;"/></li>
                                         </ul>
                                     </li>
                                 </h:panelGroup>

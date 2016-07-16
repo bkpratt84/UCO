@@ -18,11 +18,11 @@ import org.primefaces.context.RequestContext;
 public class ThreadViewController implements Serializable {
 
     @EJB
-    PostsFacade postFacade;
+    private PostsFacade postFacade;
 
-    List<Post> threads;
+    private List<Post> threads;
 
-    String searchText;
+    private String searchText;
     
     @PostConstruct
     public void init() {
@@ -37,10 +37,8 @@ public class ThreadViewController implements Serializable {
         this.searchText = searchText;
     }
 
-    
-    
     public void refresh() {
-        threads = postFacade.GetByParentId(0);
+        threads = postFacade.GetByParentId(0, true);
 
         if (threads == null) {
             threads = new ArrayList<>();
@@ -57,7 +55,7 @@ public class ThreadViewController implements Serializable {
     
     public void delete(int postId) {
         Post post = postFacade.GetByPostId(postId);
-        List<Post> posts = postFacade.GetByParentId(postId);
+        List<Post> posts = postFacade.GetByParentId(postId, true);
 
         for (Post p : posts) {
             postFacade.remove(p);

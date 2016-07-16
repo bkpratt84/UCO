@@ -1,0 +1,112 @@
+<ui:composition template="/templates/mainTemplate.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="title">
+        <title>Add/Edit Announcement</title>
+    </ui:define>
+
+    <ui:define name="content">
+        <div class="container-fluid pad-top">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Categories</h3>
+                    </div>
+                    
+                    <div class="panel-body">
+                        <div class="col-md-6">
+                            <h:form id="frmCatAdd">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group" style="max-width: 150px;">
+                                            <label class="sr-only" for="inputCat">Category</label>
+                                            <div class="input-group">
+                                                <div class="input-group-addon"><i class="fa fa-folder-o"></i></div>
+                                                <p:inputText id="inputCat" class="form-control" placeholder="Category"
+                                                             value="#{settingsController.txtCategory}">
+                                                </p:inputText>
+                                            </div>
+
+                                            <p:message styleClass="error-msg" for="inputCat" display="text"/>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-4">
+                                        <div class="form-group" style="max-width: 125px;">
+                                            <label class="sr-only" for="inactive">Inactive</label>
+                                            <div class="input-group">
+                                                <div class="input-group-addon"><i class="fa fa-retweet"></i></div>
+
+                                                <h:selectOneMenu id="inactive" class="form-control" value="#{settingsController.inactive}"
+                                                                 required="true" requiredMessage="Inactive?">
+                                                    <f:selectItem itemValue="#{null}" itemLabel="" noSelectionOption="true"/>
+                                                    <f:selectItem itemValue="#{false}" itemLabel="False"/>
+                                                    <f:selectItem itemValue="#{true}" itemLabel="True"/>
+                                                </h:selectOneMenu>
+                                                
+                                                <p:tooltip id="toolTipInactive" for="inactive" value="Inactive?" position="top"/>
+                                            </div>            
+
+                                            <p:message styleClass="error-msg" style="margin-top: 5px;" for="inactive" display="text"/>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-1">
+                                        <p:commandLink id="btnSave" process="@form" update="@form" type="submit" action="null" styleClass="btn btn-primary pad-right">
+                                        <i class="fa fa-floppy-o"></i>
+                                        </p:commandLink>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <p:colorPicker value="#{settingsController.colorCode}" mode="inline" required="true" requiredMessage="Please select a color!" />
+                                    </div>
+                                </div>
+                            </h:form>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <h:form id="frmTable">
+                                <p:dataTable var="item" value="#{settingsController.categories}" rows="10" paginator="true" rowsPerPageTemplate="5,10,15"
+                                                paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                >
+                                    
+                                    <p:column headerText="Id">
+                                        <h:outputText value="#{item.categoryID}" />
+                                    </p:column>
+                                    
+                                    <p:column headerText="Category">
+                                        <h:outputText value="#{item.category}" />
+                                    </p:column>
+                                    
+                                    <p:column headerText="Color Code">
+                                        <div style="text-align: center;">
+                                            <h:outputText value="#{item.colorCode}" />
+                                        </div>
+                                    </p:column>
+                                    
+                                    <p:column headerText="Color">
+                                        <div style="text-align: center;">
+                                            <h:outputText value="#{item.colorCode}" style="color: transparent; background-color: ##{item.colorCode};" />
+                                        </div>
+                                    </p:column>
+                                    
+                                    <p:column headerText="Inactive">
+                                        <div style="text-align: center;">
+                                            <h:outputText value="#{item.inactive}" />
+                                        </div>
+                                    </p:column>
+                                </p:dataTable>
+                            </h:form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>

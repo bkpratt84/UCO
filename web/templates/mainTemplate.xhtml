@@ -42,6 +42,8 @@
 
                                 <!--Home Link-->
                                 <li><h:link value="Home" outcome="/index" /></li>
+                                
+                                <li><h:link value="Announcements" outcome="/announcements" /></li>
 
                                 <!--Dept Info Links (Admin)-->
                                 <h:panelGroup rendered="#{facesContext.externalContext.isUserInRole('admin')}">
@@ -49,7 +51,7 @@
                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Department Info<span class="caret"></span></a>
                                         <ul class="dropdown-menu" role="menu">
                                             <li><h:link value="Academics" outcome="/admin/academics" /></li>
-                                            <li><h:link value="Annoucements" outcome="/announcements" /></li>
+                                            <li><h:link value="Annoucements" outcome="/admin/announcements/settings" /></li>
                                             <li><h:link value="Courses" outcome="/admin/courses" /></li>
                                             <li><h:link value="People" outcome="/admin/people" /></li>
                                             <li><h:link value="Resources" outcome="/admin/resources" /></li>
@@ -64,7 +66,6 @@
                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Department Info<span class="caret"></span></a>
                                         <ul class="dropdown-menu" role="menu">
                                             <li><h:link value="Academics" outcome="/academics" /></li>
-                                            <li><h:link value="Annoucements" outcome="/announcements" /></li>
                                             <li><h:link value="Courses" outcome="/courses" /></li>
                                             <li><h:link value="People" outcome="/people" /></li>
                                             <li><h:link value="Resources" outcome="/resources" /></li>

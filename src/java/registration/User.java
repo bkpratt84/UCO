@@ -38,20 +38,14 @@ public class User implements Serializable {
     private String currentPassword;
     @Column(name = "active")
     private boolean active;
+    @Column(name = "activationKey")
+    private boolean activationKey;
     
     private String oldPassword;
     private String newPassword;
     private String repeatPassword;
 
     public User() {
-    }
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
     }
 
     public int getId() {
@@ -124,6 +118,22 @@ public class User implements Serializable {
 
     public void setCurrentPassword(String currentPassword) {
         this.currentPassword = currentPassword;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public boolean isActivationKey() {
+        return activationKey;
+    }
+
+    public void setActivationKey(boolean activationKey) {
+        this.activationKey = activationKey;
     }
 
     public User(int ID, String username, String firstName, String lastName, String email, Boolean active) {

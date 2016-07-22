@@ -8,6 +8,7 @@ import csDept.UserRepository;
 import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
+import java.util.UUID;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.context.FacesContext;
@@ -30,8 +31,6 @@ public class RegistrationController implements Serializable {
     @Inject
     UserService userService;
 
-    private String activationCode;
-    
     @PostConstruct
     public void Init() {
         registrationUser = new Registration();
@@ -44,14 +43,14 @@ public class RegistrationController implements Serializable {
     public void setRegistrationUser(Registration reg) {
         this.registrationUser = reg;
     }
-
-    public String getActivationCode() {
-        return activationCode;
-    }
-
-    public void setActivationCode(String activationCode) {
-        this.activationCode = activationCode;
-    }
+//
+//    public String getActivationCode() {
+//        return activationCode;
+//    }
+//
+//    public void setActivationCode(String activationCode) {
+//        this.activationCode = activationCode;
+//    }
 
     public void submit() throws SQLException, MessagingException {
         if (userService.emailExists(registrationUser.getEmail())) {
@@ -59,20 +58,22 @@ public class RegistrationController implements Serializable {
             return;
         }
 
-        sendRegistrationEmail();
-    }
+        String activationCode = UUID.randomUUID().toString().substring(0, 6);
 
-    public void activateUser() {
-        String decodedUserEmail = new String(Base64.decode(activationCode), StandardCharsets.UTF_8);
-        User user = userRepository.GetByEmail(decodedUserEmail);
         
+        
+        
+        sendRegistrationEmail(activationCode);
     }
 
-    private void sendRegistrationEmail() throws MessagingException {
+//    public void activateUser() {
+//        String decodedUserEmail = new String(Base64.decode(activationCode), StandardCharsets.UTF_8);
+//        User user = userRepository.GetByEmail(decodedUserEmail);
+//        
+//    }
 
-        String uniqueKey = Base64.encode(registrationUser.getEmail().getBytes());
-
-        String message = String.format(GoogleMail.RegistrationMessage, registrationUser.getFirstName(), registrationUser.getLastName(), uniqueKey);
+    private void sendRegistrationEmail(String activationCode) throws MessagingException {
+        String message = String.format(GoogleMail.RegistrationMessage, registrationUser.getFirstName(), registrationUser.getLastName(), activationCode);
 
         GoogleMail.Send(
                 "UCOComputerScience",

@@ -9,7 +9,7 @@ import javax.persistence.Query;
 
 
 @Stateless
-public class ResourceFacade extends AbstractRepository<Resource> {
+public class ResourceRepository extends AbstractRepository<Resource> {
 
     @PersistenceContext(unitName = "CSWebsitePU")
     private EntityManager em;
@@ -19,7 +19,7 @@ public class ResourceFacade extends AbstractRepository<Resource> {
         return em;
     }
 
-    public ResourceFacade() {
+    public ResourceRepository() {
         super(Resource.class);
     }
 

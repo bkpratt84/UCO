@@ -18,7 +18,7 @@ import org.primefaces.event.RowEditEvent;
 public class NewsitemController implements Serializable {
 
     @EJB
-    NewsitemFacade newsitemFacade;
+    NewsItemRepository newsitemFacade;
 
     @Inject
     NewsitemBean newsitemBean;

@@ -20,7 +20,7 @@ import registration.User;
 public class FacultyController implements Serializable {
 
     @EJB
-    FacultyFacade facultyFacade;
+    FacultyRepository facultyFacade;
 
     @Inject
     FacultyBean facultyBean;

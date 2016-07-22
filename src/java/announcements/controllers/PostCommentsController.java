@@ -26,10 +26,10 @@ import org.primefaces.context.RequestContext;
 public class PostCommentsController implements Serializable {
     
     @EJB
-    PostRepository postFacade;
+    PostRepository postRepo;
     
     @EJB
-    FileRepository fileFacade;
+    FileRepository fileRepo;
     
     @Inject
     UserService userService;
@@ -43,21 +43,21 @@ public class PostCommentsController implements Serializable {
 
     public void init() {
         msg = null;
-        posts = postFacade.getByParentId(postID, false);
-        post = postFacade.getByPostId(postID);
+        posts = postRepo.getByParentId(postID, false);
+        post = postRepo.getByPostId(postID);
         
         if (filesAttached == null) {
             filesAttached = new ArrayList<>();
         }
         
-        filesAttached = fileFacade.GetByPostId(postID);
+        filesAttached = fileRepo.GetByPostId(postID);
         
         if (posts == null) {
             posts = new ArrayList<>();
         }
         
         post.incrementViews();
-        postFacade.update(post);
+        postRepo.update(post);
     }
 
     public int getPostID() {
@@ -102,7 +102,7 @@ public class PostCommentsController implements Serializable {
         comment.setAuthor(userService.getUserId(userName));
         comment.setParentID(postID);
 
-        postFacade.create(comment);
+        postRepo.create(comment);
 
         Messages.setSuccessMessage("Comment added.");
         
@@ -111,17 +111,22 @@ public class PostCommentsController implements Serializable {
     }
     
     public void delete(int postId, boolean parent) throws IOException {
-        Post item = postFacade.getByPostId(postId);
+        Post item = postRepo.getByPostId(postId);
         
         if (parent) {
-            List<Post> items = postFacade.getByParentId(postId, false);
-        
+            List<Post> items = postRepo.getByParentId(postId, false);
+            List<File> files = fileRepo.GetByPostId(postId);
+            
             for (Post p : items) {
-                postFacade.softDelete(p);
-            }    
+                postRepo.softDelete(p);
+            }
+            
+            for (File f : files) {
+                fileRepo.remove(f);
+            }
         }
         
-        postFacade.softDelete(item);
+        postRepo.softDelete(item);
         
         if (parent) {
             ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();

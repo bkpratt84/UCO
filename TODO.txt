@@ -6,7 +6,7 @@ Logout - X
 
 DELETE Files on post DELETE
 
-Inactivate posts instead of deleting
+Inactivate posts instead of deleting - X
 
 Remove reply box when not logged in - X
 

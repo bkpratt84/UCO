@@ -31,13 +31,13 @@ import org.primefaces.model.UploadedFile;
 public class ThreadAddController implements Serializable {
 
     @EJB
-    private PostRepository postFacade;
+    private PostRepository postRepo;
     
     @EJB
-    private FileRepository fileFacade;
+    private FileRepository fileRepo;
     
     @EJB
-    private CategoryRepository categoryFacade;
+    private CategoryRepository categoryRepo;
 
     @Inject
     private UserService userService;
@@ -71,7 +71,7 @@ public class ThreadAddController implements Serializable {
         }
         
         if (categories == null) {
-            categories = categoryFacade.findAll();
+            categories = categoryRepo.GetByInactive(false);
         }
         
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
@@ -82,14 +82,14 @@ public class ThreadAddController implements Serializable {
 
         postId = Integer.parseInt(id);
 
-        Post post = postFacade.getByPostId(postId);
-        Category cat = categoryFacade.GetByCategoryID(post.getCategoryId());
+        Post post = postRepo.getByPostId(postId);
+        Category cat = categoryRepo.GetByCategoryID(post.getCategoryId());
         
         setTitle(post.getTitle());
         setContent(post.getContent());
         setCategory(cat);
         
-        filesAttached = fileFacade.GetByPostId(postId);
+        filesAttached = fileRepo.GetByPostId(postId);
     }
 
     public String getTitle() {
@@ -144,12 +144,12 @@ public class ThreadAddController implements Serializable {
         int userId = userService.getUserId(userName);    
         
         if (postId != null) {
-            post = postFacade.getByPostId(postId);
+            post = postRepo.getByPostId(postId);
             post.setDateModified(cal.getTime());
             post.setModifiedBy(userId);
             
             for (File f : filesToDelete) {
-                fileFacade.remove(f);
+                fileRepo.remove(f);
             }
         } else {
             post.setDateCreated(cal.getTime());
@@ -162,12 +162,12 @@ public class ThreadAddController implements Serializable {
         post.setCategory(category);
         post.setActive(true);
         
-        Post p = postFacade.createOrUpdate(post, postId);
+        Post p = postRepo.createOrUpdate(post, postId);
         
         persistFiles(filesPending, p.getPostID(), userId);
         
-        p.setFileCount(postFacade.getFileCount(p.getPostID()));
-        postFacade.createOrUpdate(p, p.getPostID());
+        p.setFileCount(postRepo.getFileCount(p.getPostID()));
+        postRepo.createOrUpdate(p, p.getPostID());
         
         Messages.setSuccessMessage("Announcement created.");
         ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
@@ -178,7 +178,7 @@ public class ThreadAddController implements Serializable {
         for (File f : files) {
             f.setPostID(postID);
             f.setOwnerID(ownerID);
-            fileFacade.createOrUpdate(f, postID);
+            fileRepo.createOrUpdate(f, postID);
         }
     }
     

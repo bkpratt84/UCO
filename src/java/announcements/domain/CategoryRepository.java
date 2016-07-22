@@ -1,6 +1,7 @@
 package announcements.domain;
 
 import csDept.AbstractRepository;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -31,5 +32,13 @@ public class CategoryRepository extends AbstractRepository<Category> {
         Category cat = (Category) query.getSingleResult();
         
         return cat;
+    }
+    
+    public List<Category> GetByInactive(boolean inactive) {
+        Query query = em.createNamedQuery("Category.findAllByInactive");
+        query.setParameter("inactive", inactive);
+        List<Category> c = query.getResultList();
+        
+        return c;
     }
 }

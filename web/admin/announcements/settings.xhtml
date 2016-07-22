@@ -3,13 +3,18 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
-                xmlns:f="http://xmlns.jcp.org/jsf/core">
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:o="http://omnifaces.org/ui">
 
     <ui:define name="title">
         <title>Add/Edit Announcement</title>
     </ui:define>
 
     <ui:define name="content">
+        <h:form id="frmGrowl">
+            <p:growl id="growl" showDetail="false" sticky="false" globalOnly="true" />
+        </h:form>
+        
         <div class="container-fluid pad-top">
             <div class="col-md-12">
                 <div class="panel panel-default">
@@ -18,59 +23,81 @@
                     </div>
                     
                     <div class="panel-body">
-                        <div class="col-md-6">
-                            <h:form id="frmCatAdd">
+                        <div class="col-md-5">
+                            <o:highlight styleClass="invalid"/>
+                            
+                            <h:form id="frmCategory" class="form-inline">
                                 <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="form-group" style="max-width: 150px;">
+                                    <div class="col-md-12">
+                                        <div class="form-group pad-right" style="max-width: 150px;">
                                             <label class="sr-only" for="inputCat">Category</label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-folder-o"></i></div>
-                                                <p:inputText id="inputCat" class="form-control" placeholder="Category"
+                                                <p:inputText id="inputCategory" class="form-control" placeholder="Category"
                                                              value="#{settingsController.txtCategory}">
                                                 </p:inputText>
+                                                
+                                                <p:tooltip id="toolTipCategory" for="inputCategory" value="Inactive?" position="top"
+                                                           rendered="#{empty facesContext.messageList and empty facesContext.getMessageList('frmCategory:inputCategory')}"/>
+                                                
+                                                <p:tooltip id="toolTipCategoryError" for="inputCategory" position="top"
+                                                           rendered="#{not empty facesContext.messageList and not empty facesContext.getMessageList('frmCategory:inputCategory')}">
+                                                    <p:message for="inputCategory"/>
+                                                </p:tooltip> 
                                             </div>
-
-                                            <p:message styleClass="error-msg" for="inputCat" display="text"/>
                                         </div>
-                                    </div>
                                     
-                                    <div class="col-md-4">
-                                        <div class="form-group" style="max-width: 125px;">
+                                        <div class="form-group pad-right">
                                             <label class="sr-only" for="inactive">Inactive</label>
                                             <div class="input-group">
                                                 <div class="input-group-addon"><i class="fa fa-retweet"></i></div>
 
                                                 <h:selectOneMenu id="inactive" class="form-control" value="#{settingsController.inactive}"
-                                                                 required="true" requiredMessage="Inactive?">
-                                                    <f:selectItem itemValue="#{null}" itemLabel="" noSelectionOption="true"/>
+                                                                 required="true" requiredMessage="Mark Inactive?" converter="omnifaces.SelectItemsConverter">
                                                     <f:selectItem itemValue="#{false}" itemLabel="False"/>
                                                     <f:selectItem itemValue="#{true}" itemLabel="True"/>
                                                 </h:selectOneMenu>
                                                 
-                                                <p:tooltip id="toolTipInactive" for="inactive" value="Inactive?" position="top"/>
-                                            </div>            
-
-                                            <p:message styleClass="error-msg" style="margin-top: 5px;" for="inactive" display="text"/>
+                                                <p:tooltip id="toolTipInactive" for="inactive" value="Inactive?" position="top"
+                                                           rendered="#{empty facesContext.messageList and empty facesContext.getMessageList('frmCategory:inactive')}"/>
+                                                
+                                                <p:tooltip id="toolTipInactive2" for="inactive" position="top"
+                                                           rendered="#{not empty facesContext.messageList and not empty facesContext.getMessageList('frmCategory:inactive')}">
+                                                    <p:message for="inactive"/>
+                                                </p:tooltip>         
+                                            </div>
                                         </div>
-                                    </div>
                                     
-                                    <div class="col-md-1">
-                                        <p:commandLink id="btnSave" process="@form" update="@form" type="submit" action="null" styleClass="btn btn-primary pad-right">
-                                        <i class="fa fa-floppy-o"></i>
+                                        <p:commandLink id="btnAdd" process="@form" update="@all" type="submit" action="#{settingsController.save}" styleClass="btn btn-primary pad-left"
+                                                       rendered="#{!settingsController.edit}">
+                                            <i class="fa fa-plus"></i>
+                                        </p:commandLink>
+                                        
+                                        <p:commandLink id="btnSave" process="@form" update="@all" type="submit" action="#{settingsController.save}" styleClass="btn btn-primary pad-left"
+                                                       rendered="#{settingsController.edit}">
+                                            <i class="fa fa-floppy-o"></i>
+                                        </p:commandLink>
+                                        
+                                        <p:commandLink id="btnCancel" update="@form :frmTable" process="@this" action="#{settingsController.cancel}" styleClass="btn btn-info pad-left"
+                                                       rendered="#{settingsController.edit}">
+                                            <i class="fa fa-ban"></i>
                                         </p:commandLink>
                                     </div>
                                 </div>
 
-                                <div class="row">
+                                <div class="row pad-top">
                                     <div class="col-md-12">
-                                        <p:colorPicker value="#{settingsController.colorCode}" mode="inline" required="true" requiredMessage="Please select a color!" />
+                                        <p:colorPicker id="picker" value="#{settingsController.colorCode}" mode="inline" required="true" requiredMessage="Please select a color!" />
                                     </div>
+                                </div>
+                                
+                                <div class="row">
+                                    <p:message styleClass="error-msg" style="margin-top: 5px;" for="picker" display="text"/>
                                 </div>
                             </h:form>
                         </div>
-                        
-                        <div class="col-md-6">
+                         
+                        <div class="col-md-7">
                             <h:form id="frmTable">
                                 <p:dataTable var="item" value="#{settingsController.categories}" rows="10" paginator="true" rowsPerPageTemplate="5,10,15"
                                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -91,8 +118,8 @@
                                     </p:column>
                                     
                                     <p:column headerText="Color">
-                                        <div style="text-align: center;">
-                                            <h:outputText value="#{item.colorCode}" style="color: transparent; background-color: ##{item.colorCode};" />
+                                        <div style="text-align: center; background-color: ##{item.colorCode};">
+                                            <h:outputText value="#{item.colorCode}" style="color: transparent;" />
                                         </div>
                                     </p:column>
                                     
@@ -100,6 +127,11 @@
                                         <div style="text-align: center;">
                                             <h:outputText value="#{item.inactive}" />
                                         </div>
+                                    </p:column>
+                                    
+                                    <p:column style="text-align: center" rendered="true">
+                                        <p:commandButton  update="@form :frmCategory" icon="ui-icon-search" title="Edit"
+                                                          action="#{settingsController.setEditItem(item)}" disabled="#{settingsController.edit}"/>
                                     </p:column>
                                 </p:dataTable>
                             </h:form>

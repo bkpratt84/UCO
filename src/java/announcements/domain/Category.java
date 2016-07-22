@@ -19,7 +19,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "Category")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Category.findAll", query = "SELECT c FROM Category c WHERE c.inactive = false"),
+    @NamedQuery(name = "Category.findAll", query = "SELECT c FROM Category c"),
+    @NamedQuery(name = "Category.findAllByInactive", query = "SELECT c FROM Category c WHERE c.inactive = :inactive"),
     @NamedQuery(name = "Category.findByCategoryID", query = "SELECT c FROM Category c WHERE c.categoryID = :categoryID")})
 public class Category implements Serializable {
 

@@ -55,7 +55,6 @@
                                             <li><h:link value="Courses" outcome="/admin/courses" /></li>
                                             <li><h:link value="People" outcome="/admin/people" /></li>
                                             <li><h:link value="Resources" outcome="/admin/resources" /></li>
-                                            <li><h:link value="News" outcome="/admin/news" /></li>
                                         </ul>
                                     </li>
                                 </h:panelGroup>
@@ -69,7 +68,6 @@
                                             <li><h:link value="Courses" outcome="/courses" /></li>
                                             <li><h:link value="People" outcome="/people" /></li>
                                             <li><h:link value="Resources" outcome="/resources" /></li>
-                                            <li><h:link value="News" outcome="/news" /></li>
                                         </ul>
                                     </li>
                                 </h:panelGroup>
@@ -90,7 +88,7 @@
                                 </li>
 
                                 <!--Books Link-->
-                                <h:panelGroup rendered="#{facesContext.externalContext.isUserInRole('instructor') or
+<!--                                <h:panelGroup rendered="#{facesContext.externalContext.isUserInRole('instructor') or
                                                           facesContext.externalContext.isUserInRole('student') or
                                                           facesContext.externalContext.isUserInRole('admin')}">
                                     <li class="dropdown">
@@ -100,17 +98,18 @@
                                             <li><h:link value="Edit Textbooks" outcome="/instructors/editbooks" rendered="#{facesContext.externalContext.isUserInRole('instructor')}"/></li>
                                         </ul>
                                     </li>
-                                </h:panelGroup>
+                                </h:panelGroup>-->
 
                                 <!--Instructor Events Link-->
-                                <h:panelGroup rendered="#{facesContext.externalContext.isUserInRole('instructor')}">
+<!--                                <h:panelGroup rendered="#{facesContext.externalContext.isUserInRole('instructor')}">
 
                                     <li><h:link value="Calendar" outcome="/instructors/eventCalendar" /></li>
                                     <li><p:commandLink value="Sign Out" action="#{userController.logout()}" style="font-size: 14px;"/></li>
 
-                                </h:panelGroup>
+                                </h:panelGroup>-->
+                                
                                 <!--Student Events Link-->
-                                <h:panelGroup rendered="#{facesContext.externalContext.isUserInRole('student')}">
+<!--                                <h:panelGroup rendered="#{facesContext.externalContext.isUserInRole('student')}">
                                     <li class="dropdown">
                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" >Events<span class="caret" ></span></a>
                                         <ul class="dropdown-menu" role="menu">
@@ -119,10 +118,10 @@
                                             <li><p:commandLink value="Sign Out" action="#{userController.logout()}" style="font-size: 14px;"/></li>
                                         </ul>
                                     </li>
-                                </h:panelGroup>
+                                </h:panelGroup>-->
 
                                 <!--File Upload-->
-                                <h:panelGroup rendered="#{facesContext.externalContext.isUserInRole('admin') || facesContext.externalContext.isUserInRole('student') || facesContext.externalContext.isUserInRole('instructor')}">
+<!--                                <h:panelGroup rendered="#{facesContext.externalContext.isUserInRole('admin') || facesContext.externalContext.isUserInRole('student') || facesContext.externalContext.isUserInRole('instructor')}">
                                     <li class="dropdown">
                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" >File Manager<span class="caret" ></span></a>
                                         <ul class="dropdown-menu" role="menu">
@@ -133,7 +132,7 @@
                                             <li><h:link value="Manage File List" outcome="/instructors/manageFileList" rendered="#{facesContext.externalContext.isUserInRole('instructor')}"/></li>
                                         </ul>
                                     </li>
-                                </h:panelGroup>
+                                </h:panelGroup>-->
 
                                 <!--Putty Interface Link-->
                                 <h:panelGroup rendered="#{facesContext.externalContext.isUserInRole('instructor') or 
@@ -165,10 +164,10 @@
                                 </h:panelGroup>
 
                                 <!--Chat Link-->
-                                <h:panelGroup rendered="#{facesContext.externalContext.isUserInRole('instructor') or
+<!--                                <h:panelGroup rendered="#{facesContext.externalContext.isUserInRole('instructor') or
                                                           facesContext.externalContext.isUserInRole('student')}">
                                     <li><h:link value="Chat" outcome="/student_instructor/chat" /></li>
-                                </h:panelGroup>
+                                </h:panelGroup>-->
 
                                 <!--Profile Link-->
                                 <h:panelGroup rendered="#{facesContext.externalContext.isUserInRole('instructor') or

@@ -1,7 +1,9 @@
 package announcements.controllers;
 
 import announcements.domain.Category;
-import announcements.domain.CategoryFacade;
+import announcements.domain.CategoryRepository;
+import announcements.utility.Messages;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +18,7 @@ import javax.validation.constraints.Size;
 public class SettingsController implements Serializable {
 
     @EJB
-    private CategoryFacade categoryFacade;
+    private CategoryRepository categoryRepo;
     
     private List<Category> categories;
     
@@ -24,7 +26,9 @@ public class SettingsController implements Serializable {
     private String txtCategory;
     private String colorCode;
     private boolean inactive;
+    private Integer id;
     
+    private boolean edit;
     private Category category;
     
     @PostConstruct
@@ -33,7 +37,13 @@ public class SettingsController implements Serializable {
             categories = new ArrayList<>();
         }
         
-        categories = categoryFacade.findAll();
+        txtCategory = null;
+        colorCode = "000dff";
+        inactive = false;
+        id = null;
+        edit = false;
+        
+        categories = categoryRepo.findAll();
     }
 
     public List<Category> getCategories() {
@@ -70,5 +80,47 @@ public class SettingsController implements Serializable {
 
     public void setTxtCategory(String txtCategory) {
         this.txtCategory = txtCategory;
+    }
+
+    public boolean isEdit() {
+        return edit;
+    }
+
+    public void setEdit(boolean edit) {
+        this.edit = edit;
+    }
+    
+    public void save() throws IOException {
+        Category c = new Category();
+        
+        c.setCategory(txtCategory);
+        c.setColorCode(colorCode);
+        c.setInactive(inactive);
+        
+        if (id != null && edit) {
+            c.setCategoryID(id);
+        }
+        
+        categoryRepo.createOrUpdate(c, id);
+        
+        if (edit) {
+            Messages.setSuccessMessage("Changes saved.");
+        } else {
+            Messages.setSuccessMessage("Category added.");
+        }
+
+        init();
+    }
+    
+    public void setEditItem(Category c) {
+        this.edit = true;
+        this.id = c.getCategoryID();
+        this.txtCategory = c.getCategory();
+        this.colorCode = c.getColorCode();
+        this.inactive = c.isInactive();
+    }
+    
+    public void cancel() {
+        init();
     }
 }

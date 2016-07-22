@@ -115,3 +115,11 @@ a.no-underline {
 .icon-color {
     color: #337ab7;
 }
+
+input.invalid, select.invalid {
+    border: red 1px solid;
+}
+
+ .ui-tooltip .ui-message-error-icon {
+     display: none;
+ }

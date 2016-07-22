@@ -16,7 +16,7 @@ import org.primefaces.event.RowEditEvent;
 public class CoursesController implements Serializable {
 
     @EJB
-    CoursesFacade courseFacade;
+    CoursesRepository courseFacade;
 
     @Inject
     CoursesBean courseBean;

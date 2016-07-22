@@ -17,7 +17,7 @@ import org.primefaces.event.RowEditEvent;
 public class ResourceController implements Serializable {
 
     @EJB
-    ResourceFacade resourceFacade;
+    ResourceRepository resourceFacade;
 
     @Inject
     ResourceBean resourceBean;

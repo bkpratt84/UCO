@@ -1,12 +1,12 @@
+
 package csDept;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-
 @Stateless
-public class DegreesFacade extends AbstractRepository<Degrees> {
+public class CoursesRepository extends AbstractRepository<Courses> {
     @PersistenceContext(unitName = "CSWebsitePU")
     private EntityManager em;
 
@@ -15,8 +15,8 @@ public class DegreesFacade extends AbstractRepository<Degrees> {
         return em;
     }
 
-    public DegreesFacade() {
-        super(Degrees.class);
+    public CoursesRepository() {
+        super(Courses.class);
     }
     
 }

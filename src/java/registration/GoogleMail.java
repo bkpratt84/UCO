@@ -18,8 +18,8 @@ public class GoogleMail {
     public static String RegistrationMessage = 
             "%s %s,<br/><br/>"
             + "Thanks for registering on the UCO CS Department site. "
-            + "Please click the link below to complete your registration and activate your account.<br/><br/>"
-            + "<a href=\"%s\">Complete Registration</a>";
+            + "Please login and input the code below to finish activating your account.<br/><br/>"
+            + "<b><h3>%s</h3></b>";
     
     /**
      * Send email using GMail SMTP server.
@@ -85,7 +85,6 @@ public class GoogleMail {
         }
 
         msg.setSubject(title);
-//        msg.setText(message, "utf-8");
         msg.setSentDate(new Date());
         msg.setContent(message, "text/html; charset=utf-8");
         msg.saveChanges();

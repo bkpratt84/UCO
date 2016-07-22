@@ -10,7 +10,7 @@ create table user_info (
     password varchar(255),
     email varchar(255),
     active boolean,
-    activationKey varchar(255),
+    activationKey varchar(6),
     primary key (id)
 );
 

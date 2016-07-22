@@ -21,7 +21,7 @@ public class ResourceitemController implements Serializable {
     ResourceitemFacade resourceitemFacade;
     
     @EJB
-    ResourceFacade resourceFacade;
+    ResourceRepository resourceFacade;
     
     @Inject
     ResourceitemBean resourceItemBean;

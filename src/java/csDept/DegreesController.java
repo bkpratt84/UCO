@@ -16,7 +16,7 @@ import org.primefaces.event.RowEditEvent;
 public class DegreesController implements Serializable {
 
     @EJB
-    DegreesFacade degreeFacade;
+    DegreesRepository degreeFacade;
 
     @Inject
     DegreesBean degreeBean;

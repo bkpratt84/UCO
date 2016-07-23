@@ -18,8 +18,8 @@ public class GoogleMail {
 
     public static String RegistrationMessage
             = "%s %s,<br/><br/>"
-            + "Thanks for registering on the UCO CS Department site."
-            + "Please login and input the code below to finish activating your account.<br/><br/>"
+            + "Thanks for registering on the UCO CS Department site. "
+            + "Please click <a href='%s'>here</a> to input your code below to finish activating your account.<br/><br/>"
             + "<b><h3>%s</h3></b>";
 
     public static String NewAnnouncementMessage

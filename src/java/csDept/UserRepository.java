@@ -3,6 +3,7 @@ package csDept;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
@@ -42,5 +43,17 @@ public class UserRepository extends AbstractRepository<User> {
         List<User> users = query.getResultList();
 
         return users;
+    }
+    
+    public User GetByActivationKey(String key) {
+        try {
+            Query query = em.createNamedQuery("User.findByActivationCode");
+            query.setParameter("key", key);
+            User user = (User) query.getSingleResult();
+
+            return user;
+        } catch(NoResultException e) {
+            return null;
+        }
     }
 }

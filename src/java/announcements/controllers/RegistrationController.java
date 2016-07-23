@@ -5,7 +5,9 @@ import announcements.services.UserService;
 import announcements.utility.Messages;
 import announcements.utility.Utility;
 import csDept.User;
+import csDept.UserGroup;
 import csDept.UserRepository;
+import csDept.UserGroupRepository;
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.UUID;
@@ -15,8 +17,10 @@ import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.mail.MessagingException;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import org.omnifaces.util.Faces;
 import registration.GoogleMail;
 
 @Named(value = "registrationController")
@@ -27,6 +31,9 @@ public class RegistrationController implements Serializable {
 
     @EJB
     UserRepository userRepository;
+    
+    @EJB
+    UserGroupRepository userGroupRepository;
     
     @Inject
     UserService userService;
@@ -127,14 +134,25 @@ public class RegistrationController implements Serializable {
         user.setActivationKey(activationCode);
         user.setActive(false);
         
+        UserGroup ug = new UserGroup();
+        
+        ug.setGroupname("student");
+        ug.setUsername(this.email);
+        
         this.userRepository.create(user);
+        this.userGroupRepository.create(ug);
         this.complete = true;
         
         sendRegistrationEmail(activationCode);
     }
 
     private void sendRegistrationEmail(String activationCode) throws MessagingException {
-        String message = String.format(GoogleMail.RegistrationMessage, this.firstName, this.lastName, activationCode);
+        HttpServletRequest request = (HttpServletRequest) Faces.getExternalContext().getRequest();
+        String url = request.getRequestURL().toString();
+        String baseURL = url.substring(0, url.length() - request.getRequestURI().length()) + request.getContextPath() + "/";
+        baseURL += "faces/accountVerification.xhtml";
+        
+        String message = String.format(GoogleMail.RegistrationMessage, this.firstName, this.lastName, baseURL, activationCode);
 
         GoogleMail.Send(
                 "UCOComputerScience",

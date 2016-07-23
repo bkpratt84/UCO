@@ -18,7 +18,26 @@
                     </div>
                     
                     <div class="panel-body">
-                        blah
+                        <h:form>
+                            <p:growl id="growl" showDetail="false" sticky="false" globalOnly="true" />
+                            
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-key"></i></span>
+                                        <p:inputText id="code" class="form-control" placeholder="Code" value="#{accountVerificationController.code}" />
+                                    </div>
+                                    
+                                    <p:message styleClass="error-msg" style="margin-top: 5px;" for="code" display="text"/>
+                                </div>
+                                
+                                <div class="col-md-4">
+                                    <p:commandLink id="btnSave" process="@form" update="@form" type="submit" action="#{accountVerificationController.submit}" styleClass="btn btn-primary">
+                                    <i class="fa fa-floppy-o pad-right"></i>Save
+                                    </p:commandLink>
+                                </div>
+                            </div>
+                        </h:form>
                     </div>
                 </div>
             </div>

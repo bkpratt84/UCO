@@ -29,6 +29,8 @@ import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 import registration.GoogleMail;
 import csDept.User;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Named(value = "threadAddController")
 @ViewScoped
@@ -41,7 +43,7 @@ public class ThreadAddController implements Serializable {
     private FileRepository fileRepo;
 
     @EJB
-    private UserRepository userRepository;
+    private UserRepository userRepo;
 
     @EJB
     private CategoryRepository categoryRepo;
@@ -177,15 +179,27 @@ public class ThreadAddController implements Serializable {
         postRepo.createOrUpdate(p, p.getPostID());
 
         ArrayList<String> subscriberEmails = new ArrayList<>();
-        for (User subscriber : this.userRepository.GetAnnouncementSubscribers()) {
+        for (User subscriber : this.userRepo.GetAnnouncementSubscribers()) {
             subscriberEmails.add(subscriber.getEmail());
         }
 
         if (subscriberEmails.size() > 0) {
-            User currentUser = userRepository.find(p.getAuthor());
-            
-            String message = String.format(GoogleMail.NewAnnouncementMessage, currentUser.getFirstName(), currentUser.getLastName(), p.getContent());
-            GoogleMail.Send("UCOComputerScience", "sungisthebest", String.join(";", subscriberEmails), "New CS Announcement", "A new CS announcement has been posted.");
+            User postAuthor = userRepo.find(userId);
+
+            String message = String.format(GoogleMail.NewAnnouncementMessage,
+                    p.getCategory().getCategory(),
+                    postAuthor.getFirstName(),
+                    postAuthor.getLastName(),
+                    p.getTitle(),
+                    p.getContent());
+
+            new Thread(() -> {
+                try {
+                    GoogleMail.Send("UCOComputerScience", "sungisthebest", String.join(",", subscriberEmails), "New CS Announcement", message);
+                } catch (MessagingException ex) {
+                    Logger.getLogger(ThreadAddController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }).start();
         }
 
         Messages.setSuccessMessage("Announcement created.");

@@ -27,3 +27,9 @@ Make categories colorful - X
 Refactoring
 
 Remove Services if time
+
+
+---Production Deployment---
+
+- Make sure Staging is set to Production environment
+- Make sure everyone currently existing in User_Info table in DB has first and last names set, etc

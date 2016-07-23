@@ -4,6 +4,7 @@ import com.sun.mail.smtp.SMTPTransport;
 import java.security.Security;
 import java.util.Date;
 import java.util.Properties;
+import javax.ejb.Asynchronous;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
@@ -23,9 +24,10 @@ public class GoogleMail {
             + "<b><h3>%s</h3></b>";
 
     public static String NewAnnouncementMessage
-            = "%s %s,<br/><br/>"
-            + "A new CS Announcement has been posted:<br/><br/>"
-            + "Posted by: %s</br></br>"
+            = "A new Announcement has been posted on the CS Website.<br/><br/>"
+            + "<b>Category</b>: %s<br/>"
+            + "<b>Author</b>: %s %s<br/>"
+            + "<b>Subject</b>: %s<br/><br/>"
             + "%s";
 
     /**
@@ -40,6 +42,7 @@ public class GoogleMail {
      * @throws MessagingException if the connection is dead or not in the
      * connected state or if the message is not a MimeMessage
      */
+    @Asynchronous
     public static void Send(final String username, final String password, String recipientEmail, String title, String message) throws AddressException, MessagingException {
         GoogleMail.Send(username, password, recipientEmail, "", title, message);
     }
@@ -57,6 +60,8 @@ public class GoogleMail {
      * @throws MessagingException if the connection is dead or not in the
      * connected state or if the message is not a MimeMessage
      */
+    
+    @Asynchronous
     public static void Send(final String username, final String password, String recipientEmail, String ccEmail, String title, String message) throws AddressException, MessagingException {
         Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
         final String SSL_FACTORY = "javax.net.ssl.SSLSocketFactory";

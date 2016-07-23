@@ -22,7 +22,7 @@ CREATE TABLE `user_info` (
   `email` varchar(255) DEFAULT NULL,
   `active` boolean DEFAULT NULL,
   `activationKey` varchar(6) DEFAULT NULL,
-  `subscribedToAnnouncements` tinyint(4) NOT NULL DEFAULT '0'
+  `subscribedToAnnouncements` boolean DEFAULT '0' NOT NULL
 );
 
 create table user_groups (

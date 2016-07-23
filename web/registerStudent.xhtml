@@ -87,9 +87,7 @@
                                 <o:validateEqual components="inputPW inputPWConfirm" message="Passwords must match!" showMessageFor="inputPWConfirm" />
            
                                 <div class="form-group">
-                                    <p:commandLink id="btnRegister" update="@all" action="#{registrationController.submit()}" styleClass="btn btn-primary btn-block cs-button">
-                                    <i class="fa fa-check pad-right"></i>Register
-                                    </p:commandLink>
+                                    <p:commandButton id="btnRegister"  update="@all" style="height: 40px;" action="#{registrationController.submit()}" value="Register" styleClass="btn btn-primary btn-block cs-button"/>
                                 </div>
                             </div>
                             

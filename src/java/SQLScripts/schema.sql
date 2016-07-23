@@ -24,6 +24,7 @@ create table user_info (
     email varchar(255),
     active boolean,
     activationKey varchar(6),
+    subscribedToAnnouncements boolean,
     primary key (id)
 );
 =======

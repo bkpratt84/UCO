@@ -28,7 +28,7 @@ import javax.validation.constraints.Size;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 import registration.GoogleMail;
-import registration.User;
+import csDept.User;
 
 @Named(value = "threadAddController")
 @ViewScoped

@@ -1,9 +1,5 @@
 package csDept;
 
-<<<<<<< HEAD
-=======
-import java.util.ArrayList;
->>>>>>> master
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -32,16 +28,17 @@ public class UserRepository extends AbstractRepository<User> {
 
         return user;
     }
-<<<<<<< HEAD
-    
+
     public List<User> GetByActive(boolean active) {
         Query query = em.createNamedQuery("User.findByActive");
         query.setParameter("active", active);
-=======
+        List<User> users = query.getResultList();
+        
+        return users;
+    }
 
     public List<User> GetAnnouncementSubscribers() {
         Query query = em.createNamedQuery("User.findAnnouncementSubscribers");
->>>>>>> master
         List<User> users = query.getResultList();
 
         return users;

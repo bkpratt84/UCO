@@ -18,7 +18,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "User.findAll", query = "SELECT user FROM User user"),
     @NamedQuery(name = "User.findByActive", query = "SELECT user FROM User user WHERE user.active = :active"),
-    @NamedQuery(name = "User.findByEmail", query = "SELECT user FROM User user WHERE user.email = :email")
+    @NamedQuery(name = "User.findByEmail", query = "SELECT user FROM User user WHERE user.email = :email"),
+    @NamedQuery(name = "User.findAnnouncementSubscribers", query = "SELECT user FROM User user WHERE user.subscribedToAnnouncements = true")
 })
 public class User implements Serializable {
 
@@ -45,7 +46,10 @@ public class User implements Serializable {
     
     @Column(name = "active")
     private boolean active;
-    
+
+    @Column(name = "subscribedToAnnouncements")
+    private boolean subscribedToAnnouncements;
+        
     @Column(name = "activationKey")
     private String activationKey;
 
@@ -114,6 +118,14 @@ public class User implements Serializable {
 
     public void setActivationKey(String activationKey) {
         this.activationKey = activationKey;
+    }
+
+    public boolean isSubscribedToAnnouncements() {
+        return subscribedToAnnouncements;
+    }
+
+    public void setSubscribedToAnnouncements(boolean subscribedToAnnouncements) {
+        this.subscribedToAnnouncements = subscribedToAnnouncements;
     }
 
     public User(int ID, String username, String firstName, String lastName, String email, Boolean active) {

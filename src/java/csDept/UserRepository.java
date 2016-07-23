@@ -1,5 +1,7 @@
 package csDept;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -27,5 +29,12 @@ public class UserRepository extends AbstractRepository<User> {
         User user = (User) query.getSingleResult();
 
         return user;
+    }
+
+    public List<User> GetAnnouncementSubscribers() {
+        Query query = em.createNamedQuery("User.findAnnouncementSubscribers");
+        List<User> users = query.getResultList();
+
+        return users;
     }
 }

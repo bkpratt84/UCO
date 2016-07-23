@@ -16,7 +16,7 @@ import org.primefaces.event.RowEditEvent;
 public class DegreesController implements Serializable {
 
     @EJB
-    DegreesRepository degreeFacade;
+    DegreesRepository degreeRepository;
 
     @Inject
     DegreesBean degreeBean;
@@ -48,20 +48,20 @@ public class DegreesController implements Serializable {
     }
 
     public void load() {
-        this.degrees = degreeFacade.findAll();
+        this.degrees = degreeRepository.findAll();
 
     }
 
     public List<Degrees> getAll() {
-        return degreeFacade.findAll();
+        return degreeRepository.findAll();
     }
 
     public int count() {
-        return degreeFacade.count();
+        return degreeRepository.count();
     }
 
     public void delete(Degrees b) {
-        degreeFacade.remove(b);
+        degreeRepository.remove(b);
         load();
     }
 
@@ -71,14 +71,14 @@ public class DegreesController implements Serializable {
         d.setDegreeName(degreeBean.getDegreeName());
         d.setDegreeCode(degreeBean.getDegreeCode());
         d.setDegreeDesc(degreeBean.getDegreeDesc());
-        degreeFacade.create(d);
+        degreeRepository.create(d);
         load();
         return null;
     }
 
     public void edit(Degrees d) {
 
-        degreeFacade.update(d);
+        degreeRepository.update(d);
         load();
     }
 

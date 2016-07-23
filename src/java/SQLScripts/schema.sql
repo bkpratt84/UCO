@@ -1,18 +1,18 @@
 use cs_db;
 
-
-create table user_info (
-    id integer not null auto_increment,
-    title     varchar(255),
-    firstName varchar(255),
-    lastName varchar(255),
-    username varchar(255),
-    password varchar(255),
-    email varchar(255),
-    active boolean,
-    activationKey varchar(6),
-    primary key (id)
-);
+CREATE TABLE `user_info` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) DEFAULT NULL,
+  `firstName` varchar(255) DEFAULT NULL,
+  `lastName` varchar(255) DEFAULT NULL,
+  `username` varchar(255) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `active` tinyint(1) DEFAULT NULL,
+  `activationKey` varchar(6) DEFAULT NULL,
+  `subscribeToAnnouncements` tinyint(4) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+)
 
 create table user_groups (
     id integer not null auto_increment,

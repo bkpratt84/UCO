@@ -8,6 +8,7 @@ import announcements.domain.Post;
 import announcements.domain.PostRepository;
 import announcements.services.UserService;
 import announcements.utility.Messages;
+import csDept.UserRepository;
 import java.io.IOException;
 import java.io.Serializable;
 import java.sql.SQLException;
@@ -21,10 +22,13 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import javax.inject.Inject;
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.Size;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
+import registration.GoogleMail;
+import registration.User;
 
 @Named(value = "threadAddController")
 @ViewScoped
@@ -32,10 +36,13 @@ public class ThreadAddController implements Serializable {
 
     @EJB
     private PostRepository postRepo;
-    
+
     @EJB
     private FileRepository fileRepo;
-    
+
+    @EJB
+    private UserRepository userRepository;
+
     @EJB
     private CategoryRepository categoryRepo;
 
@@ -43,14 +50,14 @@ public class ThreadAddController implements Serializable {
     private UserService userService;
 
     private Integer postId;
-    
+
     @Size(min = 5, max = 255, message = "Enter a title between 5 and 255 characters.")
     private String title;
-    
+
     @Size(min = 1, message = "Please enter a message.")
     private String content;
     private Category category;
-    
+
     private List<File> filesAttached;
     private List<File> filesToDelete;
     private List<File> filesPending;
@@ -61,19 +68,19 @@ public class ThreadAddController implements Serializable {
         if (filesPending == null) {
             filesPending = new ArrayList<>();
         }
-        
+
         if (filesAttached == null) {
             filesAttached = new ArrayList<>();
         }
-        
+
         if (filesToDelete == null) {
             filesToDelete = new ArrayList<>();
         }
-        
+
         if (categories == null) {
             categories = categoryRepo.GetByInactive(false);
         }
-        
+
         HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         String id = request.getParameter("postId");
         if (id == null) {
@@ -84,11 +91,11 @@ public class ThreadAddController implements Serializable {
 
         Post post = postRepo.getByPostId(postId);
         Category cat = categoryRepo.GetByCategoryID(post.getCategoryId());
-        
+
         setTitle(post.getTitle());
         setContent(post.getContent());
         setCategory(cat);
-        
+
         filesAttached = fileRepo.GetByPostId(postId);
     }
 
@@ -136,18 +143,18 @@ public class ThreadAddController implements Serializable {
         this.postId = postId;
     }
 
-    public void save() throws SQLException, IOException {
+    public void save() throws SQLException, IOException, MessagingException {
         Post post = new Post();
-        
+
         Calendar cal = Calendar.getInstance();
         String userName = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal().getName();
-        int userId = userService.getUserId(userName);    
-        
+        int userId = userService.getUserId(userName);
+
         if (postId != null) {
             post = postRepo.getByPostId(postId);
             post.setDateModified(cal.getTime());
             post.setModifiedBy(userId);
-            
+
             for (File f : filesToDelete) {
                 fileRepo.remove(f);
             }
@@ -161,19 +168,31 @@ public class ThreadAddController implements Serializable {
         post.setCategoryId(this.category.getCategoryID());
         post.setCategory(category);
         post.setActive(true);
-        
+
         Post p = postRepo.createOrUpdate(post, postId);
-        
+
         persistFiles(filesPending, p.getPostID(), userId);
-        
+
         p.setFileCount(postRepo.getFileCount(p.getPostID()));
         postRepo.createOrUpdate(p, p.getPostID());
-        
+
+        ArrayList<String> subscriberEmails = new ArrayList<>();
+        for (User subscriber : this.userRepository.GetAnnouncementSubscribers()) {
+            subscriberEmails.add(subscriber.getEmail());
+        }
+
+        if (subscriberEmails.size() > 0) {
+            User currentUser = userRepository.find(p.getAuthor());
+            
+            String message = String.format(GoogleMail.NewAnnouncementMessage, currentUser.getFirstName(), currentUser.getLastName(), p.getContent());
+            GoogleMail.Send("UCOComputerScience", "sungisthebest", String.join(";", subscriberEmails), "New CS Announcement", "A new CS announcement has been posted.");
+        }
+
         Messages.setSuccessMessage("Announcement created.");
         ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
         context.redirect(context.getRequestContextPath() + "/faces/announcements.xhtml");
     }
-    
+
     private void persistFiles(List<File> files, Integer postID, int ownerID) {
         for (File f : files) {
             f.setPostID(postID);
@@ -181,19 +200,19 @@ public class ThreadAddController implements Serializable {
             fileRepo.createOrUpdate(f, postID);
         }
     }
-    
+
     public void fileUpload(FileUploadEvent event) {
         UploadedFile uploadedFile = event.getFile();
         String fileName = uploadedFile.getFileName();
         long fileSize = uploadedFile.getSize();
         String fileType = uploadedFile.getContentType();
         byte[] contents = uploadedFile.getContents();
-        
+
         File file = new File(fileName, fileType, fileSize, contents);
-        
+
         filesPending.add(file);
     }
-    
+
     public void removeFile(File file) {
         if (postId != null) {
             filesToDelete.add(file);

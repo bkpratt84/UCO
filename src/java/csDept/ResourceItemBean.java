@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 @Named(value = "resourceItemBean")
 @SessionScoped
-public class ResourceitemBean implements Serializable {
+public class ResourceItemBean implements Serializable {
     private Integer itemid;
     private String title;
     private String contents;

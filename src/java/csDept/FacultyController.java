@@ -1,9 +1,7 @@
 package csDept;
 
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
@@ -11,16 +9,14 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.inject.Inject;
-import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.RowEditEvent;
-import registration.User;
 
 @Named(value = "facultyController")
 @SessionScoped
 public class FacultyController implements Serializable {
 
     @EJB
-    FacultyRepository facultyFacade;
+    FacultyRepository facultyRepository;
 
     @Inject
     FacultyBean facultyBean;
@@ -68,19 +64,19 @@ public class FacultyController implements Serializable {
     }
 
     public void loadFTFaculty() {
-        this.FTfaculty = facultyFacade.findByStatus("fulltime");
+        this.FTfaculty = facultyRepository.findByStatus("fulltime");
     }
 
     public void loadAdjunctFaculty() {
-        this.Adjunctfaculty = facultyFacade.findByStatus("adjunct");
+        this.Adjunctfaculty = facultyRepository.findByStatus("adjunct");
     }
 
     public void loadFormerFaculty() {
-        this.Formerfaculty = facultyFacade.findByStatus("former");
+        this.Formerfaculty = facultyRepository.findByStatus("former");
     }
 
     public void loadAdminFaculty() {
-        this.Adminfaculty = facultyFacade.findByStatus("administrative");
+        this.Adminfaculty = facultyRepository.findByStatus("administrative");
     }
 
     public void loadAll() {
@@ -91,19 +87,19 @@ public class FacultyController implements Serializable {
     }
 
     public List<Faculty> getAll() {
-        return facultyFacade.findAll();
+        return facultyRepository.findAll();
     }
 
     public List<Faculty> findByStatus(String status) {
-        return facultyFacade.findByStatus(status);
+        return facultyRepository.findByStatus(status);
     }
 
     public int count() {
-        return facultyFacade.count();
+        return facultyRepository.count();
     }
 
     public void delete(Faculty f) {
-        facultyFacade.remove(f);
+        facultyRepository.remove(f);
         //replace with if tree (check facultytype) to improve performance
         loadAll();
     }
@@ -121,12 +117,12 @@ public class FacultyController implements Serializable {
         f.setPhone(facultyBean.getPhone());
         f.setWebsite(facultyBean.getWebsite());
         f.setStatus(facultyBean.getStatus());
-        facultyFacade.create(f);
+        facultyRepository.create(f);
         loadAll();
     }
 
     public void edit(Faculty f) {
-        facultyFacade.update(f);
+        facultyRepository.update(f);
         loadAll();
     }
 

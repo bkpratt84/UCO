@@ -17,7 +17,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "User.findAll", query = "SELECT user FROM User user WHERE user.active = true"),
-    @NamedQuery(name = "User.findByEmail", query = "SELECT user FROM User user WHERE user.email = :email")
+    @NamedQuery(name = "User.findByEmail", query = "SELECT user FROM User user WHERE user.email = :email"),
+    @NamedQuery(name = "User.findAnnouncementSubscribers", query = "SELECT user FROM User user WHERE user.subscribedToAnnouncements = true")
 })
 public class User implements Serializable {
 
@@ -38,6 +39,8 @@ public class User implements Serializable {
     private String currentPassword;
     @Column(name = "active")
     private boolean active;
+    @Column(name = "subscribedToAnnouncements")
+    private boolean subscribedToAnnouncements;
     @Column(name = "activationKey")
     private boolean activationKey;
     
@@ -88,38 +91,6 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public String getOldPassword() {
-        return oldPassword;
-    }
-
-    public void setOldPassword(String oldPassword) {
-        this.oldPassword = oldPassword;
-    }
-
-    public String getNewPassword() {
-        return newPassword;
-    }
-
-    public void setNewPassword(String newPassword) {
-        this.newPassword = newPassword;
-    }
-
-    public String getRepeatPassword() {
-        return repeatPassword;
-    }
-
-    public void setRepeatPassword(String repeatPassword) {
-        this.repeatPassword = repeatPassword;
-    }
-
-    public String getCurrentPassword() {
-        return currentPassword;
-    }
-
-    public void setCurrentPassword(String currentPassword) {
-        this.currentPassword = currentPassword;
-    }
-
     public boolean isActive() {
         return active;
     }
@@ -134,6 +105,14 @@ public class User implements Serializable {
 
     public void setActivationKey(boolean activationKey) {
         this.activationKey = activationKey;
+    }
+
+    public boolean isSubscribedToAnnouncements() {
+        return subscribedToAnnouncements;
+    }
+
+    public void setSubscribedToAnnouncements(boolean subscribeToAnnouncements) {
+        this.subscribedToAnnouncements = subscribeToAnnouncements;
     }
 
     public User(int ID, String username, String firstName, String lastName, String email, Boolean active) {

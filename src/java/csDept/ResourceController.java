@@ -17,7 +17,7 @@ import org.primefaces.event.RowEditEvent;
 public class ResourceController implements Serializable {
 
     @EJB
-    ResourceRepository resourceFacade;
+    ResourceRepository resourceRepository;
 
     @Inject
     ResourceBean resourceBean;
@@ -34,7 +34,7 @@ public class ResourceController implements Serializable {
     }
 
     public void load() {
-        this.resources = resourceFacade.findAll();
+        this.resources = resourceRepository.findAll();
     }
 
     public List<Resource> getResources() {
@@ -50,7 +50,7 @@ public class ResourceController implements Serializable {
     }
 
     public Resource findById(int id) {
-        return resourceFacade.findByResourceId(id);
+        return resourceRepository.findByResourceId(id);
     }
 
     public void setResources(List<Resource> resources) {
@@ -58,15 +58,15 @@ public class ResourceController implements Serializable {
     }
 
     public List<Resource> getAll() {
-        return resourceFacade.findAll();
+        return resourceRepository.findAll();
     }
 
     public int count() {
-        return resourceFacade.count();
+        return resourceRepository.count();
     }
 
     public void delete(Resource c) {
-        resourceFacade.remove(c);
+        resourceRepository.remove(c);
         load();
         //return null;
     }
@@ -75,14 +75,14 @@ public class ResourceController implements Serializable {
 
         Resource c = new Resource();
         c.setTitle(resourceBean.getTitle());
-        resourceFacade.create(c);
+        resourceRepository.create(c);
         resourceBean.setTitle(null);
         load();
         return null;
     }
 
     public void edit(Resource c) {
-        resourceFacade.update(c);
+        resourceRepository.update(c);
         load();
     }
 

@@ -19,11 +19,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "FACULTYADVISEMENT")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Facultyadvisement.findAll", query = "SELECT f FROM Facultyadvisement f"),
-    @NamedQuery(name = "Facultyadvisement.findById", query = "SELECT f FROM Facultyadvisement f WHERE f.id = :id"),
-    @NamedQuery(name = "Facultyadvisement.findByTitle", query = "SELECT f FROM Facultyadvisement f WHERE f.title = :title"),
-    @NamedQuery(name = "Facultyadvisement.findByContent", query = "SELECT f FROM Facultyadvisement f WHERE f.content = :content")})
-public class Facultyadvisement implements Serializable {
+    @NamedQuery(name = "Facultyadvisement.findAll", query = "SELECT f FROM FacultyAdvisement f"),
+    @NamedQuery(name = "Facultyadvisement.findById", query = "SELECT f FROM FacultyAdvisement f WHERE f.id = :id"),
+    @NamedQuery(name = "Facultyadvisement.findByTitle", query = "SELECT f FROM FacultyAdvisement f WHERE f.title = :title"),
+    @NamedQuery(name = "Facultyadvisement.findByContent", query = "SELECT f FROM FacultyAdvisement f WHERE f.content = :content")})
+public class FacultyAdvisement implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,10 +37,10 @@ public class Facultyadvisement implements Serializable {
     @Column(name = "CONTENT")
     private String content;
 
-    public Facultyadvisement() {
+    public FacultyAdvisement() {
     }
 
-    public Facultyadvisement(Integer id) {
+    public FacultyAdvisement(Integer id) {
         this.id = id;
     }
 
@@ -78,10 +78,10 @@ public class Facultyadvisement implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Facultyadvisement)) {
+        if (!(object instanceof FacultyAdvisement)) {
             return false;
         }
-        Facultyadvisement other = (Facultyadvisement) object;
+        FacultyAdvisement other = (FacultyAdvisement) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }

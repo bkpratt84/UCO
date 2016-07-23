@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 @Named(value = "facultyadvisementBean")
 @SessionScoped
-public class FacultyadvisementBean implements Serializable {
+public class FacultyAdvisementBean implements Serializable {
 
    private Integer id;
     private String title;

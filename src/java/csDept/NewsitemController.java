@@ -1,7 +1,6 @@
 package csDept;
 
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -18,7 +17,7 @@ import org.primefaces.event.RowEditEvent;
 public class NewsitemController implements Serializable {
 
     @EJB
-    NewsItemRepository newsitemFacade;
+    NewsItemRepository newsitemRepository;
 
     @Inject
     NewsitemBean newsitemBean;
@@ -36,8 +35,8 @@ public class NewsitemController implements Serializable {
     }
 
     public void load() {
-        this.newsitems = newsitemFacade.orderByDate();
-        this.reverse = newsitemFacade.orderByDate();
+        this.newsitems = newsitemRepository.orderByDate();
+        this.reverse = newsitemRepository.orderByDate();
     }
 
     public List<Newsitem> getNewsitem() {
@@ -53,7 +52,7 @@ public class NewsitemController implements Serializable {
     }
 
     public Newsitem findById(int id) {
-        return newsitemFacade.find(id);
+        return newsitemRepository.find(id);
     }
 
     public void setNewsitem(List<Newsitem> newsitems) {
@@ -61,7 +60,7 @@ public class NewsitemController implements Serializable {
     }
 
     public List<Newsitem> getAll() {
-        return newsitemFacade.findAll();
+        return newsitemRepository.findAll();
     }
 
     public List<Newsitem> getAllReverse() {
@@ -69,11 +68,11 @@ public class NewsitemController implements Serializable {
     }
 
     public int count() {
-        return newsitemFacade.count();
+        return newsitemRepository.count();
     }
 
     public void delete(Newsitem c) {
-        newsitemFacade.remove(c);
+        newsitemRepository.remove(c);
         load();
         //return null;
     }
@@ -83,7 +82,7 @@ public class NewsitemController implements Serializable {
         Newsitem c = new Newsitem();
         c.setTitle(newsitemBean.getTitle());
         c.setContent(newsitemBean.getContent());
-        newsitemFacade.create(c);
+        newsitemRepository.create(c);
         newsitemBean.setContent(null);
         newsitemBean.setTitle(null);
         load();
@@ -91,7 +90,7 @@ public class NewsitemController implements Serializable {
     }
 
     public void edit(Newsitem c) {
-        newsitemFacade.update(c);
+        newsitemRepository.update(c);
         load();
     }
 

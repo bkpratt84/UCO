@@ -1,8 +1,6 @@
 package csDept;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -18,13 +16,13 @@ import org.primefaces.event.RowEditEvent;
 public class ResourceitemController implements Serializable {
     
     @EJB
-    ResourceitemFacade resourceitemFacade;
+    ResourceItemRepository resourceItemRepository;
     
     @EJB
-    ResourceRepository resourceFacade;
+    ResourceRepository resourceRepository;
     
     @Inject
-    ResourceitemBean resourceItemBean;
+    ResourceItemBean resourceItemBean;
     
     @Inject
     ResourceBean resourceBean;
@@ -43,7 +41,7 @@ public class ResourceitemController implements Serializable {
     }
     
     public void load() {
-        this.resourceItems = resourceitemFacade.findAll();
+        this.resourceItems = resourceItemRepository.findAll();
     }
     
     public List<Resourceitem> getResourceItems() {
@@ -59,7 +57,7 @@ public class ResourceitemController implements Serializable {
     }
     
     public Resourceitem findById(int id) {
-        return resourceitemFacade.find(id);
+        return resourceItemRepository.find(id);
     }
     
     public void setResource(List<Resourceitem> resourceItems) {
@@ -67,22 +65,22 @@ public class ResourceitemController implements Serializable {
     }
     
     public List<Resourceitem> getAll() {
-        return resourceitemFacade.findAll();
+        return resourceItemRepository.findAll();
     }
     
     public int count() {
-        return resourceitemFacade.count();
+        return resourceItemRepository.count();
     }
     
     public void delete(Resourceitem c) {
         Resource resource = new Resource();
-        resourceitemFacade.remove(c);
+        resourceItemRepository.remove(c);
         List<Resourceitem> list = resourceBean.getResourceitemCollection();
         list.remove(c);
         resource.setResourceid(resourceBean.getResourceid());
         resource.setTitle(resourceBean.getTitle());
         resource.setResourceitemCollection(list);
-        resourceFacade.update(resource);
+        resourceRepository.update(resource);
         load();
         //return null;
     }
@@ -104,8 +102,8 @@ public class ResourceitemController implements Serializable {
         item.setResourceid(resource);
         
         item.setContents(resourceItemBean.getContents());
-        resourceitemFacade.create(item);
-        resourceFacade.update(resource);
+        resourceItemRepository.create(item);
+        resourceRepository.update(resource);
         resourceItemBean.setTitle(null);
         resourceItemBean.setContents(null);
         
@@ -114,7 +112,7 @@ public class ResourceitemController implements Serializable {
     }
     
     public void edit(Resourceitem c) {
-        resourceitemFacade.update(c);
+        resourceItemRepository.update(c);
         load();
     }
     

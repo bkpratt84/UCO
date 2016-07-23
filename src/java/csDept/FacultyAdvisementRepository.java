@@ -6,7 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 @Stateless
-public class FacultyadvisementFacade extends AbstractRepository<Facultyadvisement> {
+public class FacultyAdvisementRepository extends AbstractRepository<FacultyAdvisement> {
     @PersistenceContext(unitName = "CSWebsitePU")
     private EntityManager em;
 
@@ -15,8 +15,8 @@ public class FacultyadvisementFacade extends AbstractRepository<Facultyadvisemen
         return em;
     }
 
-    public FacultyadvisementFacade() {
-        super(Facultyadvisement.class);
+    public FacultyAdvisementRepository() {
+        super(FacultyAdvisement.class);
     }
     
 }

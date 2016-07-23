@@ -14,7 +14,7 @@ import javax.persistence.PersistenceContext;
  * @author erikhauck
  */
 @Stateless
-public class ResourceitemFacade extends AbstractRepository<Resourceitem> {
+public class ResourceItemRepository extends AbstractRepository<Resourceitem> {
     @PersistenceContext(unitName = "CSWebsitePU")
     private EntityManager em;
 
@@ -23,7 +23,7 @@ public class ResourceitemFacade extends AbstractRepository<Resourceitem> {
         return em;
     }
 
-    public ResourceitemFacade() {
+    public ResourceItemRepository() {
         super(Resourceitem.class);
     }
     

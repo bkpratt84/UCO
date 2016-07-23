@@ -12,15 +12,22 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 public class GoogleMail {
+
     private GoogleMail() {
     }
 
-    public static String RegistrationMessage = 
-            "%s %s,<br/><br/>"
-            + "Thanks for registering on the UCO CS Department site. "
+    public static String RegistrationMessage
+            = "%s %s,<br/><br/>"
+            + "Thanks for registering on the UCO CS Department site."
             + "Please login and input the code below to finish activating your account.<br/><br/>"
             + "<b><h3>%s</h3></b>";
-    
+
+    public static String NewAnnouncementMessage
+            = "%s %s,<br/><br/>"
+            + "A new CS Announcement has been posted:<br/><br/>"
+            + "Posted by: %s</br></br>"
+            + "%s";
+
     /**
      * Send email using GMail SMTP server.
      *
@@ -30,7 +37,8 @@ public class GoogleMail {
      * @param title title of the message
      * @param message message to be sent
      * @throws AddressException if the email address parse failed
-     * @throws MessagingException if the connection is dead or not in the connected state or if the message is not a MimeMessage
+     * @throws MessagingException if the connection is dead or not in the
+     * connected state or if the message is not a MimeMessage
      */
     public static void Send(final String username, final String password, String recipientEmail, String title, String message) throws AddressException, MessagingException {
         GoogleMail.Send(username, password, recipientEmail, "", title, message);
@@ -46,7 +54,8 @@ public class GoogleMail {
      * @param title title of the message
      * @param message message to be sent
      * @throws AddressException if the email address parse failed
-     * @throws MessagingException if the connection is dead or not in the connected state or if the message is not a MimeMessage
+     * @throws MessagingException if the connection is dead or not in the
+     * connected state or if the message is not a MimeMessage
      */
     public static void Send(final String username, final String password, String recipientEmail, String ccEmail, String title, String message) throws AddressException, MessagingException {
         Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
@@ -68,7 +77,7 @@ public class GoogleMail {
         ref :   http://java.sun.com/products/javamail/javadocs/com/sun/mail/smtp/package-summary.html
                 http://forum.java.sun.com/thread.jspa?threadID=5205249
                 smtpsend.java - demo program from javamail
-        */
+         */
         props.put("mail.smtps.quitwait", "false");
 
         Session session = Session.getInstance(props, null);
@@ -88,11 +97,11 @@ public class GoogleMail {
         msg.setSentDate(new Date());
         msg.setContent(message, "text/html; charset=utf-8");
         msg.saveChanges();
-        
-        SMTPTransport t = (SMTPTransport)session.getTransport("smtps");
+
+        SMTPTransport t = (SMTPTransport) session.getTransport("smtps");
 
         t.connect("smtp.gmail.com", username, password);
-        t.sendMessage(msg, msg.getAllRecipients());      
+        t.sendMessage(msg, msg.getAllRecipients());
         t.close();
     }
 }

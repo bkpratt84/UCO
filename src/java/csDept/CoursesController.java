@@ -16,7 +16,7 @@ import org.primefaces.event.RowEditEvent;
 public class CoursesController implements Serializable {
 
     @EJB
-    CoursesRepository courseFacade;
+    CoursesRepository courseRepository;
 
     @Inject
     CoursesBean courseBean;
@@ -29,7 +29,7 @@ public class CoursesController implements Serializable {
     }
 
     public void load() {
-        this.courses = courseFacade.findAll();
+        this.courses = courseRepository.findAll();
     }
 
     public List<Courses> getCourses() {
@@ -41,15 +41,15 @@ public class CoursesController implements Serializable {
     }
 
     public List<Courses> getAll() {
-        return courseFacade.findAll();
+        return courseRepository.findAll();
     }
 
     public int count() {
-        return courseFacade.count();
+        return courseRepository.count();
     }
 
     public void delete(Courses c) {
-        courseFacade.remove(c);
+        courseRepository.remove(c);
         load();
         //return null;
     }
@@ -60,13 +60,13 @@ public class CoursesController implements Serializable {
         c.setCourseName(courseBean.getCourseName());
         c.setCourseCrn(courseBean.getCourseCrn());
         c.setCourseDesc(courseBean.getCourseDesc());
-        courseFacade.create(c);
+        courseRepository.create(c);
         load();
         return null;
     }
 
     public void edit(Courses c) {
-        courseFacade.update(c);
+        courseRepository.update(c);
         load();
     }
 

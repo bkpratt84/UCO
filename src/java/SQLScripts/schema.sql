@@ -1,5 +1,17 @@
 use cs_db;
 
+SET FOREIGN_KEY_CHECKS = 0;
+DROP TABLE IF EXISTS user_info;
+DROP TABLE IF EXISTS user_groups;
+DROP TABLE IF EXISTS DEGREES;
+DROP TABLE IF EXISTS FACULTYADVISEMENT;
+DROP TABLE IF EXISTS NEWSITEM;
+DROP TABLE IF EXISTS FACULTY;
+DROP TABLE IF EXISTS RESOURCE;
+DROP TABLE IF EXISTS RESOURCEITEM;
+DROP TABLE IF EXISTS COURSES;
+SET FOREIGN_KEY_CHECKS = 1;
+
 
 create table user_info (
     id integer not null auto_increment,
@@ -80,27 +92,27 @@ INSERT INTO FACULTYADVISEMENT (TITLE, CONTENT) VALUES(
                                         Office of Global Affairs (international students) or
                                         the Jackson College of Graduate Studies (graduate students).');
 
-CREATE TABLE NEWSITEM(
-    ID INTEGER NOT NULL auto_increment,
-    TITLE VARCHAR(255),
-    CONTENT VARCHAR(1000),
-    DATEPUBLISHED TIMESTAMP,
-
-    PRIMARY KEY(ID)
-);
-
-INSERT INTO NEWSITEM (TITLE, CONTENT) VALUES('Facebook Group Open','<p>
-                            News, jobs or internship announcements are currently posted
-                            at the official Facebook group of the Computer Science Department.
-                        </p>
-                        <p>
-                            Join the Facebook group to stay current with the news from the Department: 
-                            <a href="https://www.facebook.com/groups/cs.uco/">UCO CS Students</a>
-                        </p>
-                        <p>
-                            UCO CS Students is a closed group for the current UCO students
-                            majoring in computer science or software engineering degrees.
-                        </p>');
+-- CREATE TABLE NEWSITEM(
+--     ID INTEGER NOT NULL auto_increment,
+--     TITLE VARCHAR(255),
+--     CONTENT VARCHAR(1000),
+--     DATEPUBLISHED TIMESTAMP,
+-- 
+--     PRIMARY KEY(ID)
+-- );
+-- 
+-- INSERT INTO NEWSITEM (TITLE, CONTENT) VALUES('Facebook Group Open','<p>
+--                             News, jobs or internship announcements are currently posted
+--                             at the official Facebook group of the Computer Science Department.
+--                         </p>
+--                         <p>
+--                             Join the Facebook group to stay current with the news from the Department: 
+--                             <a href="https://www.facebook.com/groups/cs.uco/">UCO CS Students</a>
+--                         </p>
+--                         <p>
+--                             UCO CS Students is a closed group for the current UCO students
+--                             majoring in computer science or software engineering degrees.
+--                         </p>');
 
 
 CREATE TABLE FACULTY(
@@ -117,23 +129,6 @@ CREATE TABLE FACULTY(
     STATUS VARCHAR(64),
     PRIMARY KEY (FACULTY_ID)
 );
-
-
---In it's own script file
--- CREATE TABLE post (
---     postId integer  NOT NULL AUTO_INCREMENT,
---     parentId integer,
---     authorId integer NOT NULL,
---     category varchar(255),
---     title varchar(255),
---     content varchar(225) NOT NULL,
---     views integer NOT NULL,
---     active boolean NOT NULL,
---     dateCreated date NOT NULL,
---     datedModified date,
---     modifiedBy int,
---     primary key (postId)
--- );
 
 CREATE TABLE RESOURCE(
     RESOURCEID INTEGER NOT NULL auto_increment,

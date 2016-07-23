@@ -13,7 +13,6 @@ import javax.inject.Named;
 import javax.inject.Inject;
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.RowEditEvent;
-import registration.User;
 
 @Named(value = "facultyController")
 @SessionScoped

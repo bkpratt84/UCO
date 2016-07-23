@@ -1,4 +1,4 @@
-package registration;
+package csDept;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
@@ -16,7 +16,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "USER_INFO")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "User.findAll", query = "SELECT user FROM User user WHERE user.active = true"),
+    @NamedQuery(name = "User.findAll", query = "SELECT user FROM User user"),
+    @NamedQuery(name = "User.findByActive", query = "SELECT user FROM User user WHERE user.active = :active"),
     @NamedQuery(name = "User.findByEmail", query = "SELECT user FROM User user WHERE user.email = :email")
 })
 public class User implements Serializable {
@@ -26,24 +27,27 @@ public class User implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private int id;
-    @Column(name = "parentId")
+    
+    @Column(name = "username")
     private String username;
+    
     @Column(name = "firstName")
     private String firstName;
+    
     @Column(name = "lastName")
     private String lastName;
+    
     @Column(name = "email")
     private String email;
+    
     @Column(name = "password")
     private String currentPassword;
+    
     @Column(name = "active")
     private boolean active;
-    @Column(name = "activationKey")
-    private boolean activationKey;
     
-    private String oldPassword;
-    private String newPassword;
-    private String repeatPassword;
+    @Column(name = "activationKey")
+    private String activationKey;
 
     public User() {
     }
@@ -88,30 +92,6 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public String getOldPassword() {
-        return oldPassword;
-    }
-
-    public void setOldPassword(String oldPassword) {
-        this.oldPassword = oldPassword;
-    }
-
-    public String getNewPassword() {
-        return newPassword;
-    }
-
-    public void setNewPassword(String newPassword) {
-        this.newPassword = newPassword;
-    }
-
-    public String getRepeatPassword() {
-        return repeatPassword;
-    }
-
-    public void setRepeatPassword(String repeatPassword) {
-        this.repeatPassword = repeatPassword;
-    }
-
     public String getCurrentPassword() {
         return currentPassword;
     }
@@ -128,11 +108,11 @@ public class User implements Serializable {
         this.active = active;
     }
 
-    public boolean isActivationKey() {
+    public String getActivationKey() {
         return activationKey;
     }
 
-    public void setActivationKey(boolean activationKey) {
+    public void setActivationKey(String activationKey) {
         this.activationKey = activationKey;
     }
 

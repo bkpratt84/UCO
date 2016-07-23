@@ -8,7 +8,7 @@ import javax.annotation.Resource;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.sql.DataSource;
-import registration.User;
+import csDept.User;
 
 @Named(value = "UserService")
 @RequestScoped

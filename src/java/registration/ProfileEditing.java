@@ -127,9 +127,9 @@ public class ProfileEditing implements Serializable {
         }
 
         if (context.isUserInRole("instructor")) {
-            context.redirect("/sdd-project/faces/instructors/instructorProfile.xhtml");
+            context.redirect("/faces/instructors/instructorProfile.xhtml");
         } else if (context.isUserInRole("student")) {
-            context.redirect("/sdd-project/faces/students/studentProfile.xhtml");
+            context.redirect(context.getRequestContextPath() + "/faces/students/studentProfile.xhtml");
         }
     }
 

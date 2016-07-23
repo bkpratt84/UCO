@@ -29,6 +29,14 @@ public class UserRepository extends AbstractRepository<User> {
 
         return user;
     }
+    
+    public User GetByUserName(String userName) {
+        Query query = em.createNamedQuery("User.findByUserName");
+        query.setParameter("userName", userName);
+        User user = (User) query.getSingleResult();
+
+        return user;
+    }
 
     public List<User> GetByActive(boolean active) {
         Query query = em.createNamedQuery("User.findByActive");

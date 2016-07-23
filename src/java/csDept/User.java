@@ -19,6 +19,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "User.findAll", query = "SELECT user FROM User user"),
     @NamedQuery(name = "User.findByActive", query = "SELECT user FROM User user WHERE user.active = :active"),
     @NamedQuery(name = "User.findByEmail", query = "SELECT user FROM User user WHERE user.email = :email"),
+    @NamedQuery(name = "User.findByUserName", query = "SELECT user FROM User user WHERE user.username = :userName"),
     @NamedQuery(name = "User.findAnnouncementSubscribers", query = "SELECT user FROM User user WHERE user.subscribedToAnnouncements = true"),
     @NamedQuery(name = "User.findByActivationCode", query = "SELECT user FROM User user WHERE user.active = false AND user.activationKey = :key")
 })

@@ -1,58 +1,82 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<ui:composition template="/templates/mainTemplate.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:o="http://omnifaces.org/ui">
 
-    <ui:composition template="../templates/studentTemplate.xhtml">
+    <ui:define name="title">
+        <title>Register Student</title>
+    </ui:define>
 
-        <ui:define name="title">
-            <title>Edit Profile</title>
-        </ui:define>
-
-        <ui:define name="content">
-            <div class="row">
-                <div class="col-lg-6 col-lg-offset-3 display-box">
-                    <h2 class="gold-text">Edit Profile</h2>
-                    <h:form>
-                            <p:messages id="msgs" autoUpdate="true"/>
-                            
-                            <h:panelGrid columns="3" cellpadding="5">
-                                <h:outputLabel for="firstName" value="FirstName " class="gold-text"/>
-                                <h:inputText id="firstName" value="#{profileEditing.firstName}" styleClass="form-control form-margin" pt:placeholder="First Name" validatorMessage="Must contain only letters">
-                                <f:validateRegex pattern="^[a-zA-Z]+$" />  
-                                <p:ajax update="msgFirstName" event="keyup" />
-                                </h:inputText>
-                                <h:message for="firstName" id="msgFirstName" />
-                                
-                                <h:outputLabel for="lastName" value="Last Name " class="gold-text"/>
-                                <h:inputText id="lastName" value="#{profileEditing.lastName}" styleClass="form-control form-margin" pt:placeholder="Last Name" validatorMessage="Must contain only letters">
-                                <f:validateRegex pattern="^[a-zA-Z]+$" />  
-                                <p:ajax update="msgLastName" event="keyup" />
-                                </h:inputText>
-                                <h:message for="lastName" id="msgLastName" />
-                                
-                                <h:outputLabel for="email" value="Email " class="gold-text" />  
-                                <h:inputText id="email" value="#{profileEditing.email}" required="true" disabled="true" label="Email" styleClass="form-control form-margin" pt:placeholder="Email" validatorMessage="Must be a valid email of the following format: xxx@xxx.xxx">  
-                                <f:validateRegex pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$" />  
-                                <p:ajax update="msgEmail" event="keyup" />  
-                                </h:inputText>  
-                                <h:message for="email" id="msgEmail" />
-                             
-                            </h:panelGrid>
-
-                            <p:commandButton type="submit" styleClass="btn btn-default btn-block cs-button form-margin" actionListener="#{profileEditing.saveProfileUpdate}" value="Apply Changes"/>
-                            <h:button outcome="/students/changePassword" styleClass="btn btn-default btn-block cs-button form-margin" value="Change Password"/>
-                    </h:form>
-                </div>
+    <ui:define name="content">
+        <div class="container-fluid pad-top">
+            <div class="page-header">
+                <h1>Edit Profile</h1>
             </div>
-        </ui:define>
-    </ui:composition>
-</html>
+
+            <h:panelGroup class="row" rendered="#{!editStudentController.complete}">
+                <div class="col-md-6 col-md-offset-3">
+                    <div class="panel panel-body bg-uco-blue">
+                        <h:form id="frmRegister" styleClass="form-horizontal">
+                            <div class="col-md-10 col-md-offset-1">
 
 
+                                <div class="form-group">
+                                    <label class="sr-only" for="inputFirstName">First Name</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><i class="fa fa-user"></i></div>
+                                        <p:inputText id="inputFirstName" class="form-control" placeholder="First Name"
+                                                     value="#{editStudentController.firstName}">
+                                        </p:inputText>
+                                    </div>
 
+                                    <p:message styleClass="error-msg" for="inputFirstName" display="text"/>
+                                </div>
 
+                                <div class="form-group">
+                                    <label class="sr-only" for="inputLastName">Last Name</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><i class="fa fa-user"></i></div>
+                                        <p:inputText id="inputLastName" class="form-control" placeholder="Last Name"
+                                                     value="#{editStudentController.lastName}">
+                                        </p:inputText>
+                                    </div>
+
+                                    <p:message styleClass="error-msg" for="inputLastName" display="text"/>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="sr-only" for="inputEmail">Email Address</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><i class="fa fa-envelope-o"></i></div>
+                                        <p:inputText id="inputEmail" class="form-control" placeholder="Email Address"
+                                                     value="#{editStudentController.email}">
+                                        </p:inputText>
+                                    </div>
+
+                                    <p:message styleClass="error-msg" for="inputEmail" display="text"/>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputSubscribeToAnnouncements" style="color: white;">Subscribe to Announcements?</label>
+                                    <p:selectBooleanCheckbox id="inputSubscribeToAnnouncements" class="form-control"
+                                                             value="#{editStudentController.subscribeToAnnouncements}">
+                                    </p:selectBooleanCheckbox>
+                                </div>
+
+                                <!--<o:validateEqual components="inputPW inputPWConfirm" message="Passwords must match!" showMessageFor="inputPWConfirm" />-->
+
+                                <div class="form-group">
+                                    <p:commandButton id="btnUpdate"  update="@all" style="height: 40px;" action="#{editStudentController.submit()}" value="Update" styleClass="btn btn-primary btn-block cs-button"/>
+                                </div>
+                            </div>
+
+                            <p:growl for="errorMsg" life="10000"/>
+                        </h:form>
+                    </div>
+                </div>
+            </h:panelGroup>
+        </div>
+    </ui:define>
+</ui:composition>

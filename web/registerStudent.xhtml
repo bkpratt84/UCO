@@ -1,9 +1,9 @@
 <ui:composition template="/templates/mainTemplate.xhtml"
-    xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:h="http://xmlns.jcp.org/jsf/html"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:p="http://primefaces.org/ui"
-    xmlns:o="http://omnifaces.org/ui">
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:o="http://omnifaces.org/ui">
 
     <ui:define name="title">
         <title>Register Student</title>
@@ -14,7 +14,7 @@
             <div class="page-header">
                 <h1>Register Student</h1>
             </div>
-            
+
             <h:panelGroup class="row" rendered="#{!registrationController.complete}">
                 <div class="col-md-6 col-md-offset-3">
                     <div class="panel panel-body bg-uco-blue">
@@ -23,7 +23,7 @@
                                 <div class="form-group">
                                     <p:graphicImage url="resources/images/uco-logo-wide-white.png" height="80"/>
                                 </div>
-                                
+
                                 <div class="form-group">
                                     <label class="sr-only" for="inputFirstName">First Name</label>
                                     <div class="input-group">
@@ -32,10 +32,10 @@
                                                      value="#{registrationController.firstName}">
                                         </p:inputText>
                                     </div>
-                                    
+
                                     <p:message styleClass="error-msg" for="inputFirstName" display="text"/>
                                 </div>
-                                
+
                                 <div class="form-group">
                                     <label class="sr-only" for="inputLastName">Last Name</label>
                                     <div class="input-group">
@@ -44,10 +44,10 @@
                                                      value="#{registrationController.lastName}">
                                         </p:inputText>
                                     </div>
-                                    
+
                                     <p:message styleClass="error-msg" for="inputLastName" display="text"/>
                                 </div>
-                                
+
                                 <div class="form-group">
                                     <label class="sr-only" for="inputEmail">Email Address</label>
                                     <div class="input-group">
@@ -56,10 +56,10 @@
                                                      value="#{registrationController.email}">
                                         </p:inputText>
                                     </div>
-                                    
+
                                     <p:message styleClass="error-msg" for="inputEmail" display="text"/>
                                 </div>
-                                
+
                                 <div class="form-group">
                                     <label class="sr-only" for="inputPassword">Password</label>
                                     <div class="input-group">
@@ -68,10 +68,10 @@
                                                     value="#{registrationController.pw}">
                                         </p:password>
                                     </div>
-                                    
+
                                     <p:message styleClass="error-msg" for="inputPW" display="text"/>
                                 </div>
-                                
+
                                 <div class="form-group">
                                     <label class="sr-only" for="inputPasswordRepeat">Confirm Password</label>
                                     <div class="input-group">
@@ -80,29 +80,37 @@
                                                     value="#{registrationController.pwConfirm}">
                                         </p:password>
                                     </div>
-                                    
+
                                     <p:message styleClass="error-msg" for="inputPWConfirm" display="text"/>
                                 </div>
-                                
+
+                                <div class="form-group">
+                                    <label for="inputSubscribeToAnnouncements" style="color: white;">Subscribe to Announcements?</label>
+                                        <!--<div class="input-group-addon"><i class="fa fa-user"></i></div>-->
+                                        <p:selectBooleanCheckbox id="inputSubscribeToAnnouncements" class="form-control"
+                                                     value="#{registrationController.subscribeToAnnouncements}">
+                                        </p:selectBooleanCheckbox>
+                                </div>
+
                                 <o:validateEqual components="inputPW inputPWConfirm" message="Passwords must match!" showMessageFor="inputPWConfirm" />
-           
+
                                 <div class="form-group">
                                     <p:commandButton id="btnRegister"  update="@all" style="height: 40px;" action="#{registrationController.submit()}" value="Register" styleClass="btn btn-primary btn-block cs-button"/>
                                 </div>
                             </div>
-                            
+
                             <p:growl for="errorMsg" life="10000"/>
                         </h:form>
                     </div>
                 </div>
             </h:panelGroup>
-            
+
             <h:panelGroup class="row" rendered="#{registrationController.complete}">
                 <div class="col-md-6 col-md-offset-3">
                     <div class="panel panel-default">
                         <div class="panel-body">
-                        <p>Thank you for registering. You will receive an email with an activation code. Please visit link to confirm your email.</p>
-                    
+                            <p>Thank you for registering. You will receive an email with an activation code. Please visit link to confirm your email.</p>
+
                         </div>
                     </div>
                 </div>

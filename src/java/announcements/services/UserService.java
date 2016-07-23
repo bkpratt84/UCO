@@ -9,6 +9,9 @@ import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.sql.DataSource;
 import csDept.User;
+import csDept.UserRepository;
+import javax.ejb.EJB;
+import javax.faces.context.FacesContext;
 
 @Named(value = "UserService")
 @RequestScoped
@@ -16,10 +19,13 @@ public class UserService {
 
     @Resource(name = "jdbc/cs_db_Datasource")
     private DataSource ds;
-    
+
+    @EJB
+    private UserRepository userRepo;
+
     public boolean emailExists(String email) throws SQLException {
         int count = -1;
-        
+
         if (ds == null) {
             throw new SQLException("ds is null; Can't get data source");
         }
@@ -29,7 +35,7 @@ public class UserService {
         if (conn == null) {
             throw new SQLException("conn is null; Can't get db connection");
         }
-        
+
         try {
             PreparedStatement ps = conn.prepareStatement(
                     "SELECT COUNT(*) FROM user_info WHERE username = ?"
@@ -37,19 +43,19 @@ public class UserService {
 
             ps.setString(1, email);
             ResultSet result = ps.executeQuery();
-            
+
             result.next();
             count = result.getInt(1);
         } finally {
             conn.close();
-        }  
-        
+        }
+
         return (count != 0);
     }
-    
+
     public String getUserName(int ID) throws SQLException {
         String username = null;
-        
+
         if (ds == null) {
             throw new SQLException("ds is null; Can't get data source");
         }
@@ -59,32 +65,32 @@ public class UserService {
         if (conn == null) {
             throw new SQLException("conn is null; Can't get db connection");
         }
-        
+
         try {
             PreparedStatement ps = conn.prepareStatement(
                     "SELECT username FROM user_info WHERE id = ?"
             );
-            
+
             ps.setInt(1, ID);
             ResultSet result = ps.executeQuery();
-            
+
             result.next();
-            
+
             username = result.getString("username");
         } finally {
             conn.close();
-        }  
-        
+        }
+
         return username;
     }
-    
+
     private Integer userId;
-    
+
     public int getUserId(String userName) throws SQLException {
-        if(userId != null){
+        if (userId != null) {
             return userId;
         }
-        
+
         if (ds == null) {
             throw new SQLException("ds is null; Can't get data source");
         }
@@ -94,22 +100,27 @@ public class UserService {
         if (conn == null) {
             throw new SQLException("conn is null; Can't get db connection");
         }
-        
+
         try {
             PreparedStatement ps = conn.prepareStatement(
                     "SELECT id FROM user_info WHERE username= ?"
             );
-            
+
             ps.setString(1, userName);
             ResultSet result = ps.executeQuery();
-            
+
             result.next();
-            
+
             userId = result.getInt("id");
         } finally {
             conn.close();
-        }  
-        
+        }
+
         return userId;
+    }
+
+    public User getCurrentUser() {
+        String userName = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal().getName();
+        return userRepo.GetByUserName(userName);
     }
 }

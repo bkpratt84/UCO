@@ -151,7 +151,7 @@ public class ThreadAddController implements Serializable {
         Calendar cal = Calendar.getInstance();
         String userName = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal().getName();
         int userId = userService.getUserId(userName);
-
+        
         if (postId != null) {
             post = postRepo.getByPostId(postId);
             post.setDateModified(cal.getTime());

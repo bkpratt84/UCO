@@ -4,13 +4,12 @@ import announcements.domain.File;
 import announcements.domain.FileRepository;
 import announcements.domain.Post;
 import announcements.domain.PostRepository;
+import announcements.utility.Messages;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import org.primefaces.context.RequestContext;
@@ -73,8 +72,7 @@ public class ThreadViewController implements Serializable {
 
         postRepo.softDelete(post);
 
-        FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage("Success", "Announcement deleted."));
+        Messages.setSuccessMessage("Announcement deleted.");
 
         refresh();
         RequestContext.getCurrentInstance().update("frmAdd");

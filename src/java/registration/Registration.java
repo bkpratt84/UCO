@@ -157,13 +157,13 @@ public class Registration implements Serializable {
                     context.addMessage("mform:user", message);
 
                     //Send the email here!
-                    mailer.Mail m = new mailer.Mail();
+                    GoogleMail m = new GoogleMail();
                     String emailText = "Welcome to the UCO Computer Science!<p/><p/>" + "Your request has been approved and "
                             + "You can now login using the credentials below.<p/>" + "<b>Username:</b> " + email
                             + "<p/><b>Password:</b> " + password
                             + "<p/>Thank you,<p/>" + "Central Soft Team<p/>";
 
-                    m.Send(email, "Your Account Information", emailText);
+                    GoogleMail.Send("UCOComputerScience", "sungisthebest", email, "Your Account Information", emailText);
 
                     clearInput();
                 }
@@ -265,13 +265,14 @@ public class Registration implements Serializable {
                     verificationLink = currentPos + "?id=" + encryptString(email);
 
                     //Send the email here
-                    mailer.Mail m = new mailer.Mail();
+                    GoogleMail m = new GoogleMail();
                     String emailText = "Welcome to the UCO Computer Science!<p/><p/>" 
                             + "Please use the link below to verify the account "
                             + "<li>" + verificationLink + "</li>"
                             + "<p/>Thank you,<p/>" + "Central Soft Team<p/>";
 
-                    m.Send(email, "UCO CS Registration Verification", emailText);
+                    GoogleMail.Send("UCOComputerScience", "sungisthebest", email, "UCO CS Registration Verification", emailText);
+                    
 
                     clearInput();
                 }

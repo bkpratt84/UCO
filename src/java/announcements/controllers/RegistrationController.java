@@ -1,27 +1,33 @@
 package announcements.controllers;
 
 import announcements.domain.Registration;
-import announcements.services.UserService;
+import announcements.utility.EmailTemplate;
 import announcements.utility.Messages;
 import announcements.utility.Utility;
 import csDept.User;
 import csDept.UserGroup;
 import csDept.UserRepository;
 import csDept.UserGroupRepository;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.Serializable;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
 import javax.mail.MessagingException;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import org.apache.commons.lang.WordUtils;
 import org.omnifaces.util.Faces;
 import registration.GoogleMail;
 
@@ -36,9 +42,6 @@ public class RegistrationController implements Serializable {
 
     @EJB
     UserGroupRepository userGroupRepository;
-
-    @Inject
-    UserService userService;
 
     @Size(min = 3, max = 30, message = "Please enter a name between 2 and 30 characters.")
     private String firstName;
@@ -128,8 +131,8 @@ public class RegistrationController implements Serializable {
         this.subscribeToAnnouncements = subscribeToAnnouncements;
     }
 
-    public void submit() throws SQLException, MessagingException {
-        if (userService.emailExists(this.email)) {
+    public void submit() throws SQLException, MessagingException, IOException {
+        if (this.userRepository.GetByUserName(this.email) != null) {
             Messages.setErrorMessage("An account with this email address already exists.", "errorMsg");
             return;
         }
@@ -137,7 +140,10 @@ public class RegistrationController implements Serializable {
         User user = new User();
 
         String activationCode = UUID.randomUUID().toString().substring(0, 6);
-
+        
+        this.firstName = WordUtils.capitalize(this.firstName.toLowerCase());
+        this.lastName = WordUtils.capitalize(this.lastName.toLowerCase());
+        
         user.setFirstName(this.firstName);
         user.setLastName(this.lastName);
         user.setEmail(this.email);
@@ -159,13 +165,23 @@ public class RegistrationController implements Serializable {
         sendRegistrationEmail(activationCode);
     }
 
-    private void sendRegistrationEmail(String activationCode) throws MessagingException {
+    private void sendRegistrationEmail(String activationCode) throws MessagingException, FileNotFoundException, IOException {
         HttpServletRequest request = (HttpServletRequest) Faces.getExternalContext().getRequest();
         String url = request.getRequestURL().toString();
         String baseURL = url.substring(0, url.length() - request.getRequestURI().length()) + request.getContextPath() + "/";
-        baseURL += "faces/accountVerification.xhtml";
 
-        String message = String.format(GoogleMail.RegistrationMessage, this.firstName, this.lastName, baseURL, activationCode);
+        ServletContext context = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+        String path = context.getRealPath("/resources/templates");
+
+        Map<String, String> map = new HashMap<>();
+        map.put("logoURL", "http://res.cloudinary.com/csuco/image/upload/v1469676951/uco_logo_e9qfdt.png");
+        map.put("firstName", this.firstName);
+        map.put("lastName", this.lastName);
+        map.put("activationCode", activationCode);
+        map.put("buttonURL", baseURL + "faces/accountVerification.xhtml");
+        map.put("fbURL", "http://res.cloudinary.com/csuco/image/upload/v1469676951/facebook_w1xzcx.png");
+        
+        String message = EmailTemplate.getEmailHTML(path, "studentRegister.vm", map);
 
         new Thread(() -> {
             try {

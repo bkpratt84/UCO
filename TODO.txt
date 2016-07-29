@@ -4,17 +4,17 @@ Fix header logo - X
 
 Logout - X
 
-DELETE Files on post DELETE
+DELETE Files on post DELETE - X
 
 Inactivate posts instead of deleting - X
 
 Remove reply box when not logged in - X
 
-Work on student registration
+Work on student registration - X
 
-Student Notifications
+Student Notifications - X
 
-Student email selection
+Student email selection - X
 
 Serve files to users - X
 
@@ -26,8 +26,23 @@ Make categories colorful - X
 
 Refactoring
 
-Remove Services if time
+Remove Services if time - X
 
+Notifications only to active users - X
+
+Fix growl on new/edit announcements - X
+
+Move view comments link to announcement title - X
+
+Don't send notification if self created - X
+
+Display author first/last name  - X
+
+Fix CSS issue with previous code - X
+
+Update checkbox - X
+
+Update omnifaces - X
 
 ---Production Deployment---
 

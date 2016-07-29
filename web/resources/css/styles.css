@@ -78,11 +78,6 @@
   font-size: 12px;
 }
 
-.test-border {
-    border: #B5B5B5 1px solid;
-    height: 100%;
-}
-
 .bg-uco-blue {
     background-color: #195481;
 }
@@ -116,10 +111,18 @@ a.no-underline {
     color: #337ab7;
 }
 
+.badge-color {
+    background-color: #337ab7;
+}
+
 input.invalid, select.invalid {
     border: red 1px solid;
 }
 
  .ui-tooltip .ui-message-error-icon {
      display: none;
+ }
+ 
+ .align-center {
+     text-align: center;
  }

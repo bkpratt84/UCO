@@ -22,6 +22,7 @@ import javax.inject.Named;
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
+import registration.GoogleMail;
 
 @Named(value = "IEM")
 @SessionScoped
@@ -322,7 +323,7 @@ public class InstructorEventMgmt implements Serializable{
                 ResultSet rs = stmt.executeQuery();
                 
                 String header = "UCO Appointment Cancelation";
-                mailer.Mail m = new mailer.Mail();
+                GoogleMail m = new GoogleMail();
                 
                 while(rs.next()){
                     String enam;
@@ -335,7 +336,7 @@ public class InstructorEventMgmt implements Serializable{
                     String Message = "<h3>Your appointment for " + enam + " with "
                             + profName + " at " + time + "has been canceled</h3>";
                     
-                    m.Send("barnettlynn@gmail.com", header, Message);
+                    GoogleMail.Send("UCOComputerScience", "sungisthebest", "barnettlynn@gmail.com", header, Message);
                     
                 }
                 

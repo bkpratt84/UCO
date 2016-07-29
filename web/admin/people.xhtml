@@ -29,58 +29,45 @@
                         <!-- add new -->
                         <div class="collapse" id="addFT">
                             <div class="well">
-                                <h:form id="addNew">
-                                    <ul>
-                                        <li>
-                                            Prefix
-                                            <p:inputText value="#{facultyBean.nameprefix}" required="true"/>
-                                        </li>
-                                        <li>
-                                            First
-                                            <p:inputText value="#{facultyBean.firstname}" required="true"/>
-                                        </li>
-                                        <li>
-                                            Last
-                                            <p:inputText value="#{facultyBean.lastname}" required="true"/>
-                                        </li>
-                                        <li>
-                                            Title
-                                            <p:inputText value="#{facultyBean.jobtitle}"/>
-                                        </li>
-                                        <li>
-                                            Website
-                                            <p:inputText value="#{facultyBean.website}"/>
-                                        </li>
+                                <div class="row">
+                                    <h:form id="addNew">
+                                        <h:panelGrid columns="2" style="margin-left: 20px;">
+                                            <h:outputText value="Prefix" styleClass="pad-right"/>
+                                            <p:inputText class="form-control" value="#{facultyBean.nameprefix}" required="true" style="margin-bottom: 5px;"/>
+                                            
+                                            <h:outputText value="First" styleClass="pad-right"/>
+                                            <p:inputText class="form-control" value="#{facultyBean.firstname}" required="true" style="margin-bottom: 5px;"/>
+                                            
+                                            <h:outputText value="Last" styleClass="pad-right"/>
+                                            <p:inputText class="form-control" value="#{facultyBean.lastname}" required="true"  style="margin-bottom: 5px;"/>
 
-                                        <li>
-                                            Office
-                                            <p:inputText value="#{facultyBean.office}"/>
-                                        </li>
-
-                                        <li>
-                                            Phone
-                                            <p:inputText value="#{facultyBean.phone}"/>
-                                        </li>
-
-                                        <li>
-                                            Email
-                                            <p:inputText value="#{facultyBean.email}"/>
-                                        </li>
-                                        <li>
-                                            Type<h:selectOneMenu value="#{facultyBean.status}">
-                                                        <f:selectItem itemLabel="Fulltime" itemValue="fulltime" />
-                                                        <f:selectItem itemLabel="Adjunct" itemValue="adjunct" />
-                                                        <f:selectItem itemLabel="Administrative" itemValue="administrative" />
-                                                        <f:selectItem itemLabel="Former" itemValue="former" />
+                                            <h:outputText value="Title" styleClass="pad-right"/>
+                                            <p:inputText class="form-control" value="#{facultyBean.jobtitle}" style="margin-bottom: 5px;"/>
+                                            
+                                            <h:outputText value="Website" styleClass="pad-right"/>
+                                            <p:inputText class="form-control" value="#{facultyBean.website}" style="margin-bottom: 5px;"/>
+                                            
+                                            <h:outputText value="Office" styleClass="pad-right"/>
+                                            <p:inputText class="form-control" value="#{facultyBean.office}" style="margin-bottom: 5px;"/>
+                                            
+                                            <h:outputText value="Phone" styleClass="pad-right"/>
+                                            <p:inputText class="form-control" value="#{facultyBean.phone}" style="margin-bottom: 5px;"/>
+                                            
+                                            <h:outputText value="Email" styleClass="pad-right"/>
+                                            <p:inputText class="form-control" value="#{facultyBean.email}" style="margin-bottom: 5px;"/>
+                                            
+                                            <h:outputText value="Type" styleClass="pad-right"/>
+                                            <h:selectOneMenu class="form-control" id="type" value="#{facultyBean.status}" style="margin: -17px 0 5px 0;" >
+                                                <f:selectItem itemLabel="Fulltime" itemValue="fulltime" />
+                                                <f:selectItem itemLabel="Adjunct" itemValue="adjunct" />
+                                                <f:selectItem itemLabel="Administrative" itemValue="administrative" />
+                                                <f:selectItem itemLabel="Former" itemValue="former" />
                                             </h:selectOneMenu>
-                                        </li>
-                                        <li>
-                                            <h:commandButton action="#{facultyController.add()}" value="Add" 
-                                                             class="btn cs-button">
-                                            </h:commandButton>  
-                                        </li>
-                                    </ul>
-                                </h:form>
+                                            
+                                            <h:commandButton action="#{facultyController.add()}" value="Add" class="btn cs-button"/>
+                                        </h:panelGrid>
+                                    </h:form>
+                                </div>
                             </div>
                         </div>
                         <h3 class="h3">Full Time Faculty

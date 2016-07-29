@@ -1,5 +1,6 @@
 package announcements.domain;
 
+import csDept.User;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -29,6 +30,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Post.findByPostId", query = "SELECT p FROM Post p WHERE p.postId = :postId"),
     @NamedQuery(name = "Post.search", query = "SELECT p FROM Post p WHERE (p.content LIKE :searchText OR p.title LIKE :searchText) AND p.parentId = 0 AND p.active = true ORDER BY p.dateCreated desc"),
     @NamedQuery(name = "Post.getFileCount", query = "SELECT COUNT(f) as ttl FROM Post p LEFT JOIN p.files as f WHERE p.postId = :postId GROUP BY p.postId"),
+    @NamedQuery(name = "Post.getCommentCount", query = "SELECT COUNT(p) FROM Post p WHERE p.parentId = :parentId"),
 })
 public class Post implements Serializable {
     
@@ -84,6 +86,10 @@ public class Post implements Serializable {
     @ManyToOne(optional=false)
     @JoinColumn(name="categoryId", referencedColumnName="categoryId", insertable=false, updatable=false)
     private Category category;
+    
+    @ManyToOne(optional=false)
+    @JoinColumn(name="authorId", referencedColumnName="id", insertable=false, updatable=false)
+    private User user;
 
     public int getPostID() {
         return postId;
@@ -207,5 +213,13 @@ public class Post implements Serializable {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

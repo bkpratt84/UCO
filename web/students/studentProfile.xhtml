@@ -58,14 +58,14 @@
                                     <p:message styleClass="error-msg" for="inputEmail" display="text"/>
                                 </div>
 
-                                <div class="form-group">
-                                    <label for="inputSubscribeToAnnouncements" style="color: white;">Subscribe to Announcements?</label>
-                                    <p:selectBooleanCheckbox id="inputSubscribeToAnnouncements" class="form-control"
-                                                             value="#{editStudentController.subscribeToAnnouncements}">
-                                    </p:selectBooleanCheckbox>
+                                <div class="row">
+                                    <div class="well well-sm">
+                                        <h:panelGrid columns="2" style="margin: -3px;">
+                                        <p:selectBooleanCheckbox id="checkboxSubscribe" value="#{editStudentController.subscribeToAnnouncements}" style="margin-top: 5px;"/>
+                                        <h:outputText value="Subscribe to Announcements?" styleClass="pad-left"/>
+                                    </h:panelGrid>
+                                    </div>
                                 </div>
-
-                                <!--<o:validateEqual components="inputPW inputPWConfirm" message="Passwords must match!" showMessageFor="inputPWConfirm" />-->
 
                                 <div class="form-group">
                                     <p:commandButton id="btnUpdate"  update="@all" style="height: 40px;" action="#{editStudentController.submit()}" value="Update" styleClass="btn btn-primary btn-block cs-button"/>

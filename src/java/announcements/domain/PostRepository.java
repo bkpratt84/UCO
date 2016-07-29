@@ -56,6 +56,13 @@ public class PostRepository extends AbstractRepository<Post> {
         return (long) query.getSingleResult();
     }
     
+    public long getCommentCount(Integer parentId) {
+        Query query = em.createNamedQuery("Post.getCommentCount");
+        query.setParameter("parentId", parentId);
+        
+        return (long) query.getSingleResult();
+    }
+    
     public void softDelete(Post post) {
         post.setActive(false);
         this.update(post);

@@ -104,7 +104,7 @@
 <!--                                <h:panelGroup rendered="#{facesContext.externalContext.isUserInRole('instructor')}">
 
                                     <li><h:link value="Calendar" outcome="/instructors/eventCalendar" /></li>
-                                    <li><p:commandLink value="Sign Out" action="#{userController.logout()}" style="font-size: 14px;"/></li>
+                                    <li><p:commandLink value="Sign Out" action="#{utiltyController.logout()}" style="font-size: 14px;"/></li>
 
                                 </h:panelGroup>-->
                                 
@@ -115,7 +115,7 @@
                                         <ul class="dropdown-menu" role="menu">
                                             <li><h:link value="View Events" outcome="/students/InstructorWithEvents" /></li>
                                             <li><h:link value="Calendar" outcome="/students/StudentCalendar" /></li>
-                                            <li><p:commandLink value="Sign Out" action="#{userController.logout()}" style="font-size: 14px;"/></li>
+                                            <li><p:commandLink value="Sign Out" action="#{utilityController.logout()}" style="font-size: 14px;"/></li>
                                         </ul>
                                     </li>
                                 </h:panelGroup>-->
@@ -135,18 +135,12 @@
                                 </h:panelGroup>-->
 
                                 <!--Putty Interface Link-->
-                                <h:panelGroup rendered="#{facesContext.externalContext.isUserInRole('instructor') or 
+<!--                                <h:panelGroup rendered="#{facesContext.externalContext.isUserInRole('instructor') or 
                                                           facesContext.externalContext.isUserInRole('student')}">
 
                                     <li><a href="https://104.131.99.4/" target="_blank">Putty</a></li>
 
-                                    <!-- <li><h:link value="Putty" outcome="/student_instructor/sshClient"/></li> -->
-
-                                    <!--
-                                </ul>
-                            </li> 
-                                    -->
-                                </h:panelGroup>
+                                </h:panelGroup>-->
 
                             </ul>
                             <ul class="nav navbar-nav navbar-right">
@@ -158,7 +152,7 @@
                                         <ul class="dropdown-menu" role="menu" >
                                             <li><h:link value="Create Professor" outcome="/admin/createProf" /></li>
                                             <li><h:link value="View Users" outcome="/admin/userList" /></li>
-                                            <li><p:commandLink value="Sign Out" action="#{userController.logout()}" style="font-size: 14px;"/></li>
+                                            <li><p:commandLink value="Sign Out" action="#{utilityController.logout()}" style="font-size: 14px;"/></li>
                                         </ul>
                                     </li>
                                 </h:panelGroup>
@@ -176,7 +170,7 @@
                                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" >Settings<span class="caret" ></span></a>
                                         <ul class="dropdown-menu" role="menu" >
                                             <li><h:commandLink value="Edit Profile" action="#{profileEditing.userInfo()}" /></li>
-                                            <li><p:commandLink value="Sign Out" action="#{userController.logout()}" style="font-size: 14px;"/></li>
+                                            <li><p:commandLink value="Sign Out" action="#{utilityController.logout()}" style="font-size: 14px;"/></li>
                                         </ul>
                                     </li>
                                 </h:panelGroup>

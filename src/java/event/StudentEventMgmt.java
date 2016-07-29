@@ -16,6 +16,7 @@ import javax.inject.Named;
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.sql.DataSource;
+import registration.GoogleMail;
 
 @Named(value = "EM")
 @SessionScoped
@@ -165,7 +166,7 @@ public class StudentEventMgmt implements Serializable{
         } 
         
         
-        mailer.Mail m = new mailer.Mail();
+        GoogleMail m = new GoogleMail();
         
         String flashMessage = "Successfull Registered  or " + eventName + " With " + profName + " at " + startTime;
         
@@ -182,9 +183,8 @@ public class StudentEventMgmt implements Serializable{
                             + "Event Time: " + startTime + "<br/>"
                             + "Instructor Name: " + profName + "<br/>";
             
-            
-        m.Send("barnettlynn@gmail.com", title, emailMessage);
-        
+
+        GoogleMail.Send("UCOComputerScience", "sungisthebest", "barnettlynn@gmail.com", title, emailMessage);
         
         
         return "/students/index";

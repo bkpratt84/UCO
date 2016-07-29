@@ -27,27 +27,22 @@
                     <!-- add new -->
                     <div class="collapse" id="addDT">
                         <div class="well">
-                            <h:form id="addNew">
-                                <ul>
-                                    <li>
-                                        Degree
-                                        <p:inputText value="#{degreeBean.degreeName}" required="true"/>
-                                    </li>
-                                    <li>
-                                        Code
-                                        <p:inputText value="#{degreeBean.degreeCode}" required="true"/>
-                                    </li>
-                                    <li>
-                                        Description
-                                        <p:inputText value="#{degreeBean.degreeDesc}" required="true"/>
-                                    </li>
-                                    <li>
-                                        <h:commandButton action="#{degreesController.add()}" value="Add" 
-                                                         class="btn cs-button">
-                                        </h:commandButton>  
-                                    </li>
-                                </ul>
-                            </h:form>
+                            <div class="row">
+                                <h:form id="addNew">
+                                    <h:panelGrid columns="2" style="margin-left: 20px;">
+                                        <h:outputText value="Degree" styleClass="pad-right"/>
+                                        <p:inputText class="form-control" value="#{degreeBean.degreeName}" required="true" style="margin-bottom: 5px;"/>
+
+                                        <h:outputText value="Code" styleClass="pad-right"/>
+                                        <p:inputText class="form-control" value="#{degreeBean.degreeCode}" required="true" style="margin-bottom: 5px;"/>
+                                        
+                                        <h:outputText value="Description" styleClass="pad-right"/>
+                                        <p:inputText class="form-control" value="#{degreeBean.degreeDesc}" required="true" style="margin-bottom: 5px;"/>
+                                        
+                                        <h:commandButton action="#{degreesController.add()}" value="Add" class="btn cs-button"/>
+                                    </h:panelGrid>
+                                </h:form>
+                            </div>
                         </div>
                     </div>
                     <h3 class="h3">Degrees
@@ -117,23 +112,19 @@
                     <!-- add new -->
                     <div class="collapse" id="addFT">
                         <div class="well">
-                            <h:form id="addNewFT">
-                                <ul>
-                                    <li>
-                                        Title
-                                        <p:inputText value="#{facultyadvisementBean.title}" required="true"/>
-                                    </li>
-                                    <li>
-                                        Content
-                                        <p:inputText value="#{facultyadvisementBean.content}" required="true"/>
-                                    </li>
-                                    <li>
-                                        <h:commandButton action="#{facultyadvisementController.add()}" value="Add" 
-                                                         class="btn cs-button">
-                                        </h:commandButton>  
-                                    </li>
-                                </ul>
-                            </h:form>
+                            <div class="row">
+                                <h:form id="addNewFT">
+                                    <h:panelGrid columns="2" style="margin-left: 20px;">
+                                        <h:outputText value="Title" styleClass="pad-right"/>
+                                        <p:inputText class="form-control" value="#{facultyadvisementBean.title}" required="true" style="margin-bottom: 5px;"/>
+
+                                        <h:outputText value="Content" styleClass="pad-right"/>
+                                        <p:inputText class="form-control" value="#{facultyadvisementBean.content}" required="true" style="margin-bottom: 5px;"/>
+
+                                        <h:commandButton action="#{facultyadvisementController.add()}" value="Add" class="btn cs-button"/>
+                                    </h:panelGrid>
+                                </h:form>
+                            </div>
                         </div>
                     </div>
                     <h3>Faculty Advisement</h3> 

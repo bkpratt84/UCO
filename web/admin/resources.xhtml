@@ -29,18 +29,12 @@
                         <div class="collapse" id="addRT">
                             <div class="well">
                                 <h:form id="addNew">
-                                    <ul>
-                                        <li>
-                                            Title
-                                            <p:inputText value="#{resourceBean.title}" required="true"/>
-                                        </li>
+                                    <h:panelGrid columns="2" style="margin-left: 20px;">
+                                        <h:outputText value="Title" styleClass="pad-right"/>
+                                        <p:inputText class="form-control" value="#{resourceBean.title}" required="true" style="margin-bottom: 5px;"/>
 
-                                        <li>
-                                            <h:commandButton action="#{resourceController.add()}" value="Add" 
-                                                             class="btn cs-button">
-                                            </h:commandButton>  
-                                        </li>
-                                    </ul>
+                                        <h:commandButton action="#{resourceController.add()}" value="Add" class="btn cs-button"/>
+                                    </h:panelGrid>
                                 </h:form>
                             </div>
                         </div>

@@ -27,6 +27,7 @@ import org.primefaces.model.ScheduleModel;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import javax.mail.MessagingException;
+import registration.GoogleMail;
 
 @Named
 @SessionScoped
@@ -784,7 +785,7 @@ public class CalendarEventBean implements Serializable{
             throw new SQLException("CANNOT GET DATABASE");
         }
                 
-        mailer.Mail m = new mailer.Mail();
+        GoogleMail m = new GoogleMail();
         
         try {     
             boolean committed = false;
@@ -800,7 +801,7 @@ public class CalendarEventBean implements Serializable{
                                 + "Event Name:" + ca.getTitle() + "<br/>"
                                 + "Event Time:" + ca.getStartTime() +"<br/>";
 
-                        m.Send("barnettlynn@gmail.com", title, emailMessage);
+                        GoogleMail.Send("UCOComputerScience", "sungisthebest", "barnettlynn@gmail.com", title, emailMessage);
 
                         String cQuery = "UPDATE EVENT_SLOTS SET STATUS = 'C' WHERE EVENT_SLOT_ID = ?";
                         

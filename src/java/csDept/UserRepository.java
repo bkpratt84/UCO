@@ -23,19 +23,39 @@ public class UserRepository extends AbstractRepository<User> {
     }
 
     public User GetByEmail(String email) {
-        Query query = em.createNamedQuery("User.findByEmail");
-        query.setParameter("email", email);
-        User user = (User) query.getSingleResult();
+        try {
+            Query query = em.createNamedQuery("User.findByEmail");
+            query.setParameter("email", email);
+            User user = (User) query.getSingleResult();
 
-        return user;
+            return user;
+        } catch(NoResultException e) {
+            return null;
+        }
     }
     
     public User GetByUserName(String userName) {
-        Query query = em.createNamedQuery("User.findByUserName");
-        query.setParameter("userName", userName);
-        User user = (User) query.getSingleResult();
+        try {
+            Query query = em.createNamedQuery("User.findByUserName");
+            query.setParameter("userName", userName);
+            User user = (User) query.getSingleResult();
 
-        return user;
+            return user;
+        } catch(NoResultException e) {
+            return null;
+        }
+    }
+    
+    public User GetByID(int ID) {
+        try {
+            Query query = em.createNamedQuery("User.findByID");
+            query.setParameter("ID", ID);
+            User user = (User) query.getSingleResult();
+
+            return user;
+        } catch(NoResultException e) {
+            return null;
+        }
     }
 
     public List<User> GetByActive(boolean active) {

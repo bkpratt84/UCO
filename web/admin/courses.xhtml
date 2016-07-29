@@ -28,31 +28,25 @@
                         <!-- add new -->
                         <div class="collapse" id="addCT">
                             <div class="well">
-                                <h:form id="addNew">
-                                    <ul>
-                                        <li>
-                                            Name
-                                            <p:inputText value="#{courseBean.courseName}" required="true"/>
-                                        </li>
-                                        <li>
-                                            CRN
-                                            <p:inputText value="#{courseBean.courseCrn}" required="true"/>
-                                        </li>
-                                        <li>
-                                            Prerequisites
-                                            <p:inputText value="#{courseBean.coursePrereq}" required="false"/>
-                                        </li>
-                                        <li>
-                                            Description
-                                            <p:inputText value="#{courseBean.courseDesc}" required="true"/>
-                                        </li>
-                                        <li>
-                                            <h:commandButton action="#{coursesController.add()}" value="Add" 
-                                                             class="btn cs-button">
-                                            </h:commandButton>  
-                                        </li>
-                                    </ul>
-                                </h:form>
+                                <div class="row">
+                                    <h:form id="addNew">
+                                        <h:panelGrid columns="2" style="margin-left: 20px;">
+                                            <h:outputText value="Name" styleClass="pad-right"/>
+                                            <p:inputText class="form-control" value="#{courseBean.courseName}" required="true" style="margin-bottom: 5px;"/>
+
+                                            <h:outputText value="CRN" styleClass="pad-right"/>
+                                            <p:inputText class="form-control" value="#{courseBean.courseCrn}" required="true" style="margin-bottom: 5px;"/>
+
+                                            <h:outputText value="Prerequisites" styleClass="pad-right"/>
+                                            <p:inputText class="form-control" value="#{courseBean.coursePrereq}" required="false" style="margin-bottom: 5px;"/>
+                                            
+                                            <h:outputText value="Description" styleClass="pad-right"/>
+                                            <p:inputText class="form-control" value="#{courseBean.courseDesc}" required="true" style="margin-bottom: 5px;"/>
+
+                                            <h:commandButton action="#{coursesController.add()}" value="Add" class="btn cs-button"/>
+                                        </h:panelGrid>
+                                    </h:form>
+                                </div>
                             </div>
                         </div>
                         <h3 class="h3">Courses

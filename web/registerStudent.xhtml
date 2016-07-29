@@ -12,7 +12,7 @@
     <ui:define name="content">
         <div class="container-fluid pad-top">
             <div class="page-header">
-                <h1>Register Student</h1>
+                <h1>Student Registration</h1>
             </div>
 
             <h:panelGroup class="row" rendered="#{!registrationController.complete}">
@@ -84,12 +84,13 @@
                                     <p:message styleClass="error-msg" for="inputPWConfirm" display="text"/>
                                 </div>
 
-                                <div class="form-group">
-                                    <label for="inputSubscribeToAnnouncements" style="color: white;">Subscribe to Announcements?</label>
-                                        <!--<div class="input-group-addon"><i class="fa fa-user"></i></div>-->
-                                        <p:selectBooleanCheckbox id="inputSubscribeToAnnouncements" class="form-control"
-                                                     value="#{registrationController.subscribeToAnnouncements}">
-                                        </p:selectBooleanCheckbox>
+                                <div class="row">
+                                    <div class="well well-sm">
+                                        <h:panelGrid columns="2" style="margin: -3px;">
+                                            <p:selectBooleanCheckbox id="checkboxSubscribe" value="#{registrationController.subscribeToAnnouncements}" style="margin-top: 5px;"/>
+                                        <h:outputText value="Subscribe to Announcements?" styleClass="pad-left"/>
+                                    </h:panelGrid>
+                                    </div>
                                 </div>
 
                                 <o:validateEqual components="inputPW inputPWConfirm" message="Passwords must match!" showMessageFor="inputPWConfirm" />
@@ -109,8 +110,9 @@
                 <div class="col-md-6 col-md-offset-3">
                     <div class="panel panel-default">
                         <div class="panel-body">
-                            <p>Thank you for registering. You will receive an email with an activation code. Please visit link to confirm your email.</p>
-
+                            <p class="align-center"><h1>Registration Successful!</h1></p>
+                            <p>You will receive an email shortly with an activation code. Please follow the instructions in the email to active your account.</p>
+                            <p class="align-center"><i class="fa fa-thumbs-up pad-right fa-5x icon-color"></i></p>
                         </div>
                     </div>
                 </div>

@@ -11,6 +11,8 @@
         </ui:define>
 
         <ui:define name="content">
+            <p:growl id="growl" showDetail="false" sticky="false" globalOnly="true" />
+            
             <div class="row">
                 <div class="col-lg-5 col-lg-offset-4 display-box">
                     <h2 class="gold-text">#{msgs.ucoLogin}</h2>
@@ -41,7 +43,7 @@
                     </h:form>
                     
                     <div class="col-lg-6 form-margin"> 
-                        <h:button class="btn btn-default btn-block cs-button" outcome="studentRegister" value="#{msgs.signUp}"></h:button>
+                        <h:button class="btn btn-default btn-block cs-button" outcome="registerStudent" value="#{msgs.signUp}"></h:button>
                     </div>
                 </div>
             </div>

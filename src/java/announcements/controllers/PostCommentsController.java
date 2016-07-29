@@ -4,8 +4,9 @@ import announcements.domain.File;
 import announcements.domain.FileRepository;
 import announcements.domain.Post;
 import announcements.domain.PostRepository;
-import announcements.services.UserService;
 import announcements.utility.Messages;
+import csDept.User;
+import csDept.UserRepository;
 import java.io.IOException;
 import java.io.Serializable;
 import java.sql.SQLException;
@@ -17,7 +18,6 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
 import org.omnifaces.util.Faces;
 import org.primefaces.context.RequestContext;
 
@@ -31,8 +31,8 @@ public class PostCommentsController implements Serializable {
     @EJB
     FileRepository fileRepo;
     
-    @Inject
-    UserService userService;
+    @EJB
+    UserRepository userRepository;
     
     private int postID;
     private List<Post> posts;
@@ -92,16 +92,17 @@ public class PostCommentsController implements Serializable {
         Calendar cal = Calendar.getInstance();
 
         String userName = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal().getName();
-
+        User user = this.userRepository.GetByUserName(userName);
+        
         Post comment = new Post();
-
 
         comment.setContent(this.getMsg());
         comment.setDateCreated(cal.getTime());
         comment.setActive(true);
-        comment.setAuthor(userService.getUserId(userName));
+        comment.setAuthor(user.getId());
         comment.setParentID(postID);
-
+        
+        comment.setUser(user);
         postRepo.create(comment);
 
         Messages.setSuccessMessage("Comment added.");
@@ -128,8 +129,11 @@ public class PostCommentsController implements Serializable {
         
         postRepo.softDelete(item);
         
+        Messages.setSuccessMessage("Comment deleted.");
+        
         if (parent) {
             ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+            context.getFlash().setKeepMessages(true);
             context.redirect(context.getRequestContextPath() + "/faces/announcements.xhtml");
         } else {
             init();

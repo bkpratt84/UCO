@@ -38,7 +38,7 @@
                                     </span>
                                 </h5>
                                 <h5 class="pull-right pad-right">
-                                    <i class="fa fa-calendar pad-right fa-lg"></i>
+                                    <i class="fa fa-calendar-o pad-right fa-lg"></i>
 
                                     <h:outputText value="#{postCommentsController.post.dateCreated}">
                                         <f:convertDateTime pattern="MM/dd/yyyy" />
@@ -47,7 +47,7 @@
                             
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <span class="thread-author">#{UserService.getUserName(postCommentsController.post.author)}</span>
+                                        <span class="thread-author">by #{postCommentsController.post.user.firstName} #{postCommentsController.post.user.lastName}</span>
                                     </div>
                                 </div>
 
@@ -86,16 +86,16 @@
                                     <div class="col-md-6">
                                         <ul class="list-inline pull-left">
                                             <li>
-                                                <i class="fa fa-comments-o pad-right fa-lg icon-color"></i>
-                                                <span class="badge">#{postService.commentCount(postCommentsController.postID)}</span>
+                                                <i class="fa fa-comments-o pad-right fa-lg"></i>
+                                                <span class="badge badge-color">#{utilityController.getCommentCount(postCommentsController.postID)}</span>
                                             </li>
                                             <li>
-                                                <i class="fa fa-eye pad-right fa-lg icon-color"></i>
-                                                <span class="badge">#{postCommentsController.post.views}</span>
+                                                <i class="fa fa-eye pad-right fa-lg"></i>
+                                                <span class="badge badge-color">#{postCommentsController.post.views}</span>
                                             </li>
                                             <li>
-                                                <i class="fa fa-paperclip pad-right fa-lg icon-color"></i>
-                                                <span class="badge">#{postCommentsController.post.fileCount}</span>
+                                                <i class="fa fa-paperclip pad-right fa-lg"></i>
+                                                <span class="badge badge-color">#{postCommentsController.post.fileCount}</span>
                                             </li>
                                         </ul>
                                     </div>
@@ -144,14 +144,14 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <h5 class="pull-right pad-right">
-                                        <i class="fa fa-calendar pad-right fa-lg"></i>
+                                        <i class="fa fa-calendar-o pad-right fa-lg"></i>
 
                                         <h:outputText value="#{post.dateCreated}">
                                             <f:convertDateTime pattern="MM/dd/yyyy" />
                                         </h:outputText>
                                     </h5>
                                     <h5 class="pull-left">
-                                        <span class="comment-author">#{UserService.getUserName(post.author)}</span>
+                                        <span class="comment-author">by #{post.user.firstName} #{post.user.lastName}</span>
                                     </h5>
                                     <div class="row"></div>
 
@@ -174,12 +174,12 @@
                                             <h:form id="frmComment">
                                                 <ul class="list-inline pull-right">
                                                     <li>
-                                                        <h:commandLink id="btnCEdit" action="editThread.xhtml" styleClass="text-primary btn-edit" rendered="#{facesContext.externalContext.isUserInRole('admin') || (request.remoteUser != null and UserService.getUserId(facesContext.externalContext.userPrincipal.name) == post.author)}">
+                                                        <h:commandLink id="btnCEdit" action="editThread.xhtml" styleClass="text-primary btn-edit" rendered="#{facesContext.externalContext.isUserInRole('admin') || (request.remoteUser != null and utilityController.loggedInID == post.author)}">
                                                             <i class="fa fa-pencil pad-right fa-lg"></i>
                                                         </h:commandLink>
                                                     </li>
                                                     <li>
-                                                        <p:commandLink id="btnDelete" actionListener="#{postCommentsController.delete(post.postID, false)}" update="@all" styleClass="text-danger btn-delete" rendered="#{facesContext.externalContext.isUserInRole('admin') || (request.remoteUser != null and UserService.getUserId(facesContext.externalContext.userPrincipal.name) == post.author)}">
+                                                        <p:commandLink id="btnDelete" actionListener="#{postCommentsController.delete(post.postID, false)}" update="@all" styleClass="text-danger btn-delete" rendered="#{facesContext.externalContext.isUserInRole('admin') || (request.remoteUser != null and utilityController.loggedInID == post.author)}">
                                                             <i class="fa fa-trash pad-right fa-lg"></i> 
                                                             <p:confirm header="Confirm" message="Delete this post?" icon="ui-icon-alert" />
                                                         </p:commandLink>
@@ -206,9 +206,9 @@
 
                                 <div class="row pad-top">
                                     <div class="col-md-10">
-                                        <h:commandLink id="btnSave" type="submit" action="#{postCommentsController.save()}" styleClass="btn btn-primary pad-right">
+                                        <p:commandLink id="btnSave" type="submit" update="@all" action="#{postCommentsController.save()}" styleClass="btn btn-primary pad-right">
                                             <i class="fa fa-floppy-o pad-right"></i>Save
-                                        </h:commandLink>
+                                        </p:commandLink>
 
                                         <p:commandLink id="btnClear" onclick="PF('editorWidget').clear();" styleClass="btn btn-info">
                                             <i class="fa fa-eraser pad-right"></i>Clear

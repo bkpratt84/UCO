@@ -14,21 +14,8 @@ import javax.mail.internet.MimeMessage;
 
 public class GoogleMail {
 
-    private GoogleMail() {
+    public GoogleMail() {
     }
-
-    public static String RegistrationMessage
-            = "%s %s,<br/><br/>"
-            + "Thanks for registering on the UCO CS Department site. "
-            + "Please click <a href='%s'>here</a> to input your code below to finish activating your account.<br/><br/>"
-            + "<b><h3>%s</h3></b>";
-
-    public static String NewAnnouncementMessage
-            = "A new Announcement has been posted on the CS Website.<br/><br/>"
-            + "<b>Category</b>: %s<br/>"
-            + "<b>Author</b>: %s %s<br/>"
-            + "<b>Subject</b>: %s<br/><br/>"
-            + "%s";
 
     /**
      * Send email using GMail SMTP server.
@@ -95,7 +82,7 @@ public class GoogleMail {
         msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipientEmail, false));
 
         if (ccEmail.length() > 0) {
-            msg.setRecipients(Message.RecipientType.CC, InternetAddress.parse(ccEmail, false));
+            msg.setRecipients(Message.RecipientType.BCC, InternetAddress.parse(ccEmail, false));
         }
 
         msg.setSubject(title);

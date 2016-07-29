@@ -1,6 +1,8 @@
 package csDept;
 
+import announcements.domain.Post;
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -18,9 +21,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "User.findAll", query = "SELECT user FROM User user"),
     @NamedQuery(name = "User.findByActive", query = "SELECT user FROM User user WHERE user.active = :active"),
-    @NamedQuery(name = "User.findByEmail", query = "SELECT user FROM User user WHERE user.email = :email"),
+    @NamedQuery(name = "User.findByEmail", query = "SELECT user FROM User user WHERE user.username = :email"),
     @NamedQuery(name = "User.findByUserName", query = "SELECT user FROM User user WHERE user.username = :userName"),
-    @NamedQuery(name = "User.findAnnouncementSubscribers", query = "SELECT user FROM User user WHERE user.subscribedToAnnouncements = true"),
+    @NamedQuery(name = "User.findByID", query = "SELECT user FROM User user WHERE user.id = :ID"),
+    @NamedQuery(name = "User.findAnnouncementSubscribers", query = "SELECT user FROM User user WHERE user.subscribedToAnnouncements = true AND user.active = true"),
     @NamedQuery(name = "User.findByActivationCode", query = "SELECT user FROM User user WHERE user.active = false AND user.activationKey = :key")
 })
 public class User implements Serializable {
@@ -55,6 +59,9 @@ public class User implements Serializable {
     @Column(name = "activationKey")
     private String activationKey;
 
+    @OneToMany(mappedBy = "user")
+    private List<Post> posts;
+    
     public User() {
     }
 

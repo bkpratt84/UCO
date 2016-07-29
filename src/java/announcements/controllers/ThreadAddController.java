@@ -6,7 +6,7 @@ import announcements.domain.File;
 import announcements.domain.FileRepository;
 import announcements.domain.Post;
 import announcements.domain.PostRepository;
-import announcements.services.UserService;
+import announcements.utility.EmailTemplate;
 import announcements.utility.Messages;
 import csDept.UserRepository;
 import java.io.IOException;
@@ -21,7 +21,6 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
-import javax.inject.Inject;
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.Size;
@@ -29,8 +28,12 @@ import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 import registration.GoogleMail;
 import csDept.User;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.ServletContext;
+import org.omnifaces.util.Faces;
 
 @Named(value = "threadAddController")
 @ViewScoped
@@ -47,9 +50,6 @@ public class ThreadAddController implements Serializable {
 
     @EJB
     private CategoryRepository categoryRepo;
-
-    @Inject
-    private UserService userService;
 
     private Integer postId;
 
@@ -150,19 +150,21 @@ public class ThreadAddController implements Serializable {
 
         Calendar cal = Calendar.getInstance();
         String userName = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal().getName();
-        int userId = userService.getUserId(userName);
+        
+        User authorUser = this.userRepo.GetByUserName(userName);
         
         if (postId != null) {
             post = postRepo.getByPostId(postId);
             post.setDateModified(cal.getTime());
-            post.setModifiedBy(userId);
+            post.setModifiedBy(authorUser.getId());
 
             for (File f : filesToDelete) {
                 fileRepo.remove(f);
             }
         } else {
             post.setDateCreated(cal.getTime());
-            post.setAuthor(userId);
+            post.setAuthor(authorUser.getId());
+            post.setUser(authorUser);
         }
 
         post.setTitle(this.getTitle());
@@ -173,37 +175,57 @@ public class ThreadAddController implements Serializable {
 
         Post p = postRepo.createOrUpdate(post, postId);
 
-        persistFiles(filesPending, p.getPostID(), userId);
+        persistFiles(filesPending, p.getPostID(), authorUser.getId());
 
         p.setFileCount(postRepo.getFileCount(p.getPostID()));
-        postRepo.createOrUpdate(p, p.getPostID());
+        p = postRepo.createOrUpdate(p, p.getPostID());
 
-        ArrayList<String> subscriberEmails = new ArrayList<>();
-        for (User subscriber : this.userRepo.GetAnnouncementSubscribers()) {
-            subscriberEmails.add(subscriber.getEmail());
-        }
+        if (this.userRepo.GetAnnouncementSubscribers().size() > 0 && postId == null) {
+            for (User subscriber : this.userRepo.GetAnnouncementSubscribers()) {
+                if (authorUser.getId() != subscriber.getId()) {
+                    HttpServletRequest request = (HttpServletRequest) Faces.getExternalContext().getRequest();
+                    String url = request.getRequestURL().toString();
+                    String baseURL = url.substring(0, url.length() - request.getRequestURI().length()) + request.getContextPath() + "/";
 
-        if (subscriberEmails.size() > 0) {
-            User postAuthor = userRepo.find(userId);
+                    ServletContext context = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+                    String path = context.getRealPath("/resources/templates");
 
-            String message = String.format(GoogleMail.NewAnnouncementMessage,
-                    p.getCategory().getCategory(),
-                    postAuthor.getFirstName(),
-                    postAuthor.getLastName(),
-                    p.getTitle(),
-                    p.getContent());
+                    Map<String, String> map = new HashMap<>();
+                    map.put("logoURL", "http://res.cloudinary.com/csuco/image/upload/v1469676951/uco_logo_e9qfdt.png");
+                    map.put("firstName", subscriber.getFirstName());
+                    map.put("lastName", subscriber.getLastName());
+                    map.put("authorFirstName", p.getUser().getFirstName());
+                    map.put("authorLastName", p.getUser().getLastName());
+                    map.put("title", post.getTitle());
+                    map.put("category", post.getCategory().getCategory());
+                    map.put("buttonURL", baseURL + "faces/thread.xhtml?post=" + String.valueOf(post.getPostID()));
+                    map.put("fbURL", "http://res.cloudinary.com/csuco/image/upload/v1469676951/facebook_w1xzcx.png");
 
-            new Thread(() -> {
-                try {
-                    GoogleMail.Send("UCOComputerScience", "sungisthebest", String.join(",", subscriberEmails), "New CS Announcement", message);
-                } catch (MessagingException ex) {
-                    Logger.getLogger(ThreadAddController.class.getName()).log(Level.SEVERE, null, ex);
+                    String message = EmailTemplate.getEmailHTML(path, "newAnnouncement.vm", map);
+
+                    new Thread(() -> {
+                        try {
+                            GoogleMail.Send("UCOComputerScience", "sungisthebest", subscriber.getEmail(), "New CS Announcement", message);
+                        } catch (MessagingException ex) {
+                            Logger.getLogger(ThreadAddController.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }).start();
                 }
-            }).start();
+            }
+        }
+        
+        String growl;
+        
+        if (postId == null) {
+            growl = "Announcement created.";
+        } else {
+            growl = "Announcement saved!";
         }
 
-        Messages.setSuccessMessage("Announcement created.");
+        Messages.setSuccessMessage(growl);
+        
         ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+        context.getFlash().setKeepMessages(true);
         context.redirect(context.getRequestContextPath() + "/faces/announcements.xhtml");
     }
 

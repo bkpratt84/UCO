@@ -1,5 +1,6 @@
 package event;
 
+import announcements.utility.Utility;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.Date;
@@ -324,6 +325,7 @@ public class InstructorEventMgmt implements Serializable{
                 
                 String header = "UCO Appointment Cancelation";
                 GoogleMail m = new GoogleMail();
+                ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
                 
                 while(rs.next()){
                     String enam;
@@ -336,8 +338,10 @@ public class InstructorEventMgmt implements Serializable{
                     String Message = "<h3>Your appointment for " + enam + " with "
                             + profName + " at " + time + "has been canceled</h3>";
                     
-                    GoogleMail.Send("UCOComputerScience", "sungisthebest", "barnettlynn@gmail.com", header, Message);
-                    
+                    GoogleMail.Send(externalContext,
+                            "barnettlynn@gmail.com",
+                            header,
+                            Message);
                 }
                 
                 String eupdate = "UPDATE EVENTS SET ACTIVE='C' WHERE EVENT_ID = ?";

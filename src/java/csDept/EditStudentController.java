@@ -2,16 +2,15 @@ package csDept;
 
 import announcements.domain.Registration;
 import announcements.utility.Messages;
+import announcements.utility.Utility;
 import java.io.IOException;
 import java.io.Serializable;
-import java.sql.SQLException;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
-import javax.mail.MessagingException;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import org.omnifaces.util.Faces;
@@ -133,10 +132,7 @@ public class EditStudentController implements Serializable {
         this.currentUser = currentUser;
     }
 
-    public void submit() throws SQLException, MessagingException, IOException {
-//        this.userRepository.GetByUserName(this.email) != null
-//        (userService.emailExists(this.email) && !this.email.equals(this.currentUser.getEmail()))
-        
+    public void submit() throws IOException {
         if (this.userRepository.GetByUserName(this.email) != null && !this.email.equals(this.currentUser.getEmail())) {
 
             Messages.setErrorMessage("An account with this email address already exists.", "errorMsg");
@@ -146,13 +142,25 @@ public class EditStudentController implements Serializable {
         currentUser.setFirstName(this.firstName);
         currentUser.setLastName(this.lastName);
         currentUser.setEmail(this.email);
-//        user.setCurrentPassword(Utility.encryptPassword(this.pw));
         currentUser.setSubscribedToAnnouncements(this.subscribeToAnnouncements);
 
         this.userRepository.update(currentUser);
         this.complete = true;
 
         Messages.setSuccessMessage("Profile updated.");
+        
+        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+        context.getFlash().setKeepMessages(true);
+        context.redirect(context.getRequestContextPath() + "/faces/announcements.xhtml");
+    }
+    
+    public void savePassword() throws IOException {
+        System.out.println(this.pw);
+        currentUser.setCurrentPassword(Utility.encryptPassword(this.pw));
+        this.userRepository.update(currentUser);
+        this.complete = true;
+
+        Messages.setSuccessMessage("Password updated.");
         
         ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
         context.getFlash().setKeepMessages(true);

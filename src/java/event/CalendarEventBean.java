@@ -1,5 +1,6 @@
 package event;
 
+import announcements.utility.Utility;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -786,6 +787,7 @@ public class CalendarEventBean implements Serializable{
         }
                 
         GoogleMail m = new GoogleMail();
+        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
         
         try {     
             boolean committed = false;
@@ -801,7 +803,10 @@ public class CalendarEventBean implements Serializable{
                                 + "Event Name:" + ca.getTitle() + "<br/>"
                                 + "Event Time:" + ca.getStartTime() +"<br/>";
 
-                        GoogleMail.Send("UCOComputerScience", "sungisthebest", "barnettlynn@gmail.com", title, emailMessage);
+                        GoogleMail.Send(externalContext,
+                                "barnettlynn@gmail.com",
+                                title,
+                                emailMessage);
 
                         String cQuery = "UPDATE EVENT_SLOTS SET STATUS = 'C' WHERE EVENT_SLOT_ID = ?";
                         

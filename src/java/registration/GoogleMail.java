@@ -1,10 +1,12 @@
 package registration;
 
+import announcements.utility.Utility;
 import com.sun.mail.smtp.SMTPTransport;
 import java.security.Security;
 import java.util.Date;
 import java.util.Properties;
 import javax.ejb.Asynchronous;
+import javax.faces.context.ExternalContext;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
@@ -17,6 +19,28 @@ public class GoogleMail {
     public GoogleMail() {
     }
 
+    /**
+     * Send email using GMail SMTP server.
+     *
+     * @param externalContext
+     * @param recipientEmail TO recipient
+     * @param title title of the message
+     * @param message message to be sent
+     * @throws AddressException if the email address parse failed
+     * @throws MessagingException if the connection is dead or not in the
+     * connected state or if the message is not a MimeMessage
+     */
+    @Asynchronous
+    public static void Send(ExternalContext externalContext, String recipientEmail, String title, String message) throws AddressException, MessagingException {
+        GoogleMail.Send(Utility.getGoogleProperty("username", externalContext),
+                Utility.getGoogleProperty("password", externalContext),
+                recipientEmail,
+                "",
+                title,
+                message);
+    }
+    
+    
     /**
      * Send email using GMail SMTP server.
      *

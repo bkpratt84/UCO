@@ -82,6 +82,10 @@
     background-color: #195481;
 }
 
+.bg-uco-yellow {
+    background-color: #feda00;
+}
+
 .page-header {
     border-color: #B7C0C4;
 }
@@ -125,4 +129,8 @@ input.invalid, select.invalid {
  
  .align-center {
      text-align: center;
+ }
+ 
+ .text-white {
+     color: #ffffff;
  }

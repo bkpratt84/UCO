@@ -1,5 +1,6 @@
 package registration;
 
+import announcements.utility.Utility;
 import java.io.IOException;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
@@ -162,8 +163,13 @@ public class Registration implements Serializable {
                             + "You can now login using the credentials below.<p/>" + "<b>Username:</b> " + email
                             + "<p/><b>Password:</b> " + password
                             + "<p/>Thank you,<p/>" + "Central Soft Team<p/>";
-
-                    GoogleMail.Send("UCOComputerScience", "sungisthebest", email, "Your Account Information", emailText);
+                    
+                    ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+                    
+                    GoogleMail.Send(externalContext,
+                            email,
+                            "Your Account Information",
+                            emailText);
 
                     clearInput();
                 }
@@ -270,8 +276,13 @@ public class Registration implements Serializable {
                             + "Please use the link below to verify the account "
                             + "<li>" + verificationLink + "</li>"
                             + "<p/>Thank you,<p/>" + "Central Soft Team<p/>";
-
-                    GoogleMail.Send("UCOComputerScience", "sungisthebest", email, "UCO CS Registration Verification", emailText);
+                    
+                    ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+                    
+                    GoogleMail.Send(externalContext,
+                            email,
+                            "UCO CS Registration Verification",
+                            emailText);
                     
 
                     clearInput();

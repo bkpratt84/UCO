@@ -8,6 +8,7 @@ import announcements.domain.Post;
 import announcements.domain.PostRepository;
 import announcements.utility.EmailTemplate;
 import announcements.utility.Messages;
+import announcements.utility.Utility;
 import csDept.UserRepository;
 import java.io.IOException;
 import java.io.Serializable;
@@ -202,10 +203,14 @@ public class ThreadAddController implements Serializable {
                     map.put("fbURL", "http://res.cloudinary.com/csuco/image/upload/v1469676951/facebook_w1xzcx.png");
 
                     String message = EmailTemplate.getEmailHTML(path, "newAnnouncement.vm", map);
-
+                    ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+                    
                     new Thread(() -> {
                         try {
-                            GoogleMail.Send("UCOComputerScience", "sungisthebest", subscriber.getEmail(), "New CS Announcement", message);
+                            GoogleMail.Send(externalContext,
+                            subscriber.getEmail(),
+                            "New CS Announcement",
+                            message);
                         } catch (MessagingException ex) {
                             Logger.getLogger(ThreadAddController.class.getName()).log(Level.SEVERE, null, ex);
                         }

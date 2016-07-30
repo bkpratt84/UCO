@@ -91,29 +91,6 @@ INSERT INTO FACULTYADVISEMENT (TITLE, CONTENT) VALUES(
                                         Office of Global Affairs (international students) or
                                         the Jackson College of Graduate Studies (graduate students).');
 
--- CREATE TABLE NEWSITEM(
---     ID INTEGER NOT NULL auto_increment,
---     TITLE VARCHAR(255),
---     CONTENT VARCHAR(1000),
---     DATEPUBLISHED TIMESTAMP,
--- 
---     PRIMARY KEY(ID)
--- );
--- 
--- INSERT INTO NEWSITEM (TITLE, CONTENT) VALUES('Facebook Group Open','<p>
---                             News, jobs or internship announcements are currently posted
---                             at the official Facebook group of the Computer Science Department.
---                         </p>
---                         <p>
---                             Join the Facebook group to stay current with the news from the Department: 
---                             <a href="https://www.facebook.com/groups/cs.uco/">UCO CS Students</a>
---                         </p>
---                         <p>
---                             UCO CS Students is a closed group for the current UCO students
---                             majoring in computer science or software engineering degrees.
---                         </p>');
-
-
 CREATE TABLE FACULTY(
     FACULTY_ID INTEGER NOT NULL auto_increment,
     NAMEPREFIX VARCHAR(64),
@@ -602,92 +579,122 @@ insert into user_groups (groupname, username) values ('student', 'student');
 ALL default instructors have password: instructor
 */
 
-insert into user_info (username, password, email, active)
-    values ('gqian@uco.edu',
+insert into user_info (firstname, lastname, username, password, email, active)
+    values ('Gang',
+        'Qian',
+        'gqian@uco.edu',
         'cf2eb894cc40f5c6e781910063859278a3b214a3a14fedb9ca336ca39962b856',
         'gqian@uco.edu', 1);
 insert into user_groups (groupname, username) values ('instructor', 'gqian@uco.edu');
 
-insert into user_info (username, password, email, active)
-    values ('hsung@uco.edu',
+insert into user_info (firstname, lastname, username, password, email, active)
+    values ('Hong',
+        'Song',
+        'hsung@uco.edu',
         'cf2eb894cc40f5c6e781910063859278a3b214a3a14fedb9ca336ca39962b856',
         'hsung@uco.edu', 1);
 insert into user_groups (groupname, username) values ('instructor', 'hsung@uco.edu');
 
-insert into user_info (username, password, email, active)
-    values ('jfu@uco.edu',
+insert into user_info (firstname, lastname, username, password, email, active)
+    values ('Jicheng',
+        'Fu',
+        'jfu@uco.edu',
         'cf2eb894cc40f5c6e781910063859278a3b214a3a14fedb9ca336ca39962b856',
         'jfu@uco.edu', 1);
 insert into user_groups (groupname, username) values ('instructor', 'jfu@uco.edu');
 
-insert into user_info (username, password, email, active)
-    values ('mgourley@uco.edu',
+insert into user_info (firstname, lastname, username, password, email, active)
+    values ('Michael',
+        'Gourley',
+        'mgourley@uco.edu',
         'cf2eb894cc40f5c6e781910063859278a3b214a3a14fedb9ca336ca39962b856',
         'mgourley@uco.edu', 1);
 insert into user_groups (groupname, username) values ('instructor', 'mgourley@uco.edu');
 
-insert into user_info (username, password, email, active)
-    values ('dholt@uco.edu',
+insert into user_info (firstname, lastname, username, password, email, active)
+    values ('Dawn',
+        'Holt',
+        'dholt@uco.edu',
         'cf2eb894cc40f5c6e781910063859278a3b214a3a14fedb9ca336ca39962b856',
         'dholt@uco.edu', 1);
 insert into user_groups (groupname, username) values ('instructor', 'dholt@uco.edu');
 
-insert into user_info (username, password, email, active)
-    values ('wmcdaniel@uco.edu',
+insert into user_info (firstname, lastname, username, password, email, active)
+    values ('Bill',
+        'McDaniel',
+        'wmcdaniel@uco.edu',
         'cf2eb894cc40f5c6e781910063859278a3b214a3a14fedb9ca336ca39962b856',
         'wmcdaniel@uco.edu', 1);
 insert into user_groups (groupname, username) values ('instructor', 'wmcdaniel@uco.edu');
 
-insert into user_info (username, password, email, active)
-    values ('mpark5@uco.edu',
+insert into user_info (firstname, lastname, username, password, email, active)
+    values ('Myung-Ah (Grace)',
+        'Park',
+        'mpark5@uco.edu',
         'cf2eb894cc40f5c6e781910063859278a3b214a3a14fedb9ca336ca39962b856',
         'mpark5@uco.edu', 1);
 insert into user_groups (groupname, username) values ('instructor', 'mpark5@uco.edu');
 
-insert into user_info (username, password, email, active)
-    values ('drstockwell@gmail.com',
+insert into user_info (firstname, lastname, username, password, email, active)
+    values ('Bill',
+        'Stockwell',
+        'drstockwell@gmail.com',
         'cf2eb894cc40f5c6e781910063859278a3b214a3a14fedb9ca336ca39962b856',
         'drstockwell@gmail.com', 1);
 insert into user_groups (groupname, username) values ('instructor', 'drstockwell@gmail.com');
 
-insert into user_info (username, password, email, active)
-    values ('trturner@uco.edu',
+insert into user_info (firstname, lastname, username, password, email, active)
+    values ('Thomas',
+        'Turner',
+        'trturner@uco.edu',
         'cf2eb894cc40f5c6e781910063859278a3b214a3a14fedb9ca336ca39962b856',
         'trturner@uco.edu', 1);
 insert into user_groups (groupname, username) values ('instructor', 'trturner@uco.edu');
 
-insert into user_info (username, password, email, active)
-    values ('bockus@gmail.com',
+insert into user_info (firstname, lastname, username, password, email, active)
+    values ('Mike',
+        'Bockus',
+        'bockus@gmail.com',
         'cf2eb894cc40f5c6e781910063859278a3b214a3a14fedb9ca336ca39962b856',
         'bockus@gmail.com', 1);
 insert into user_groups (groupname, username) values ('instructor', 'bockus@gmail.com');
 
-insert into user_info (username, password, email, active)
-    values ('ralph.deboard@oc.edu',
+insert into user_info (firstname, lastname, username, password, email, active)
+    values ('Ralph',
+        'DeBoard',
+        'ralph.deboard@oc.edu',
         'cf2eb894cc40f5c6e781910063859278a3b214a3a14fedb9ca336ca39962b856',
         'ralph.deboard@oc.edu', 1);
 insert into user_groups (groupname, username) values ('instructor', 'ralph.deboard@oc.edu');
 
-insert into user_info (username, password, email, active)
-    values ('bdong@uco.edu',
+insert into user_info (firstname, lastname, username, password, email, active)
+    values ('Bo',
+        'Dong',
+        'bdong@uco.edu',
         'cf2eb894cc40f5c6e781910063859278a3b214a3a14fedb9ca336ca39962b856',
         'bdong@uco.edu', 1);
 insert into user_groups (groupname, username) values ('instructor', 'bdong@uco.edu');
 
-insert into user_info (username, password, email, active)
-    values ('mcastle3@uco.edu',
+insert into user_info (firstname, lastname, username, password, email, active)
+    values ('Megan',
+        'Castle',
+        'mcastle3@uco.edu',
         'cf2eb894cc40f5c6e781910063859278a3b214a3a14fedb9ca336ca39962b856',
         'mcastle3@uco.edu', 1);
 insert into user_groups (groupname, username) values ('instructor', 'mcastle3@uco.edu');
 
-insert into user_info (username, password, email, active)
-    values ('phyl_thornton@yahoo.com',
+insert into user_info (firstname, lastname, username, password, email, active)
+    values ('Phyllis',
+        'Thornton',
+        'phyl_thornton@yahoo.com',
         'cf2eb894cc40f5c6e781910063859278a3b214a3a14fedb9ca336ca39962b856',
         'phyl_thornton@yahoo.com', 1);
 insert into user_groups (groupname, username) values ('instructor', 'phyl_thornton@yahoo.com');
 
-insert into user_info (username, password, email, active)
-    values ('visor1@cox.net',
+insert into user_info (firstname, lastname, username, password, email, active)
+    values ('Diane',
+        'Visor',
+        'visor1@cox.net',
         'cf2eb894cc40f5c6e781910063859278a3b214a3a14fedb9ca336ca39962b856',
         'visor1@cox.net', 1);
 insert into user_groups (groupname, username) values ('instructor', 'visor1@cox.net');

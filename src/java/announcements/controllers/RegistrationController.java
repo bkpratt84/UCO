@@ -19,6 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
@@ -131,7 +132,7 @@ public class RegistrationController implements Serializable {
         this.subscribeToAnnouncements = subscribeToAnnouncements;
     }
 
-    public void submit() throws SQLException, MessagingException, IOException {
+    public void submit() throws IOException, MessagingException {
         if (this.userRepository.GetByUserName(this.email) != null) {
             Messages.setErrorMessage("An account with this email address already exists.", "errorMsg");
             return;
@@ -182,12 +183,12 @@ public class RegistrationController implements Serializable {
         map.put("fbURL", "http://res.cloudinary.com/csuco/image/upload/v1469676951/facebook_w1xzcx.png");
         
         String message = EmailTemplate.getEmailHTML(path, "studentRegister.vm", map);
-
+        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+        
         new Thread(() -> {
             try {
                 GoogleMail.Send(
-                        "UCOComputerScience",
-                        "sungisthebest",
+                        externalContext,
                         this.email,
                         "Please activate your UCO CS Department login.",
                         message);

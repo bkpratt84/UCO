@@ -18,6 +18,7 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
+import javax.validation.constraints.Size;
 import org.omnifaces.util.Faces;
 import org.primefaces.context.RequestContext;
 
@@ -35,14 +36,23 @@ public class PostCommentsController implements Serializable {
     UserRepository userRepository;
     
     private int postID;
+    private int editPostID;
     private List<Post> posts;
     private Post post;
+    
+    @Size(min = 1, message = "Please enter a message.")
     private String msg;
+    
+    @Size(min = 1, message = "Please enter a message.")
+    private String editMsg;
     
     List<File> filesAttached;
 
     public void init() {
         msg = null;
+        editMsg = null;
+        editPostID = 0;
+        
         posts = postRepo.getByParentId(postID, false);
         post = postRepo.getByPostId(postID);
         
@@ -68,6 +78,22 @@ public class PostCommentsController implements Serializable {
         this.postID = postID;
     }
 
+    public int getEditPostID() {
+        return editPostID;
+    }
+
+    public void setEditPostID(int editPostID) {
+        this.editPostID = editPostID;
+    }
+
+    public String getEditMsg() {
+        return editMsg;
+    }
+
+    public void setEditMsg(String editMsg) {
+        this.editMsg = editMsg;
+    }
+
     public List<Post> getPosts() {
         return posts;
     }
@@ -88,29 +114,62 @@ public class PostCommentsController implements Serializable {
         return filesAttached;
     }
     
-    public void save() throws SQLException, IOException {
+    public void edit(Post comment) {
+        this.editPostID = comment.getPostID();
+        this.editMsg = comment.getContent();
+    }
+    
+    public void save() {
         Calendar cal = Calendar.getInstance();
 
         String userName = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal().getName();
         User user = this.userRepository.GetByUserName(userName);
         
         Post comment = new Post();
-
-        comment.setContent(this.getMsg());
-        comment.setDateCreated(cal.getTime());
-        comment.setActive(true);
-        comment.setAuthor(user.getId());
-        comment.setParentID(postID);
         
-        comment.setUser(user);
-        postRepo.create(comment);
+        if (editPostID == 0) {
+            comment.setContent(this.getMsg());
+            comment.setDateCreated(cal.getTime());
+            comment.setActive(true);
+            comment.setAuthor(user.getId());
+            comment.setParentID(postID);
 
-        Messages.setSuccessMessage("Comment added.");
+            comment.setUser(user);
+            postRepo.create(comment);
+            
+            Messages.setSuccessMessage("Comment added.");
+        } else {
+            comment.setContent(this.editMsg);
+            comment.setModifiedBy(user.getId());
+            comment.setDateModified(cal.getTime());
+            
+            postRepo.createOrUpdate(post, this.editPostID);
+            
+            Messages.setSuccessMessage("Changes saved!.");
+        }
         
         init();
         RequestContext.getCurrentInstance().execute("PF('editorWidget').clear();");
     }
     
+    public void saveComment(Post comment) {
+        Calendar cal = Calendar.getInstance();
+
+        String userName = FacesContext.getCurrentInstance().getExternalContext().getUserPrincipal().getName();
+        User user = this.userRepository.GetByUserName(userName);
+        
+        comment.setContent(this.editMsg);
+        comment.setModifiedBy(user.getId());
+        comment.setDateModified(cal.getTime());
+
+        postRepo.createOrUpdate(comment, this.editPostID);
+
+        Messages.setSuccessMessage("Changes saved!.");
+        
+        init();
+        RequestContext.getCurrentInstance().execute("PF('editPostWidget').clear();");
+    }
+
     public void delete(int postId, boolean parent) throws IOException {
         Post item = postRepo.getByPostId(postId);
         

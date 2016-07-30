@@ -5,8 +5,8 @@ import csDept.User;
 import csDept.UserRepository;
 import java.io.IOException;
 import javax.ejb.EJB;
-import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Named;
 import javax.faces.context.FacesContext;
 import org.omnifaces.util.Faces;
 

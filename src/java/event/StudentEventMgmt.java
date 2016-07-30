@@ -1,5 +1,6 @@
 package event;
 
+import announcements.utility.Utility;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -183,14 +184,14 @@ public class StudentEventMgmt implements Serializable{
                             + "Event Time: " + startTime + "<br/>"
                             + "Instructor Name: " + profName + "<br/>";
             
-
-        GoogleMail.Send("UCOComputerScience", "sungisthebest", "barnettlynn@gmail.com", title, emailMessage);
+        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
         
+        GoogleMail.Send(externalContext,
+                "barnettlynn@gmail.com",
+                title,
+                emailMessage);
         
         return "/students/index";
-
-        
-        
     }
         
       

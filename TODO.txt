@@ -44,6 +44,10 @@ Update checkbox - X
 
 Update omnifaces - X
 
+Fix reply to comment - X
+
+add property file - X
+
 ---Production Deployment---
 
 - Make sure Staging is set to Production environment

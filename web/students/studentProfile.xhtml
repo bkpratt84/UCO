@@ -14,14 +14,20 @@
             <div class="page-header">
                 <h1>Edit Profile</h1>
             </div>
+            
+            <p:growl for="errorMsg" life="10000"/>
 
             <h:panelGroup class="row" rendered="#{!editStudentController.complete}">
                 <div class="col-md-6 col-md-offset-3">
                     <div class="panel panel-body bg-uco-blue">
-                        <h:form id="frmRegister" styleClass="form-horizontal">
-                            <div class="col-md-10 col-md-offset-1">
-
-
+                        <div class="col-md-10 col-md-offset-1">
+                            <h:form id="frmRegister" styleClass="form-horizontal">
+                                    <div class="row">
+                                        <div class="alert bg-uco-yellow" role="alert">
+                                            <h3 style="margin: -5px;">Update Profile</h3>
+                                        </div>
+                                    </div>
+                                
                                 <div class="form-group">
                                     <label class="sr-only" for="inputFirstName">First Name</label>
                                     <div class="input-group">
@@ -68,12 +74,50 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <p:commandButton id="btnUpdate"  update="@all" style="height: 40px;" action="#{editStudentController.submit()}" value="Update" styleClass="btn btn-primary btn-block cs-button"/>
+                                    <p:commandButton id="btnUpdate" update="@form" style="height: 40px;" action="#{editStudentController.submit()}" value="Update" styleClass="btn btn-primary btn-block cs-button"/>
                                 </div>
-                            </div>
+                            </h:form>
+                                
+                            <h:panelGroup class="row">
+                                <h:form id="frmPassword" styleClass="form-horizontal">
+                                    <div class="row">
+                                        <div class="alert bg-uco-yellow" role="alert">
+                                            <h3 style="margin: -5px;">Update Password</h3>
+                                        </div>
+                                    </div>
+                                        
+                                    <div class="form-group">
+                                        <label class="sr-only" for="inputPassword">Password</label>
+                                        <div class="input-group">
+                                            <div class="input-group-addon"><i class="fa fa-key"></i></div>
+                                            <p:password id="inputPW" class="form-control" placeholder="Password"
+                                                        value="#{editStudentController.pw}">
+                                            </p:password>
+                                        </div>
 
-                            <p:growl for="errorMsg" life="10000"/>
-                        </h:form>
+                                        <p:message styleClass="error-msg" for="inputPW" display="text"/>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="sr-only" for="inputPasswordRepeat">Confirm Password</label>
+                                        <div class="input-group">
+                                            <div class="input-group-addon"><i class="fa fa-key"></i></div>
+                                            <p:password id="inputPWConfirm" class="form-control" placeholder="Confirm Password"
+                                                        value="#{editStudentController.pwConfirm}">
+                                            </p:password>
+                                        </div>
+
+                                        <p:message styleClass="error-msg" for="inputPWConfirm" display="text"/>
+                                    </div>
+                                    
+                                    <o:validateEqual components="inputPW inputPWConfirm" message="Passwords must match!" showMessageFor="inputPWConfirm" />
+                                     
+                                    <div class="form-group">
+                                        <p:commandButton id="btnPassword" update="@form" style="height: 40px;" action="#{editStudentController.savePassword()}" value="Change password" styleClass="btn btn-primary btn-block cs-button"/>
+                                    </div>
+                                </h:form>
+                            </h:panelGroup>
+                        </div> 
                     </div>
                 </div>
             </h:panelGroup>

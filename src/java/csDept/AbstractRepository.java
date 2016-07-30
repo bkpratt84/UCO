@@ -41,6 +41,7 @@ public abstract class AbstractRepository<T> {
 
     public void update(T entity) {
         getEntityManager().merge(entity);
+        getEntityManager().flush();
     }
 
     public void remove(T entity) {

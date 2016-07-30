@@ -170,13 +170,15 @@
                                             <ul class="list-inline pull-left">
                                             </ul>
                                         </div>
-                                        <div class="col-md-6">
-                                            <h:form id="frmComment">
+                                        
+                                        <h:form id="frmComment">
+                                            <div class="col-md-6">
                                                 <ul class="list-inline pull-right">
                                                     <li>
-                                                        <h:commandLink id="btnCEdit" action="editThread.xhtml" styleClass="text-primary btn-edit" rendered="#{facesContext.externalContext.isUserInRole('admin') || (request.remoteUser != null and utilityController.loggedInID == post.author)}">
+                                                        <p:commandLink id="btnCEdit" action="#{postCommentsController.edit(post)}" update="@all" styleClass="text-primary btn-edit"
+                                                                       rendered="#{facesContext.externalContext.isUserInRole('admin') || (request.remoteUser != null and utilityController.loggedInID == post.author)}">
                                                             <i class="fa fa-pencil pad-right fa-lg"></i>
-                                                        </h:commandLink>
+                                                        </p:commandLink>
                                                     </li>
                                                     <li>
                                                         <p:commandLink id="btnDelete" actionListener="#{postCommentsController.delete(post.postID, false)}" update="@all" styleClass="text-danger btn-delete" rendered="#{facesContext.externalContext.isUserInRole('admin') || (request.remoteUser != null and utilityController.loggedInID == post.author)}">
@@ -185,8 +187,32 @@
                                                         </p:commandLink>
                                                     </li>
                                                 </ul>
-                                            </h:form>
-                                        </div>
+                                            </div>
+                                            
+                                            <h:panelGroup class="row" rendered="#{postCommentsController.editPostID == post.postID}">
+                                                <div class="col-md-12 pad-top">
+                                                    <p:editor id="postEdit" widgetVar="editPostWidget" value="#{postCommentsController.editMsg}" />
+                                                    
+                                                    <p:message styleClass="error-msg" style="margin-top: 5px;" for="postEdit" display="text"/>
+                                                    
+                                                    <div class="row pad-top">
+                                                        <div class="col-md-10">
+                                                            <p:commandLink id="btnEditSave" type="submit" update="@all" action="#{postCommentsController.saveComment(post)}" styleClass="btn btn-primary pad-right">
+                                                                <i class="fa fa-floppy-o pad-right text-white"></i><h:outputText styleClass="text-white" value="Save"/>
+                                                            </p:commandLink>
+                                                            
+                                                            <p:commandLink id="btnCancel" type="submit" update="@all" process="@this" action="#{postCommentsController.setEditPostID(0)}" styleClass="btn btn-primary pad-right">
+                                                                <i class="fa fa-ban pad-right text-white"></i><h:outputText styleClass="text-white" value="Cancel"/>
+                                                            </p:commandLink>
+
+                                                            <p:commandLink id="btnEditClear" onclick="PF('editPostWidget').clear();" styleClass="btn btn-info">
+                                                                <i class="fa fa-eraser pad-right text-white"></i><h:outputText styleClass="text-white" value="Clear"/>
+                                                            </p:commandLink>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </h:panelGroup>
+                                        </h:form>
                                     </div>
 
                                 </div>
@@ -202,15 +228,17 @@
                         <div class="panel panel-default">
                             <div class="panel-heading">Reply</div>
                             <div class="panel-body">
-                                <p:editor id="editor" widgetVar="editorWidget" value="#{postCommentsController.msg}" />
+                                <p:editor id="editor" widgetVar="editorWidget" value="#{postCommentsController.msg}" disabled="#{postCommentsController.editPostID != 0}" />
 
+                                <p:message styleClass="error-msg" style="margin-top: 5px;" for="editor" display="text"/>
+                                
                                 <div class="row pad-top">
                                     <div class="col-md-10">
-                                        <p:commandLink id="btnSave" type="submit" update="@all" action="#{postCommentsController.save()}" styleClass="btn btn-primary pad-right">
+                                        <p:commandLink id="btnSave" type="submit" update="@all" action="#{postCommentsController.save()}" styleClass="btn btn-primary pad-right" disabled="#{postCommentsController.editPostID != 0}">
                                             <i class="fa fa-floppy-o pad-right"></i>Save
                                         </p:commandLink>
-
-                                        <p:commandLink id="btnClear" onclick="PF('editorWidget').clear();" styleClass="btn btn-info">
+                                        
+                                        <p:commandLink id="btnClear" onclick="PF('editorWidget').clear();" styleClass="btn btn-info" disabled="#{postCommentsController.editPostID != 0}">
                                             <i class="fa fa-eraser pad-right"></i>Clear
                                         </p:commandLink>
                                     </div>
